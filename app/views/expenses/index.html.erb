@@ -1,13 +1,86 @@
-<!-- app/views/expenses/index.html.erb -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Index</title>
 
-<h1>Expense Index</h1>
+  <style>
+    body.expense-index {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
 
-<% @expenses.each do |expense| %>
-  <div>
-    <p><strong>Amount:</strong> <%= number_to_currency(expense.amount) %></p>
-    <p><strong>Expense Date:</strong> <%= expense.expense_date.strftime('%Y-%m-%d') %></p>
-    <!-- Add more details as needed -->
-  </div>
-<% end %>
+    body.expense-index h1 {
+      color: #007bff;
+    }
 
-<%= link_to 'New Expense', new_user_expense_path(@user) %>
+    body.expense-index table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    body.expense-index th, body.expense-index td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    body.expense-index th {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    body.expense-index tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    body.expense-index a {
+      text-decoration: none;
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 5px;
+      display: inline-block;
+      margin-top: 20px;
+    }
+
+    body.expense-index a:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body class="expense-index">
+
+  <h1>Expense Index</h1>
+
+ 
+  <table>
+    <thead>
+      <tr>
+        <th>Amount</th>
+        <th>Expense Date</th>
+        <th>User</th>
+        <th>Expense Type</th> <!-- Added Expense Type column -->
+      </tr>
+    </thead>
+    <tbody>
+      <% @expenses.each do |expense| %>
+        <tr>
+          <td><%= number_to_currency(expense.amount) %></td>
+          <td><%= expense.expense_date.strftime('%Y-%m-%d') %></td>
+          <td><%= "#{expense.user.firstname} #{expense.user.lastname}" %></td>
+          <td><%= expense.category.category_type %> <!-- Assuming category has a 'type' attribute, adjust as needed --></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= link_to 'New Expense', new_user_expense_path(@user) %>
+
+</body>
+</html>

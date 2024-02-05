@@ -1,6 +1,68 @@
-<h1>Edit Business Partner</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Business Partner</title>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+</head>
+<body>
 
-<%= render 'form' %>
+<div class="page-container">
+  <h1>Edit Business Partner</h1>
 
-<%= link_to 'Show', vendor_master_business_partner_path(@vendor_master, @business_partner) %> |
-<%= link_to 'Back', vendor_master_business_partners_path(@vendor_master) %>
+  <%= render 'form' %>
+
+  <div class="actions">
+    <%= link_to 'Show', vendor_master_business_partner_path(@vendor_master, @business_partner), class: 'action-button' %>
+    <%= link_to 'Back', vendor_master_business_partners_path(@vendor_master), class: 'action-button' %>
+  </div>
+</div>
+
+</body>
+</html>
+
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+  }
+
+  .page-container {
+    width: 80%;
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .action-button {
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .action-button:hover {
+    background-color: #0056b3;
+  }
+</style>
+

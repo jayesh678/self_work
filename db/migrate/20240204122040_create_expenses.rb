@@ -10,7 +10,8 @@ class CreateExpenses < ActiveRecord::Migration[7.1]
       t.integer :number_of_people
       t.date :expense_date
       t.string :receipt
-      t.integer :status
+      t.date :start_date
+      t.date :end_date
 
       t.timestamps
     end

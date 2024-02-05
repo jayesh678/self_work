@@ -1,13 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Partner Details</title>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+
+    .details-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .detail-box {
+      width: 48%;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    strong {
+      color: #007bff;
+    }
+
+    a.button {
+      display: inline-block;
+      padding: 8px 12px;
+      text-align: center;
+      text-decoration: none;
+      background-color: #007bff;
+      color: #fff;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+
+    a.button:hover {
+      background-color: #0056b3;
+    }
+
+    .edit-back-links {
+      margin-top: 20px;
+    }
+
+    .edit-back-links a {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+
 <h1>Business Partner Details</h1>
 
-<p><strong>Customer Name:</strong> <%= @business_partner.customer_name %></p>
-<p><strong>Customer Code:</strong> <%= @business_partner.customer_code %></p>
-<p><strong>Corporate Number:</strong> <%= @business_partner.corporate_number %></p>
-<p><strong>Invoice Number:</strong> <%= @business_partner.invoice_number %></p>
-<p><strong>Address:</strong> <%= @business_partner.address %></p>
-<p><strong>Postal Code:</strong> <%= @business_partner.postal_code %></p>
-<p><strong>Telephone Number:</strong> <%= @business_partner.telephone_number %></p>
-<p><strong>Bank Name:</strong> <%= @business_partner.bank_name %></p>
+<div class="details-container">
+  <div class="detail-box">
+    <strong>Customer Name:</strong>
+    <p><%= @business_partner.customer_name %></p>
+  </div>
 
-<%= link_to 'Edit', edit_vendor_master_business_partner_path(@vendor_master, @business_partner) %> |
-<%= link_to 'Back', vendor_master_business_partners_path(@vendor_master) %>
+  <div class="detail-box">
+    <strong>Customer Code:</strong>
+    <p><%= @business_partner.customer_code %></p>
+  </div>
+
+  <div class="detail-box">
+    <strong>Corporate Number:</strong>
+    <p><%= @business_partner.corporate_number %></p>
+  </div>
+
+  <div class="detail-box">
+    <strong>Invoice Number:</strong>
+    <p><%= @business_partner.invoice_number %></p>
+  </div>
+
+  <div class="detail-box">
+    <strong>Address:</strong>
+    <p><%= @business_partner.address %></p>
+  </div>
+
+  <div class="detail-box">
+    <strong>Postal Code:</strong>
+    <p><%= @business_partner.postal_code %></p>
+  </div>
+
+  <div class="detail-box">
+    <strong>Telephone Number:</strong>
+    <p><%= @business_partner.telephone_number %></p>
+  </div>
+
+  <div class="detail-box">
+    <strong>Bank Name:</strong>
+    <p><%= @business_partner.bank_name %></p>
+  </div>
+</div>
+
+<div class="edit-back-links">
+  <%= link_to 'Edit', edit_vendor_master_business_partner_path(@vendor_master, @business_partner), class: 'button' %> |
+  <%= link_to 'Back', vendor_master_business_partners_path(@vendor_master), class: 'button' %>
+</div>
+
+</body>
+</html>

@@ -17,19 +17,6 @@
   <body>
   <%= render 'layouts/navigation' %>
   <%= yield %>
-  <div class="user-profile">
-  <%= image_tag(current_user.avatar, alt: 'User Avatar', class: 'user-avatar') if user_signed_in? && current_user.avatar.attached? %>
-  <div class="dropdown-content">
-    <% if user_signed_in? %>
-      <p>Logged in as <%= current_user.email %></p>
-      <%= link_to 'Edit profile', edit_user_registration_path %>
-      <%= link_to 'Logout', destroy_user_session_path, method: :delete, data: { turbo_method: :delete } %>
-    <% else %>
-      <%= link_to "Sign up!", new_user_registration_path %>
-      <%= link_to 'Login', new_user_session_path %>
-    <% end %>
-  </div>
-</div>
       <p class="notice"><%= notice %></p>
       <p class="alert"><%= alert %></p>
    

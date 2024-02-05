@@ -1,36 +1,157 @@
-<!-- app/views/expenses/_form.html.erb -->
-<%= form_with(model: [@user, @expense], url: user_expenses_path) do |form| %>
-  <div class="field">
-    <%= form.label :date_of_application %>
-    <%= form.date_field :date_of_application %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Expense</title>
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #007bff;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    select,
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    textarea {
+      height: 100px;
+      resize: vertical;
+    }
+
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<h1>New Expense</h1>
+<%= form_with(model: [@user, @expense], url: user_expenses_path(@user), method: :post) do |form| %>
+  <!-- Common Fields -->
+  <%= form.label :date_of_application %>
+  <%= form.date_field :date_of_application %>
+
+  <%= form.label :expense_date %>
+  <%= form.date_field :expense_date %>
+
+  <%= form.label :category_id %>
+  <%= form.collection_select(:category_id, @categories, :id, :name, { prompt: 'Select Category' }, { id: 'category-select' }) %>
+
+  <!-- Subcategory dropdowns -->
+  <div id="subcategories">
+    <!-- Regular Subcategories -->
+    <div id="regular-subcategories" style="display: none;">
+      <%= form.label :subcategory %>
+      <%= form.select(:subcategory, @regular_subcategories.map { |subcategory| [subcategory.to_s, subcategory.to_s] }, { prompt: 'Select Subcategory' }) %>
+    </div>
+
+    <!-- Travel Subcategories -->
+    <div id="travel-subcategories" style="display: none;">
+      <%= form.label :subcategory %>
+      <%= form.select(:subcategory, @travel_subcategories.map { |subcategory| [subcategory.to_s, subcategory.to_s] }, { prompt: 'Select Subcategory' }) %>
+
+      <!-- Additional Fields for Travel Expense -->
+      <%= form.label :start_date %>
+      <%= form.date_field :start_date %>
+
+      <%= form.label :end_date %>
+      <%= form.date_field :end_date %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :category %>
-    <%= form.collection_select :category_id, Category.all, :id, :name, { prompt: 'Select Category' } %>
   </div>
 
-  <div class="field">
-    <%= form.label :expense_date %>
-    <%= form.date_field :expense_date %>
-  </div>
+  <%= form.label :business_partner_id %>
+  <%= form.collection_select(:business_partner_id, @business_partners, :id, :customer_name, { prompt: 'Select Business Partner' }) %>
 
-  <div class="field">
-    <%= form.label :business_partner %>
-    <%= form.collection_select :business_partner_id, BusinessPartner.all, :id, :customer_name, { prompt: 'Select Business Partner' } %>
-  </div>
+  <%= form.label :amount %>
+  <%= form.number_field :amount %>
 
-  <div class="field">
-    <%= form.label :amount %>
-    <%= form.text_field :amount %>
-  </div>
+  <%= form.label :tax_amount %>
+  <%= form.number_field :tax_amount %>
 
-  <div class="field">
-    <%= form.label :number_of_people %>
-    <%= form.number_field :number_of_people %>
-  </div>
+  <%= form.label :description %>
+  <%= form.text_area :description %>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <%= form.submit %>
 <% end %>
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  // Handle category change event
+  $('#category-select').change(function() {
+    var selectedCategory = $(this).val();
+
+    // Show/hide subcategories and travel dates based on the selected category
+    if (selectedCategory === 'Regular') {
+      $('#regular-subcategories').show();
+      $('#travel-subcategories').hide();
+      $('#travel-dates').hide();
+    } else if (selectedCategory === 'Travel') {
+      $('#regular-subcategories').hide();
+      $('#travel-subcategories').show();
+      $('#travel-dates').show();
+    } else {
+      $('#regular-subcategories').hide();
+      $('#travel-subcategories').hide();
+      $('#travel-dates').hide();
+    }
+  });
+
+  // Set selected subcategory and show travel dates based on the model data
+  $(document).ready(function() {
+    var selectedCategory = $('#category-select').val();
+
+    if (selectedCategory === 'Regular') {
+      $('#regular-subcategories').show();
+    } else if (selectedCategory === 'Travel') {
+      $('#travel-subcategories').show();
+      $('#travel-dates').show();
+    }
+  });
+</script>

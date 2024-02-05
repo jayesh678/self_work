@@ -1,9 +1,9 @@
 <!-- app/views/expenses/show.html.erb -->
 
 <h1>Expense Details</h1>
-<h2>Application Number: <%= @expense.application_number %></h2>
 <p><strong>Amount:</strong> <%= @expense.amount %></p>
 <p><strong>Expense Date:</strong> <%= @expense.expense_date %></p>
 <!-- Add more details as needed -->
 
+<%= link_to 'Create New Expense', new_user_expense_path(@user), class: 'action-button' %>
 <%= link_to 'Back to Expenses', user_expenses_path(@user) %>

@@ -20,6 +20,20 @@
       border-radius: 10px;
       padding: 20px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .user-profile {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
     }
 
     h1 {
@@ -37,34 +51,60 @@
       margin: 0;
       flex: 0 0 48%; /* Two fields in a row */
     }
+
+    .editable-field {
+      border: 1px solid #ccc;
+      padding: 8px;
+      border-radius: 4px;
+      width: 100%;
+    }
+
+    .edit-button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
 <div class="profile-box">
-  <div class="add-user-btn">
-    <button onclick="location.href='<%= new_user_path %>';">Add New User</button>
+  <div class="user-profile">
+    <%= image_tag(current_user.avatar, alt: 'User Avatar', class: 'user-avatar') if user_signed_in? && current_user.avatar.attached? %>
   </div>
 
-<div class="profile-box">
   <h1>Your Profile</h1>
 
   <div class="profile-field">
-    <p>Email: <%= @user.email %></p>
-    <p>First Name: <%= @user.firstname %></p>
+    <p>Email:</p>
+    <div class="editable-field" contenteditable="true"><%= @user.email %></div>
+  </div>
+
+  <div class="profile-field">
+    <p>First Name:</p>
+    <div class="editable-field" contenteditable="true"><%= @user.firstname %></div>
   </div>
   
   <div class="profile-field">
-    <p>Last Name: <%= @user.lastname %></p>
-    <p>Company Unique ID: <%= @user.company.company_uniqueid %></p>
+    <p>Last Name:</p>
+    <div class="editable-field" contenteditable="true"><%= @user.lastname %></div>
   </div>
 
   <div class="profile-field">
-    <p>Role: <%= Role.find(@user.role_id).role_name %></p>
+    <p>Company Unique ID:</p>
+    <div class="editable-field" contenteditable="true"><%= @user.company.company_uniqueid %></div>
   </div>
-</div>
 
+  <div class="profile-field">
+    <p>Role:</p>
+    <div class="editable-field" contenteditable="true"><%= Role.find(@user.role_id).role_name %></div>
+  </div>
+
+  <button class="edit-button">Save Changes</button>
+</div>
+<%= link_to 'Create New Expense', new_user_expense_path(@user), class: 'action-button' %>
 </body>
 </html>
-<%= link_to 'Create Expense', new_user_expense_path(current_user) %>
-<%= link_to 'All Users', users_path(@uset) %>
