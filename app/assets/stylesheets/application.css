@@ -1,0 +1,97 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+ .user-profile {
+    position: relative;
+    display: inline-block;
+  }
+
+  .user-profile img {
+    width: 40px; /* Adjust the size of the profile image as needed */
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 10px;
+    right: 0;
+    top: 60px; /* Adjust the distance from the top as needed */
+    z-index: 1;
+  }
+
+  .user-profile:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropdown-option {
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s;
+  }
+
+  .dropdown-option:hover {
+    background-color: #f9f9f9;
+  }
+
+  .user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; 
+  }
+
+
+  /* index.html */
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+  }
+  
+  /* User Profile styles */
+  .user-profile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-avatar {
+    width: 50px; /* Set your preferred width */
+    height: 50px; /* Set your preferred height */
+    border-radius: 50%;
+  }
+  
+  .dropdown-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .dropdown-content p {
+    margin: 0;
+    margin-right: 20px; /* Adjust spacing as needed */
+  }
+  

@@ -1,0 +1,13 @@
+<h1>Business Partner Details</h1>
+
+<p><strong>Customer Name:</strong> <%= @business_partner.customer_name %></p>
+<p><strong>Customer Code:</strong> <%= @business_partner.customer_code %></p>
+<p><strong>Corporate Number:</strong> <%= @business_partner.corporate_number %></p>
+<p><strong>Invoice Number:</strong> <%= @business_partner.invoice_number %></p>
+<p><strong>Address:</strong> <%= @business_partner.address %></p>
+<p><strong>Postal Code:</strong> <%= @business_partner.postal_code %></p>
+<p><strong>Telephone Number:</strong> <%= @business_partner.telephone_number %></p>
+<p><strong>Bank Name:</strong> <%= @business_partner.bank_name %></p>
+
+<%= link_to 'Edit', edit_vendor_master_business_partner_path(@vendor_master, @business_partner) %> |
+<%= link_to 'Back', vendor_master_business_partners_path(@vendor_master) %>

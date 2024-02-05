@@ -1,0 +1,28 @@
+<h1>Business Partners</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Customer Name</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @vendor_master.business_partners.each do |business_partner| %>
+      <tr>
+        <td><%= business_partner.customer_name %></td>
+        <td>
+        <%= link_to 'Show', vendor_master_business_partner_path(@vendor_master, business_partner) %>
+          <%= link_to 'Edit', edit_vendor_master_business_partner_path(@vendor_master, business_partner) %>
+          <%= link_to 'Delete', vendor_master_business_partner_path(@vendor_master, business_partner), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
+
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Business Partner', new_vendor_master_business_partner_path(@vendor_master) %>

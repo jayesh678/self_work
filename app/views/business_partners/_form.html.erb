@@ -1,0 +1,72 @@
+<%= form_with(model: [@vendor_master, @business_partner], local: true) do |form| %>
+  <div class="field">
+    <%= form.label :customer_name %>
+    <%= form.select :customer_name, @customer_names, {}, class: 'customer-select' %>
+    <%= button_tag 'Fetch', type: 'button', class: 'fetch-button', data: { url: fetch_customer_details_vendor_master_business_partners_path(@vendor_master) } %>
+  </div>
+
+  <div class="field">
+    <%= form.label :customer_code %>
+    <%= form.text_field :customer_code %>
+  </div>
+
+  <div class="field">
+    <%= form.label :corporate_number %>
+    <%= form.number_field :corporate_number %>
+  </div>
+
+  <div class="field">
+    <%= form.label :invoice_number %>
+    <%= form.number_field :invoice_number %>
+  </div>
+
+  <div class="field">
+    <%= form.label :address %>
+    <%= form.text_area :address %>
+  </div>
+
+  <div class="field">
+    <%= form.label :postal_code %>
+    <%= form.number_field :postal_code %>
+  </div>
+
+  <div class="field">
+    <%= form.label :telephone_number %>
+    <%= form.number_field :telephone_number %>
+  </div>
+
+  <div class="field">
+    <%= form.label :bank_name %>
+    <%= form.text_field :bank_name %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Create Business partner' %>
+  </div>
+<% end %>
+
+
+
+<div id="fetched-details"></div>
+
+<script>
+  $(document).on('click', '.fetch-button', function() {
+    var selectedCustomerName = $('.customer-select').val();
+    var url = '<%= fetch_customer_details_vendor_master_business_partners_path(@vendor_master, @business_partner) %>?customer_name=' + selectedCustomerName;
+
+    console.log('Fetching details for:', selectedCustomerName);
+    console.log('URL:', url);
+
+    $.ajax({
+      url: url,
+      type: 'GET',
+      dataType: 'script',
+      success: function(response) {
+        console.log('Fetch success:', response);
+      },
+      error: function(xhr, status, error) {
+        console.error('Fetch error:', error);
+      }
+    });
+  });
+</script>

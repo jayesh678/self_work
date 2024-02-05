@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .profile-box {
+      width: 80%;
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .profile-field {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .profile-field p {
+      margin: 0;
+      flex: 0 0 48%; /* Two fields in a row */
+    }
+  </style>
+</head>
+<body>
+
+<div class="profile-box">
+  <div class="add-user-btn">
+    <button onclick="location.href='<%= new_user_path %>';">Add New User</button>
+  </div>
+
+<div class="profile-box">
+  <h1>Your Profile</h1>
+
+  <div class="profile-field">
+    <p>Email: <%= @user.email %></p>
+    <p>First Name: <%= @user.firstname %></p>
+  </div>
+  
+  <div class="profile-field">
+    <p>Last Name: <%= @user.lastname %></p>
+    <p>Company Unique ID: <%= @user.company.company_uniqueid %></p>
+  </div>
+
+  <div class="profile-field">
+    <p>Role: <%= Role.find(@user.role_id).role_name %></p>
+  </div>
+</div>
+
+</body>
+</html>
+<%= link_to 'Create Expense', new_user_expense_path(current_user) %>
+<%= link_to 'All Users', users_path(@uset) %>

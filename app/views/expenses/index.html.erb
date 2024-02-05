@@ -1,0 +1,13 @@
+<!-- app/views/expenses/index.html.erb -->
+
+<h1>Expense Index</h1>
+
+<% @expenses.each do |expense| %>
+  <div>
+    <p><strong>Amount:</strong> <%= number_to_currency(expense.amount) %></p>
+    <p><strong>Expense Date:</strong> <%= expense.expense_date.strftime('%Y-%m-%d') %></p>
+    <!-- Add more details as needed -->
+  </div>
+<% end %>
+
+<%= link_to 'New Expense', new_user_expense_path(@user) %>

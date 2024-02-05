@@ -1,0 +1,47 @@
+<!-- app/views/vendor_masters/show.html.erb -->
+
+<h1>Vendor Master Information</h1>
+
+<p><strong>Customer Name:</strong> <%= @vendor_master.customer_name %></p>
+<p><strong>Customer Code:</strong> <%= @vendor_master.customer_code %></p>
+<p><strong>Invoice Number:</strong> <%= @vendor_master.invoice_number %></p>
+<p><strong>Corporate Number:</strong> <%= @vendor_master.corporate_number %></p>
+
+<h2>Business Partners</h2>
+
+<% if @business_partners.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Customer Name</th>
+        <th>Customer Code</th>
+        <th>Invoice Number</th>
+        <th>Corporate Number</th>
+        <th>Postal Code</th>
+        <th>Address</th>
+        <th>Telephone Number</th>
+        <th>Bank Branch</th>
+        <th>Bank Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @business_partners.each do |business_partner| %>
+        <tr>
+          <td><%= business_partner.customer_name %></td>
+          <td><%= business_partner.customer_code %></td>
+          <td><%= business_partner.invoice_number %></td>
+          <td><%= business_partner.corporate_number %></td>
+          <td><%= business_partner.postal_code %></td>
+          <td><%= business_partner.address %></td>
+          <td><%= business_partner.telephone_number %></td>
+          <td><%= business_partner.bank_name %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No business partners associated with this Vendor Master.</p>
+<% end %>
+
+<%= link_to 'New Business Partner', new_vendor_master_business_partner_path(@vendor_master) %>
+<%= link_to 'Back to Vendor Masters', vendor_master_path %>
