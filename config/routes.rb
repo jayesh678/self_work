@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: {
+  devise_for :users, :path => 'u', controllers: {
     sessions: 'users/sessions'
   }
   devise_scope :user do

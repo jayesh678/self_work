@@ -88,6 +88,16 @@
       <%= form.password_field :password_confirmation %>
     </div>
 
+    <div class="field">
+    <%= form.label :role %>
+    <%= form.collection_select :role_id, Role.where(role_name: ['admin', 'user']), :id, :role_name, prompt: "Select Role" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :company %>
+    <%= form.collection_select :company_id, Company.all, :id, :company_name, prompt: "Select Company" %>
+  </div>
+
     <div class="form-field">
       <%= form.label :avatar %>
       <%= form.file_field :avatar %>

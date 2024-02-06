@@ -77,11 +77,15 @@
         <td><%= user.lastname %></td>
         <td>
           <%= link_to 'Show', user, class: 'button' %>
+          <% if can? :update, User %>
           <%= link_to 'Edit', edit_user_path(user), class: 'button' %>
+          <% end %>
+          <% if can? :update, User %>
           <%= link_to 'Destroy', user, class: 'button', data: {
             turbo_method: :delete,
             turbo_confirm: "Are you sure?"
           } %>
+          <% end %>
         </td>
       </tr>
     <% end %>

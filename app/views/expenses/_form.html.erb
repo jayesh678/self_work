@@ -119,15 +119,12 @@
   <%= form.submit %>
 <% end %>
 
-<!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-  // Handle category change event
   $('#category-select').change(function() {
     var selectedCategory = $(this).val();
 
-    // Show/hide subcategories and travel dates based on the selected category
     if (selectedCategory === 'Regular') {
       $('#regular-subcategories').show();
       $('#travel-subcategories').hide();
@@ -143,9 +140,6 @@
     }
   });
 
-  
-
-  // Set selected subcategory and show travel dates based on the model data
   $(document).ready(function() {
     var selectedCategory = $('#category-select').val();
 
