@@ -44,37 +44,34 @@ class BusinessPartnersController < ApplicationController
 
   
 
-  def create
-    @vendor_master = VendorMaster.find(params[:vendor_master_id])
-    @business_partner = @vendor_master.business_partners.build(business_partner_params)
-  
-    # Fetch additional information from Vendor Master based on selected customer_name
-    selected_customer_name = params[:business_partner][:customer_name]
-    vendor_info = VendorMaster.find_by(customer_name: selected_customer_name)
-  
-    # Check if vendor_info is not nil before accessing its attributes
-    if vendor_info
-      # Autofill information from Vendor Master
-      @business_partner.customer_code = vendor_info.customer_code
-      @business_partner.corporate_number = vendor_info.corporate_number
-      @business_partner.invoice_number = vendor_info.invoice_number
-    else
-      # Handle the case where vendor_info is nil (e.g., display an error message or redirect)
-      flash[:alert] = "Selected customer not found. Please choose a valid customer."
-      render :new and return
+    def create
+      @vendor_master = VendorMaster.find(params[:vendor_master_id])
+      @business_partner = @vendor_master.business_partners.build(business_partner_params)
+    
+      # Fetch additional information from Vendor Master based on selected customer_name
+      selected_customer_name = params[:business_partner][:customer_name]
+      vendor_info = VendorMaster.find_by(customer_name: selected_customer_name)
+    
+      # Check if vendor_info is not nil before accessing its attributes
+      if vendor_info
+        # Autofill information from Vendor Master
+        @business_partner.customer_code = vendor_info.customer_code
+        @business_partner.corporate_number = vendor_info.corporate_number
+        @business_partner.invoice_number = vendor_info.invoice_number
+      else
+        # Handle the case where vendor_info is nil (e.g., display an error message or redirect)
+        flash[:alert] = "Selected customer not found. Please choose a valid customer."
+        render :new and return
+      end
+    
+      if @business_partner.save
+        # Redirect to the business partner index page
+        redirect_to vendor_master_business_partners_path(@vendor_master), notice: "Business partner created successfully."
+      else
+        render :new
+      end
     end
-  
-    if @business_partner.save
-      # Use Turbo Streams to update the page dynamically
-      render turbo_stream: turbo_stream.replace(
-        'fetched-details',
-        partial: 'business_partners/business_partner_info',
-        locals: { business_partner: @business_partner }
-      )
-    else
-      render :new
-    end
-  end
+    
   
   # app/controllers/business_partners_controller.rb
   

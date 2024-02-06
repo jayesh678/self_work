@@ -1,18 +1,35 @@
-<%= form_for(current_user, url: process_company_code_path, method: :post) do |f| %>
-    <div class="field">
-      <%= f.label :company_code %>
-      <%= f.text_field :company_code %>
+<!-- app/views/users/sessions/enter_company_code.html.erb -->
+
+<div style="max-width: 400px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+
+  <%= form_for(current_user, url: process_company_code_path, method: :post) do |f| %>
+    <div style="margin-bottom: 15px;">
+      <%= f.label :company_code %><br />
+      <%= f.text_field :company_code, style: 'width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;' %>
     </div>
+
     <div class="actions">
-      <%= f.submit "Submit Company Code" %>
+      <%= f.submit "Submit Company Code", style: 'background-color: #4CAF50; color: #fff; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;' %>
     </div>
-  
-    <% if flash[:notice] %>
-  <p class="notice"><%= flash[:notice] %></p>
   <% end %>
 
-  <% if flash[:alert] %>
-  <p class="alert"><%= flash[:alert] %></p>
+  <% if flash[:notice].present? %>
+    <p style="color: #008000; margin-bottom: 10px;"><%= flash[:notice] %></p>
   <% end %>
+
+  <% if flash[:alert].present? %>
+    <p style="color: #ff0000; margin-bottom: 10px;"><%= flash[:alert] %></p>
   <% end %>
-  
+
+</div>
+<script>
+  // Add JavaScript to hide the warning message after a delay
+  document.addEventListener("DOMContentLoaded", function() {
+    var warningMessage = document.getElementById("warning-message");
+    if (warningMessage) {
+      setTimeout(function() {
+        warningMessage.style.display = "none";
+      }, 5000); // Hide after 5 seconds
+    }
+  });
+</script>

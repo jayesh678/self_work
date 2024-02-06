@@ -75,6 +75,19 @@
   <div class="user-profile">
     <%= image_tag(current_user.avatar, alt: 'User Avatar', class: 'user-avatar') if user_signed_in? && current_user.avatar.attached? %>
   </div>
+  <% if user_signed_in? %>
+  Logged in as <%= current_user.email %>
+  <br/>
+  <br/>
+  <%= link_to 'Edit profile', edit_user_registration_path %>
+  <br/>
+  <br/>
+  <%= link_to 'Logout', destroy_user_session_path, method: :delete, data: { turbo_method: :delete } %>
+  <% else %>
+  <%= link_to "Sign up!", new_user_registration_path %>
+  <br/>
+  <%= link_to 'Login', new_user_session_path %>
+  <% end %>
 
   <h1>Your Profile</h1>
 

@@ -91,6 +91,7 @@
 <% if can? :create, User %>
   <%= link_to 'New User', new_user_path, class: 'button', style: 'margin-top: 20px; display: block;' %>
 <% end %>
+<%= link_to 'Show Expenses', user_expenses_url(@user,@expense), class: 'button' %>
 
 </body>
 </html>
