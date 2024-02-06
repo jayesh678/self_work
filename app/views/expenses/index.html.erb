@@ -65,7 +65,7 @@
         <th>Amount</th>
         <th>Expense Date</th>
         <th>User</th>
-        <th>Expense Type</th> <!-- Added Expense Type column -->
+        <th>Expense Type</th> 
       </tr>
     </thead>
     <tbody>
@@ -74,7 +74,7 @@
           <td><%= number_to_currency(expense.amount) %></td>
           <td><%= expense.expense_date.strftime('%Y-%m-%d') %></td>
           <td><%= "#{expense.user.firstname} #{expense.user.lastname}" %></td>
-          <td><%= expense.category.category_type %> <!-- Assuming category has a 'type' attribute, adjust as needed --></td>
+          <td><%= expense.category.category_type %>
         </tr>
       <% end %>
     </tbody>

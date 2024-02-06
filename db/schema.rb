@@ -74,7 +74,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_05_175330) do
     t.float "amount"
     t.float "tax_amount"
     t.date "date_of_application"
-    t.integer "application_number"
+    t.string "application_number"
     t.string "description"
     t.date "date"
     t.integer "number_of_people"
@@ -84,9 +84,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_05_175330) do
     t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
     t.integer "category_id", null: false
     t.integer "business_partner_id", null: false
-    t.integer "user_id", null: false
     t.index ["business_partner_id"], name: "index_expenses_on_business_partner_id"
     t.index ["category_id"], name: "index_expenses_on_category_id"
     t.index ["user_id"], name: "index_expenses_on_user_id"

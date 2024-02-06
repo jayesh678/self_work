@@ -70,7 +70,7 @@
 <body>
 <h1>New Expense</h1>
 <%= form_with(model: [@user, @expense], url: user_expenses_path(@user), method: :post) do |form| %>
-  <!-- Common Fields -->
+ 
   <%= form.label :date_of_application %>
   <%= form.date_field :date_of_application %>
 
@@ -80,20 +80,17 @@
   <%= form.label :category_id %>
   <%= form.collection_select(:category_id, @categories, :id, :name, { prompt: 'Select Category' }, { id: 'category-select' }) %>
 
-  <!-- Subcategory dropdowns -->
   <div id="subcategories">
-    <!-- Regular Subcategories -->
     <div id="regular-subcategories" style="display: none;">
       <%= form.label :subcategory %>
       <%= form.select(:subcategory, @regular_subcategories.map { |subcategory| [subcategory.to_s, subcategory.to_s] }, { prompt: 'Select Subcategory' }) %>
     </div>
 
-    <!-- Travel Subcategories -->
+    
     <div id="travel-subcategories" style="display: none;">
       <%= form.label :subcategory %>
       <%= form.select(:subcategory, @travel_subcategories.map { |subcategory| [subcategory.to_s, subcategory.to_s] }, { prompt: 'Select Subcategory' }) %>
 
-      <!-- Additional Fields for Travel Expense -->
       <%= form.label :start_date %>
       <%= form.date_field :start_date %>
 
@@ -106,10 +103,13 @@
 
   <%= form.label :business_partner_id %>
   <%= form.collection_select(:business_partner_id, @business_partners, :id, :customer_name, { prompt: 'Select Business Partner' }) %>
-
+   
+  <div id="expense-amount">
   <%= form.label :amount %>
   <%= form.number_field :amount %>
+  </div>
 
+  <div id="expense-tax-amount">
   <%= form.label :tax_amount %>
   <%= form.number_field :tax_amount %>
 
@@ -118,18 +118,18 @@
 
   <%= form.submit %>
 <% end %>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+x
 
 <script>
   $('#category-select').change(function() {
     var selectedCategory = $(this).val();
+    debugger
 
-    if (selectedCategory === 'Regular') {
+    if (selectedCategory === '7') {
       $('#regular-subcategories').show();
       $('#travel-subcategories').hide();
       $('#travel-dates').hide();
-    } else if (selectedCategory === 'Travel') {
+    } else if (selectedCategory === '8') {
       $('#regular-subcategories').hide();
       $('#travel-subcategories').show();
       $('#travel-dates').show();
@@ -139,15 +139,13 @@
       $('#travel-dates').hide();
     }
   });
-
+  
   $(document).ready(function() {
-    var selectedCategory = $('#category-select').val();
-
-    if (selectedCategory === 'Regular') {
-      $('#regular-subcategories').show();
-    } else if (selectedCategory === 'Travel') {
-      $('#travel-subcategories').show();
-      $('#travel-dates').show();
-    }
+    $('.expense-amount').on('input', function() {
+      var amount = parseFloat($(this).val());
+     var tax_amount = amount * 0.1
+      $('#expense-tax-amount').val(taxAmount.toFixed(2)); 
+    });
   });
+  
 </script>

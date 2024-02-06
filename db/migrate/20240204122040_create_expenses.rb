@@ -4,7 +4,7 @@ class CreateExpenses < ActiveRecord::Migration[7.1]
       t.float :amount
       t.float :tax_amount
       t.date :date_of_application
-      t.integer :application_number
+      t.string :application_number
       t.string :description
       t.date :date
       t.integer :number_of_people

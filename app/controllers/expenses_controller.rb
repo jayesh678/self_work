@@ -1,4 +1,3 @@
-# app/controllers/expenses_controller.rb
 class ExpensesController < ApplicationController
   before_action :find_user
   before_action :load_categories, only: [:new, :create]
@@ -65,3 +64,4 @@ class ExpensesController < ApplicationController
     params.require(:expense).permit(:date_of_application, :expense_date, :category_id, :business_partner_id, :amount, :tax_amount, :description, :subcategory_id, :start_date, :end_date)
   end
 end
+
