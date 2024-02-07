@@ -62,6 +62,7 @@
   <table>
     <thead>
       <tr>
+      <th> Application Number </th>
         <th>Amount</th>
         <th>Expense Date</th>
         <th>User</th>
@@ -71,6 +72,7 @@
     <tbody>
       <% @expenses.each do |expense| %>
         <tr>
+          <td><%= expense.application_number %>
           <td><%= number_to_currency(expense.amount) %></td>
           <td><%= expense.expense_date.strftime('%Y-%m-%d') %></td>
           <td><%= "#{expense.user.firstname} #{expense.user.lastname}" %></td>

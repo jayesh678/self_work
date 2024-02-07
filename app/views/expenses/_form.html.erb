@@ -106,24 +106,24 @@
    
   <div id="expense-amount">
   <%= form.label :amount %>
-  <%= form.number_field :amount %>
+  <%= form.number_field :amount, id: "amount-field" %>
   </div>
 
-  <div id="expense-tax-amount">
+  
   <%= form.label :tax_amount %>
-  <%= form.number_field :tax_amount %>
+  <%= form.number_field :tax_amount, id: "tax-amount-field" %>
 
   <%= form.label :description %>
   <%= form.text_area :description %>
 
+  <%= form.hidden_field :application_number %>
+
   <%= form.submit %>
 <% end %>
-x
 
 <script>
   $('#category-select').change(function() {
     var selectedCategory = $(this).val();
-    debugger
 
     if (selectedCategory === '7') {
       $('#regular-subcategories').show();
@@ -139,13 +139,15 @@ x
       $('#travel-dates').hide();
     }
   });
-  
+  function calculateTax() {
+    var amount = parseFloat($('#amount-field').val());
+    var taxAmount = amount * 0.1; 
+    $('#tax-amount-field').val(taxAmount.toFixed(2));
+  }
+  $('#amount-field').on('input', calculateTax);
   $(document).ready(function() {
-    $('.expense-amount').on('input', function() {
-      var amount = parseFloat($(this).val());
-     var tax_amount = amount * 0.1
-      $('#expense-tax-amount').val(taxAmount.toFixed(2)); 
-    });
+    calculateTax();
   });
+
   
 </script>
