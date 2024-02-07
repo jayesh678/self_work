@@ -4,6 +4,7 @@
       <%= form.label :customer_name %>
       <%= form.select :customer_name, @customer_names, {}, class: 'customer-select', value: '' %>
       <%= button_tag 'Fetch', type: 'button', class: 'fetch-button', data: { url: fetch_customer_details_vendor_master_business_partners_path(@vendor_master) } %>
+      <%= link_to 'Add business partner', new_vendor_master_path %>
     </div>
 
     <div class="field">
@@ -84,11 +85,11 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 20px; /* Adjust the gap as needed */
+    gap: 20px; 
   }
 
   .field {
-    width: calc(48% - 10px); /* Adjust the width and spacing as needed */
+    width: calc(48% - 10px); 
   }
 
   .customer-select,
@@ -119,3 +120,4 @@
     background-color: #0056b3;
   }
 </style>
+
