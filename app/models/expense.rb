@@ -6,6 +6,7 @@ class Expense < ApplicationRecord
   before_create :generate_application_number
 
   validates :application_number, uniqueness: true
+  validates :date_of_application, presence: true
 private
   def generate_application_number
     last_application_number = Expense.maximum(:application_number)

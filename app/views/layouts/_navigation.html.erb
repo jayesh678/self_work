@@ -10,11 +10,11 @@
         <li class="nav-item">
           <%= link_to "Users", users_path, class: :"nav-link"%>
         </li>
-        <!-- app/views/layouts/_navigation.html.erb -->
+       <li class="nav-item">
+           <%= link_to "Business Partners", vendor_master_business_partners_path(vendor_master_id: 1), class: "nav-link" %>
+        </li>
 
-<li class="nav-item">
-  <%= link_to "Business Partners", vendor_master_business_partners_path(vendor_master_id: 1), class: "nav-link" %>
-</li>
+        
 
 
           </ul>

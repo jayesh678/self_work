@@ -80,3 +80,5 @@ gem "letter_opener", "~> 1.8"
 gem "cancancan", "~> 3.5"
 
 gem "faker", "~> 3.2"
+
+gem "image_processing", "~> 1.2"

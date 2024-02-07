@@ -90,7 +90,7 @@
   <% end %>
 
   <h1>User Profile</h1>
-
+    
   <div class="profile-field">
     <p>First Name:</p>
     <div class="editable-field" contenteditable="true"><%= @user.firstname %></div>
@@ -110,9 +110,11 @@
     <p>Role:</p>
     <div class="editable-field" contenteditable="true"><%= Role.find(@user.role_id).role_name %></div>
   </div>
+  <%= link_to 'Show Expenses', user_expenses_url(@user,@expense), class: 'button' %></br>
+  <%= link_to 'Create New Expense', new_user_expense_path(@user), class: 'action-button' %></br>
 
   <button class="edit-button">Save Changes</button>
 </div>
-<%= link_to 'Create New Expense', new_user_expense_path(@user), class: 'action-button' %>
+
 </body>
 </html>
