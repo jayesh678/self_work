@@ -1,10 +1,9 @@
 class UsersController < ApplicationController
-    before_action :set_user, only: [:show, :edit, :update, :destroy]
+    before_action :set_user, only: [:show,:edit, :update, :destroy]
     # load_and_authorize_resource
   
     def index
      @users = User.all
-     @user = current_user
     end
   
     def show
@@ -49,8 +48,8 @@ class UsersController < ApplicationController
 
     def set_user
         @user = User.find_by(id: params[:id])
-      end
-  
+    end
+
   def user_params
   params.require(:user).permit(:firstname, :lastname, :email, :password, :password_confirmation, :avatar, :role_id, :company_id)
 end

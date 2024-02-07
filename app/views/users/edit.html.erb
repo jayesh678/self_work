@@ -1,6 +1,17 @@
 <h1>Editing User</h1>
 
-<%= render 'form', user: @user %>
+<%= form_with(model: @user, local: true) do |form| %>
+
+<%= form.label :firstname %>
+<%= form.text_field :firstname %>
+
+<%= form.label :lastname %>
+<%= form.text_field :lastname %>
+ 
+<%= form.submit 'Update'%>
+<% end %>
+
+
 
 <%= link_to 'Show', @user %> |
 <%= link_to 'Back', users_path %>
