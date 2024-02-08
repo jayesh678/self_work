@@ -24,7 +24,7 @@
       <% @expenses.each do |expense| %>
         <tr>
           <td><%= expense.application_number %>
-          <td><%= number_to_currency(expense.amount) %></td>
+          <td><%= expense.amount %></td>
           <td><%= expense.expense_date.strftime('%Y-%m-%d') %></td>
           <td><%= "#{expense.user.firstname} #{expense.user.lastname}" %></td>
           <td><%= expense.category.category_type %>

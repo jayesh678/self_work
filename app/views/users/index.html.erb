@@ -26,19 +26,25 @@
         <td><%= user.firstname %></td>
         <td><%= user.lastname %></td>
         <td>
-          <%= link_to 'Show', user, class: 'button' %>
-          <%= link_to 'Edit', edit_user_path(user), class: 'button' %>
+        
+          <%= link_to 'View', user, class: 'button' %>
+
+          <% if can? :update, User %>
+          <%= link_to 'Edit', edit_user_path(@user), class: 'button' %>
+          <% end %>
+          <% if can? :update, User %>
           <%= link_to 'Destroy', user, class: 'button', data: {
             turbo_method: :delete,
             turbo_confirm: "Are you sure?"
           } %>
+          <% end %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<% if can? :create, User %>
+<% if can? :update, User %>
   <div style="margin-top: 20px;">
     <%= link_to 'New User', new_user_path, class: 'button' %>
   </div>

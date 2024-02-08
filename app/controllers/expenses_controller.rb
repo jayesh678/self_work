@@ -46,14 +46,11 @@ class ExpensesController < ApplicationController
 
   def set_subcategories
     @regular_subcategories = Category.find_by(name: 'Regular')&.subcategories || []
-  
-    # Ensure @regular_subcategories is an array of strings
-    @regular_subcategories = JSON.parse(@regular_subcategories).map(&:to_s) if @regular_subcategories.present?
+  @regular_subcategories = JSON.parse(@regular_subcategories).map(&:to_s) if @regular_subcategories.present?
   
     travel_category = Category.find_by(category_type: 'Travel Expense')
     @travel_subcategories = travel_category&.subcategories || []
-  
-    # Ensure @travel_subcategories is an array of ActiveRecord objects
+
     @travel_subcategories = JSON.parse(@travel_subcategories).map { |subcategory| OpenStruct.new(name: subcategory) } if @travel_subcategories.present?
   end
 

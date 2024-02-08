@@ -2,7 +2,7 @@ class User < ApplicationRecord
   has_one_attached :avatar
   belongs_to :company
   belongs_to :role
-  has_many :expenses
+  has_many :expenses, dependent: :destroy
   attr_accessor :company_code
 
   validates :firstname, presence: true

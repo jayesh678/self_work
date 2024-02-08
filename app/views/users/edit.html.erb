@@ -1,16 +1,10 @@
 <h1>Editing User</h1>
 
-<%= form_with(model: @user, local: true) do |form| %>
-    <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-      <ul>
-        <% @user.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+
+  <%= form_with(model: @user, local: true, data: { turbo: false }) do |form| %>
+     <% if @user.errors.any? %>
+      <%= @user.errors.full_messages %>
+    <% end %>
 
     <div>
     <%= form.label :firstname %>

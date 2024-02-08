@@ -90,8 +90,8 @@
     <% end %>
   </tbody>
 </table>
-
+<% if can? :update, BusinessPartner  %>
 <%= link_to 'New Business Partner', new_vendor_master_business_partner_path(@vendor_master), class: 'button new-business-partner-link' %>
-
+<% end %>
 </body>
 </html>
