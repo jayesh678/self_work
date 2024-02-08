@@ -7,12 +7,23 @@ class Expense < ApplicationRecord
 
   validates :application_number, uniqueness: true
   validates :date_of_application, presence: true
+
+  
 private
-  def generate_application_number
-    last_application_number = Expense.maximum(:application_number)
-    category_prefix = category_prefix_for_application_number
-    self.application_number = "#{category_prefix}#{last_application_number.to_i + 1}"
+def generate_application_number
+  category_prefix = category_prefix_for_application_number
+  last_application_number = Expense.where(category_id: category_id).maximum(:application_number).to_i
+  new_application_number = last_application_number + 1
+  loop do
+    candidate_application_number = "#{category_prefix}#{new_application_number}"
+    unless Expense.exists?(application_number: candidate_application_number)
+      self.application_number = candidate_application_number
+      break
+    end
+    new_application_number += 1
   end
+end
+
 
   def category_prefix_for_application_number
     if category_id == 7

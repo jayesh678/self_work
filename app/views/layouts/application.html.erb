@@ -28,27 +28,16 @@
   <p><%= flash[:alert] %></p>
 <% end %>
 
-  <style>
-  .user-info {
-    background-color: #f8f8f8;
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 20px;
-    text-align: center;
-  }
+<br/>
 
-  .user-info a {
-    text-decoration: none;
-    color: #3498db;
-    font-weight: bold;
-  }
 
-  .user-info a:hover {
-    color: #2980b9;
-  }
-</style>
+
+
+
+
+<div class="back-button">
+<%= link_to 'Back', 'javascript:history.back()', class: 'back-link' %>
+</div>
 
   <%= yield %>
    

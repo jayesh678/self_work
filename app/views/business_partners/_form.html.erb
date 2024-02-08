@@ -1,5 +1,5 @@
 <%= form_with(model: [@vendor_master, @business_partner], local: true) do |form| %>
-  <div class="form-container">
+  <div class="details-container">
     <div class="field">
       <%= form.label :customer_name %>
       <%= form.select :customer_name, @customer_names, {}, class: 'customer-select', value: '' %>
@@ -24,7 +24,7 @@
 
     <div class="field">
       <%= form.label :address %>
-      <%= form.text_area :address, value: '' %>
+      <%= form.text_field :address, value: '' %>
     </div>
 
     <div class="field">
@@ -73,51 +73,4 @@
   });
 </script>
 
-<style>
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
-  }
-
-  .form-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 20px; 
-  }
-
-  .field {
-    width: calc(48% - 10px); 
-  }
-
-  .customer-select,
-  .text-input,
-  .number-input,
-  .text-area {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-top: 5px;
-  }
-
-  .submit-button,
-  .fetch-button {
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-
-  .submit-button:hover,
-  .fetch-button:hover {
-    background-color: #0056b3;
-  }
-</style>
 

@@ -5,6 +5,9 @@ class User < ApplicationRecord
   has_many :expenses
   attr_accessor :company_code
 
+  validates :firstname, presence: true
+  validates :lastname, presence: true
+
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

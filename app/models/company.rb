@@ -1,6 +1,6 @@
 class Company < ApplicationRecord
   has_many :users
-    before_create :generate_uniqueid
+  before_create :generate_uniqueid
 
   private
 
