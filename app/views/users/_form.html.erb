@@ -8,48 +8,71 @@
      <%= form.label :firstname %>
       <%= form.text_field :firstname, class: "form-input" %>
       <%if @user.errors[:firstname].any?%>
-    <div class="form-field">
-      <b><%= "Firstname" + @user.errors[:firstname].join(", ") %></b>
+    <div class="error">
+      <b><%= "Firstname" + " " +@user.errors[:firstname].join(", ") %></b>
     </div>
     <% end %>
+    </br>
 
-    <div class="form-field">
+
       <%= form.label :lastname %>
       <%= form.text_field :lastname, class: "form-input" %>
+      <%if @user.errors[:firstname].any?%>
+    <div class="error">
+      <b><%= "Lastname" + " " +@user.errors[:lastname].join(", ") %></b>
     </div>
+    <% end %>
+    </br>
 
-    <div class="form-field">
       <%= form.label :email %>
       <%= form.email_field :email, class: "form-input" %>
+   <%if @user.errors[:email].any?%>
+    <div class="error">
+      <b><%= "Email" + " " +@user.errors[:email].join(", ") %></b>
     </div>
+    <% end %>
+    </br>
 
-    <div class="form-field">
+
       <%= form.label :password %>
       <%= form.password_field :password, class: "form-input" %>
+    <%if @user.errors[:password].any?%>
+    <div class="error">
+      <b><%= "Password" + " " +@user.errors[:password].join(", ") %></b>
     </div>
-
-    <div class="form-field">
-      <%= form.label :password_confirmation %>
+    <% end %>
+    </br>
+    
+    <%= form.label :password_confirmation %>
       <%= form.password_field :password_confirmation, class: "form-input" %>
+    <%if @user.errors[:password_confirmation].any?%>
+    <div class="error">
+      <b><%= "Password" + " " +@user.errors[:password_confirmation].join(", ") %></b>
     </div>
+    <% end %>
+    </br>
 
-    <div class="field">
-      <%= form.label :role %>
+    <%= form.label :role %>
       <%= form.collection_select :role_id, Role.where(role_name: ['admin', 'user']), :id, :role_name, prompt: "Select Role", class: "form-input" %>
+    <%if @user.errors[:role].any?%>
+    <div class="error">
+      <b><%= "Role" + " " +@user.errors[:role].join(", ") %></b>
     </div>
+    <% end %>
+    </br>
 
-    <div class="field">
-      <%= form.label :company %>
+    <%= form.label :company %>
       <%= form.collection_select :company_id, Company.all, :id, :company_name, prompt: "Select Company", class: "form-input" %>
+   <%if @user.errors[:company].any?%>
+    <div class="error">
+      <b><%= "Company" + " " +@user.errors[:company].join(", ") %></b>
     </div>
-
-    <div class="form-field">
-      <%= form.label :avatar %>
-      <%= form.file_field :avatar, class: "form-input" %>
-    </div>
+    <% end %>
+      </br>
 
     <div class="form-field">
       <%= form.button 'Create User', class: "form-button" %>
     </div>
   <% end %>
 </div>
+

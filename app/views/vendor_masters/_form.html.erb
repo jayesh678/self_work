@@ -1,23 +1,25 @@
+<div class="form-container">
 <%= form_with model: @vendor_master do |form |%>
-    <div>
+    <div class="form-field">
     <%= form.label :customer_code %>
     <%= form.text_field :customer_code %>
     </div>
 
-    <div>
+    <div class="form-field">
     <%= form.label :customer_name %>
     <%= form.text_field :customer_name %>
     </div>
 
-    <div>
+    <div class="form-field">
     <%= form.label :corporate_number %>
     <%= form.text_field :corporate_number %>
     </div>
 
-    <div>
+    <div class="form-field">
     <%= form.label :invoice_number %>
     <%= form.text_field :invoice_number %>
     </div>
 
     <%= form.submit 'Add vendor master' %>
 <% end %>
+</div>

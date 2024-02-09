@@ -1,47 +1,45 @@
+<div class="form-container">
 <%= form_with(model: [@vendor_master, @business_partner], local: true, data: { turbo: false }) do |form| %>
-    <% if @business_partner.errors.any? %>
-      <%= @business_partner.errors.full_messages %>
-    <% end %>
 
   <div class="details-container">
-    <div class="field">
+    <div class="form-field">
       <%= form.label :customer_name %>
       <%= form.select :customer_name, @customer_names, {}, class: 'customer-select' %>
       <%= button_tag 'Fetch', type: 'button', class: 'fetch-button', data: { url: fetch_customer_details_vendor_master_business_partners_path(@vendor_master) } %>
-      <%= link_to 'Add business partner', new_vendor_master_path %>
     </div>
-
-    <div class="field">
+    
+    <%= link_to 'Add business partner', new_vendor_master_path, class: 'button' %>
+     <div class="form-field">
       <%= form.label :customer_code %>
       <%= form.text_field :customer_code, value: '' %>
     </div>
 
-    <div class="field">
+     <div class="form-field">
       <%= form.label :corporate_number %>
       <%= form.number_field :corporate_number, value: nil %>
     </div>
 
-    <div class="field">
+     <div class="form-field">
       <%= form.label :invoice_number %>
       <%= form.number_field :invoice_number, value: nil %>
     </div>
 
-    <div class="field">
+     <div class="form-field">
       <%= form.label :address %>
       <%= form.text_field :address, value: '' %>
     </div>
 
-    <div class="field">
+     <div class="form-field">
       <%= form.label :postal_code %>
       <%= form.number_field :postal_code, value: nil %>
     </div>
 
-    <div class="field">
+     <div class="form-field">
       <%= form.label :telephone_number %>
       <%= form.number_field :telephone_number, value: nil %>
     </div>
 
-    <div class="field">
+    <div class="form-field">
       <%= form.label :bank_name %>
       <%= form.text_field :bank_name, value: '' %>
     </div>
@@ -49,6 +47,7 @@
     <div class="actions">
       <%= form.submit 'Create Business Partner', class: 'submit-button' %>
     </div>
+  </div>
   </div>
 <% end %>
 

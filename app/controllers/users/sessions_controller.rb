@@ -1,7 +1,7 @@
 # app/controllers/users/sessions_controller.rb
 class Users::SessionsController < Devise::SessionsController
     before_action :authenticate_user!, except: [:new, :create, :enter_company_code, :process_company_code]
-  
+
     def new
       super
     end

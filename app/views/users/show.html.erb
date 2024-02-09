@@ -1,4 +1,11 @@
-<% if user_signed_in? %>
+
+
+
+<div class="profile-box">
+ <% if user_signed_in? %>
+<div class="user-profile">
+    <%= image_tag(current_user.avatar, alt: 'User Avatar', class: 'user-avatar') if user_signed_in? && current_user.avatar.attached? %>
+  </div>
   Logged in as <%= current_user.email %>
   <br/>
   <br/>
@@ -12,38 +19,36 @@
   <%= link_to 'Login', new_user_session_path %>
   <% end %>
 
-
-<div class="profile-box">
- 
-
   <h1>User Profile</h1>
 
   
     
   <div class="profile-field">
     <p>First Name:</p>
-    <div class="editable-field" contenteditable="true"><%= @user.firstname %></div>
+    <div class="editable-field" ><%= @user.firstname %></div>
   </div>
   
   <div class="profile-field">
     <p>Last Name:</p>
-    <div class="editable-field" contenteditable="true"><%= @user.lastname %></div>
+    <div class="editable-field" ><%= @user.lastname %></div>
   </div>
 
   <div class="profile-field">
     <p>Company Unique ID:</p>
-    <div class="editable-field" contenteditable="true"><%= @user.company.company_uniqueid %></div>
+    <div class="editable-field" ><%= @user.company.company_uniqueid %></div>
   </div>
 
   <div class="profile-field">
     <p>Role:</p>
-    <div class="editable-field" contenteditable="true"><%= Role.find(@user.role_id).role_name %></div>
-  </div>
-  
+    <div class="editable-field" ><%= Role.find(@user.role_id).role_name %></div>
+  </div> 
+
+
+
   <%= link_to 'Show Expenses', user_expenses_url(@user,@expense), class: 'button' %></br>
     
   <%= link_to 'Create New Expense', new_user_expense_path(@user), class: 'action-button' %>
-  
+
   </br>
 </div>
 

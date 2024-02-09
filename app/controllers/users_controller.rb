@@ -1,10 +1,13 @@
 class UsersController < ApplicationController
     before_action :set_user, only: [:show,:edit, :update, :destroy]
-   
-  
+    load_and_authorize_resource
+     
+    
   def index
-    @users = User.all
+    @user = User.all
     @user = current_user
+     current_company = current_user.company
+      @users = current_company.users
   end
 
   def show
@@ -36,7 +39,7 @@ class UsersController < ApplicationController
   def update
     if @user.update(user_params)
       @user.avatar.attach(params[:user][:avatar]) if params[:user][:avatar]
-      redirect_to @user, notice: 'User was successfully updated.'
+      redirect_to users_path, notice: 'User was successfully updated.'
     else
       render :edit
     end
@@ -60,7 +63,12 @@ class UsersController < ApplicationController
   end
 
   def user_params
+    if action_name == "create"
   	params.require(:user).permit(:firstname, :lastname, :email, :password, :password_confirmation, :avatar, :role_id, :company_id)
+    else
+      action_name == "update"
+        params.require(:user).permit(:firstname, :lastname)
+    end
 	end
 end
   

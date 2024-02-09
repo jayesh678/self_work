@@ -69,15 +69,34 @@
 </head>
 <body>
 <h1>New Expense</h1>
-<%= form_with(model: [@user, @expense], url: user_expenses_path(@user), method: :post) do |form| %>
+<%= form_with(model: [@user, @expense], url: user_expenses_path(@user), method: :post, data: { turbo: false }) do |form| %>
+  
   <%= form.label :date_of_application %>
   <%= form.date_field :date_of_application %>
+   <%if @expense.errors[:date_of_application].any?%>
+    <div class="error">
+      <b><%= "Date" + " " +@expense.errors[:date_of_application].join(", ") %></b>
+    </div>
+    <% end %>
+    </br>
 
   <%= form.label :expense_date %>
   <%= form.date_field :expense_date %>
+  <%if @expense.errors[:expense_date].any?%>
+    <div class="error">
+      <b><%= "Expense Date" + " " +@expense.errors[:expense_date].join(", ") %></b>
+    </div>
+    <% end %>
+    </br>
 
   <%= form.label :category_id %>
   <%= form.collection_select(:category_id, @categories, :id, :name, { prompt: 'Select Category' }, { id: 'category-select' }) %>
+  <%if @expense.errors[:category].any?%>
+    <div class="error">
+      <b><%= "Category" + " " +@expense.errors[:category].join(", ") %></b>
+    </div>
+    <% end %>
+    </br>
 
   <div id="subcategories">
     <div id="regular-subcategories" style="display: none;">
@@ -85,38 +104,76 @@
       <%= form.select(:subcategory, @regular_subcategories.map { |subcategory| [subcategory.to_s, subcategory.to_s] }, { prompt: 'Select Subcategory' }) %>
     </div>
 
-    
     <div id="travel-subcategories" style="display: none;">
       <%= form.label :subcategory %>
       <%= form.select(:subcategory, @travel_subcategories.map { |subcategory| [subcategory.to_s, subcategory.to_s] }, { prompt: 'Select Subcategory' }) %>
 
       <%= form.label :start_date %>
       <%= form.date_field :start_date %>
+        <%if @expense.errors[:start_date].any?%>
+    <div class="error">
+      <b><%= "Start Date" + " " +@expense.errors[:start_date].join(", ") %></b>
+    </div>
+    <% end %>
+    </br>
 
       <%= form.label :end_date %>
       <%= form.date_field :end_date %>
     </div>
+      <%if @expense.errors[:category].any?%>
+    <div class="error">
+      <b><%= "End Date" + " " +@expense.errors[:end_date].join(", ") %></b>
+    </div>
+    <% end %>
+    </br>
   </div>
 
   </div>
 
   <%= form.label :business_partner_id %>
   <%= form.collection_select(:business_partner_id, @business_partners, :id, :customer_name, { prompt: 'Select Business Partner' }) %>
-   
+     <%if @expense.errors[:business_partner].any?%>
+    <div class="error">
+      <b><%= "Business Partner" + " " +@expense.errors[:business_partner].join(", ") %></b>
+    </div>
+    <% end %>
+    </br>
+
   <div id="expense-amount">
   <%= form.label :amount %>
   <%= form.number_field :amount, id: "amount-field" %>
   </div>
+    <%if @expense.errors[:amount].any?%>
+    <div class="error">
+      <b><%= "Amount" + " " +@expense.errors[:amount].join(", ") %></b>
+    </div>
+    <% end %>
+    </br>
 
   
   <%= form.label :tax_amount %>
   <%= form.number_field :tax_amount, id: "tax-amount-field" %>
+    <%if @expense.errors[:tax_amount].any?%>
+    <div class="error">
+      <b><%= "Tax Amount" + " " +@expense.errors[:tax_amount].join(", ") %></b>
+    </div>
+    <% end %>
+    </br>
+
+
 
   <%= form.label :receipt %>
   <%= form.file_field :receipt %>
 
+
   <%= form.label :description %>
   <%= form.text_area :description %>
+    <%if @expense.errors[:description].any?%>
+    <div class="error">
+      <b><%= "Description" + " " +@expense.errors[:description].join(", ") %></b>
+    </div>
+    <% end %>
+    </br>
 
   <%= form.hidden_field :application_number %>
 

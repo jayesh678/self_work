@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user! 
   before_action :configure_permitted_parameters, if: :devise_controller? 
-
+   
+ 
   def enter_company_code
     if current_user.company_code.present?
       redirect_to root_path, notice: "You have already entered the company code."

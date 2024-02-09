@@ -1,27 +1,45 @@
 <h1>Editing User</h1>
 
-
-  <%= form_with(model: @user, local: true, data: { turbo: false }) do |form| %>
-     <% if @user.errors.any? %>
+<div class= "form-container">
+ <%= form_with(model: @user, local: true, data: { turbo: false }) do |form| %>
+       <% if @user.errors.any? %>
       <%= @user.errors.full_messages %>
     <% end %>
 
-    <div>
-    <%= form.label :firstname %>
-    <%= form.text_field :firstname %>
-    </div>
 
-    <div>
-    <%= form.label :lastname %>
-    <%= form.text_field :lastname %>
+     <%= form.label :firstname %>
+      <%= form.text_field :firstname, class: "form-input" %>
+      <%if @user.errors[:firstname].any?%>
+    <div class="error">
+      <b><%= "Firstname" + " " +@user.errors[:firstname].join(", ") %></b>
     </div>
+    <% end %>
+    </br>
+
+
+      <%= form.label :lastname %>
+      <%= form.text_field :lastname, class: "form-input" %>
+      <%if @user.errors[:firstname].any?%>
+    <div class="error">
+      <b><%= "Lastname" + " " +@user.errors[:lastname].join(", ") %></b>
+    </div>
+    <% end %>
+    </br>
+
+     <%= form.label :role %>
+      <%= form.collection_select :role_id, Role.where(role_name: ['admin', 'user']), :id, :role_name, prompt: "Select Role", class: "form-input" %>
+    <%if @user.errors[:role].any?%>
+    <div class="error">
+      <b><%= "Role" + " " +@user.errors[:role].join(", ") %></b>
+    </div>
+    <% end %>
+    <br/>
   
     <div>
     <%= form.submit 'Update'%>
-    </div>
-
-    <%= link_to 'Show', @user %> |
-    <%= link_to 'Back', users_path %>
+    </div> 
+    <br/>
+    <%= link_to 'Back', users_path, class: 'button' %>
 <% end %>
     
     

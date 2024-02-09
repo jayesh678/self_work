@@ -7,6 +7,13 @@ class Expense < ApplicationRecord
 
   validates :application_number, uniqueness: true
   validates :date_of_application, presence: true
+  validates :expense_date, presence: true
+  validates :category, presence: true
+  validates :business_partner, presence: true
+  validates :amount, presence: true
+  validates :tax_amount, presence: true
+  validates :description, presence: true
+  validates :receipt, presence: true
 
   
 private
