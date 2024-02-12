@@ -14,7 +14,6 @@ class ExpensesController < ApplicationController
 
     if @expense.save
       redirect_to user_expenses_path(@user, @expense), notice: 'Expense was successfully created.'
-
     else
       render :new
     end
@@ -29,13 +28,24 @@ class ExpensesController < ApplicationController
     @expense = Expense.new
   end
 
+  def subcategories
+    category = Category.find(params[:category_id])
+    subcategories = category.subcategories || []
+    
+    response = {}
+    if category.category_type == 'Regular'
+      response[:regular_subcategories] = subcategories
+    elsif category.category_type == 'Travel Expense'
+      response[:travel_subcategories] = subcategories
+    end
+    
+    render json: response
+  end
 
   private
 
   def find_user
-     if params[:user_id]
-    @user = User.find(params[:user_id])
-     end
+    @user = User.find(params[:user_id]) if params[:user_id].present?
   end
 
   def set_business_partners
@@ -47,18 +57,13 @@ class ExpensesController < ApplicationController
   end
 
   def set_subcategories
-    @regular_subcategories = Category.find_by(name: 'Regular')&.subcategories || []
-  @regular_subcategories = JSON.parse(@regular_subcategories).map(&:to_s) if @regular_subcategories.present?
-  
-    travel_category = Category.find_by(category_type: 'Travel Expense')
-    @travel_subcategories = travel_category&.subcategories || []
-
-    @travel_subcategories = JSON.parse(@travel_subcategories).map { |subcategory| OpenStruct.new(name: subcategory) } if @travel_subcategories.present?
+    @regular_subcategories = Category.find_by(category_type: 'Regular')&.subcategories&.split(',') || []
+    @travel_subcategories = Category.find_by(category_type: 'Travel Expense')&.subcategories&.split(',') || []
   end
-
+  
+  
 
   def expense_params
     params.require(:expense).permit(:date_of_application, :expense_date, :category_id, :business_partner_id, :amount, :tax_amount, :receipt, :description, :subcategory, :start_date, :end_date, :application_number)
   end
 end
-
