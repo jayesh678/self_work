@@ -33,7 +33,7 @@ end
 
 
   def category_prefix_for_application_number
-    if category_id == 7
+    if category_id == 1
       'E-'
     else 
       'T-'

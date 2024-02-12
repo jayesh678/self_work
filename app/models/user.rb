@@ -3,6 +3,7 @@ class User < ApplicationRecord
   belongs_to :company
   belongs_to :role
   has_many :expenses, dependent: :destroy
+  before_create :generate_uniq_user_code
 
   validates_presence_of :role, if: :new_record?
   validate :blank_space
@@ -19,6 +20,10 @@ class User < ApplicationRecord
     if password&.include?(' ')
     errors.add(:password, "can't contain spaces")
   end
+   end
+
+   def generate_uniq_user_code
+    self.user_code = SecureRandom.hex(3)
    end
 
     def set_default_role

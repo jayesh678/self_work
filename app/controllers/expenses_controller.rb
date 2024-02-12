@@ -5,7 +5,7 @@ class ExpensesController < ApplicationController
   before_action :set_business_partners, only: [:new, :create]
 
   def index
-    @user = User.find(params[:user_id])
+    @user = current_user
     @expenses = @user.expenses
   end
 
@@ -13,7 +13,7 @@ class ExpensesController < ApplicationController
     @expense = @user.expenses.new(expense_params)
 
     if @expense.save
-      redirect_to user_expense_url(@user, @expense), notice: 'Expense was successfully created.'
+      redirect_to user_expenses_path(@user, @expense), notice: 'Expense was successfully created.'
 
     else
       render :new
@@ -33,7 +33,9 @@ class ExpensesController < ApplicationController
   private
 
   def find_user
+     if params[:user_id]
     @user = User.find(params[:user_id])
+     end
   end
 
   def set_business_partners
@@ -56,7 +58,7 @@ class ExpensesController < ApplicationController
 
 
   def expense_params
-    params.require(:expense).permit(:date_of_application, :expense_date, :category_id, :business_partner_id, :amount, :tax_amount, :receipt, :description, :subcategory_id, :start_date, :end_date, :application_number)
+    params.require(:expense).permit(:date_of_application, :expense_date, :category_id, :business_partner_id, :amount, :tax_amount, :receipt, :description, :subcategory, :start_date, :end_date, :application_number)
   end
 end
 

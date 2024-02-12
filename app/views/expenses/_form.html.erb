@@ -181,14 +181,15 @@
 <% end %>
 
 <script>
+  debugger  
   $('#category-select').change(function() {
     var selectedCategory = $(this).val();
 
-    if (selectedCategory === '7') {
+    if (selectedCategory === '1') {
       $('#regular-subcategories').show();
       $('#travel-subcategories').hide();
       $('#travel-dates').hide();
-    } else if (selectedCategory === '8') {
+    } else if (selectedCategory === '2') {
       $('#regular-subcategories').hide();
       $('#travel-subcategories').show();
       $('#travel-dates').show();
@@ -201,7 +202,6 @@
   function calculateTax() {
     var amount = parseFloat($('#amount-field').val());
     var taxAmount = amount * 0.1; 
-    $('#tax-amount-field').val(taxAmount.toFixed(2));
   }
   $('#amount-field').on('input', calculateTax);
   $(document).ready(function() {

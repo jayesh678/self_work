@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+   
 </head>
 <body>
 
@@ -12,7 +12,7 @@
   <div class="login-container">
     <h2>Login</h2>
 
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'login-form' }) do |f| %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <div class="form-field">
         <%= f.label :email %><br />
         <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'input-field' %>
@@ -54,79 +54,3 @@
 </body>
 </html>
 
-<style>
-  body {
-    margin: 0;
-    padding: 0;
-  }
-
-  .page-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #f4f4f4;
-  }
-
-  .login-container {
-    width: 60%;
-    max-width: 400px;
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-
-  h2 {
-    text-align: center;
-    color: #333;
-  }
-
-  .login-form {
-    margin-top: 20px;
-  }
-
-  .form-field {
-    margin-bottom: 15px;
-  }
-
-  .input-field {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-
-  .remember-me-field {
-    display: flex;
-    align-items: center;
-  }
-
-  .remember-me-checkbox {
-    margin-right: 5px;
-  }
-
-  .remember-me-label {
-    font-size: 14px;
-  }
-
-  .form-actions {
-    text-align: center;
-    margin-top: 20px;
-  }
-
-  .login-button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-
-  .login-button:hover {
-    background-color: #0056b3;
-  }
-</style>

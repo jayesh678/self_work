@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_07_093058) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_12_110929) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -79,14 +79,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_07_093058) do
     t.integer "number_of_people"
     t.date "expense_date"
     t.string "receipt"
+    t.text "subcategory"
     t.date "start_date"
     t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "application_number"
     t.integer "category_id", null: false
     t.integer "business_partner_id", null: false
     t.integer "user_id", null: false
+    t.string "application_number"
     t.index ["business_partner_id"], name: "index_expenses_on_business_partner_id"
     t.index ["category_id"], name: "index_expenses_on_category_id"
     t.index ["user_id"], name: "index_expenses_on_user_id"
@@ -119,12 +120,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_07_093058) do
     t.string "destination"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
     t.integer "category_id", null: false
-    t.integer "business_partner_id", null: false
-    t.index ["business_partner_id"], name: "index_travel_expenses_on_business_partner_id"
     t.index ["category_id"], name: "index_travel_expenses_on_category_id"
-    t.index ["user_id"], name: "index_travel_expenses_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -141,8 +138,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_07_093058) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
-    t.integer "company_id"
+    t.integer "company_id"  
     t.integer "role_id"
+    t.string "user_code"
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -165,9 +163,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_07_093058) do
   add_foreign_key "expenses", "business_partners"
   add_foreign_key "expenses", "categories"
   add_foreign_key "expenses", "users"
-  add_foreign_key "travel_expenses", "business_partners"
   add_foreign_key "travel_expenses", "categories"
-  add_foreign_key "travel_expenses", "users"
   add_foreign_key "users", "companies"
   add_foreign_key "users", "roles"
 end

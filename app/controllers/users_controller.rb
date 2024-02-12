@@ -39,7 +39,7 @@ class UsersController < ApplicationController
   def update
     if @user.update(user_params)
       @user.avatar.attach(params[:user][:avatar]) if params[:user][:avatar]
-      redirect_to users_path, notice: 'User was successfully updated.'
+      redirect_to user_path, notice: 'User was successfully updated.'
     else
       render :edit
     end

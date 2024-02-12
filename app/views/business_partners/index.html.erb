@@ -69,6 +69,10 @@
   <thead>
     <tr>
       <th>Customer Name</th>
+      <th>Customer Code</th>
+      <th>Corporate Number</th>
+      <th>Invoice Number</th>
+      <th>Bank Name</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -77,6 +81,12 @@
     <% @vendor_master.business_partners.each do |business_partner| %>
       <tr>
         <td><%= business_partner.customer_name %></td>
+        <td><%= business_partner.customer_code %></td>
+        <td><%= business_partner.corporate_number %></td>
+        <td><%= business_partner.invoice_number %></td>
+        <td><%= business_partner.bank_name %></td>
+        
+        
         <td>
           <%= link_to 'Show', vendor_master_business_partner_path(@vendor_master, business_partner), class: 'button' %>
           <% if can? :update, @business_partner %>

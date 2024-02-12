@@ -1,3 +1,4 @@
+<% if current_user %>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <%= link_to "SmartFlow", root_path, class: :"nav-link"%>
@@ -12,10 +13,29 @@
         </li>
        <li class="nav-item">
            <%= link_to "Business Partners", vendor_master_business_partners_path(vendor_master_id: 1), class: "nav-link" %>
-        </li>
-          </ul>
-        </li>
       </ul>
+      <% end %>
+      <% if current_user %>
+  <div class="user-profile">
+    <%= link_to user_path(current_user), class: "nav-link user-link" do %>
+      <div class="user-initials">
+        <%= current_user.firstname.first + current_user.lastname.first %>
+      </div>
+      
+<%= link_to destroy_user_session_path, method: :delete, data: { turbo_method: :delete } do %>
+
+  <%= image_tag("LOGOUT.png", style: "vertical-align: middle; margin-right: 5px; height: 20px; width: 20px;") %>
+
+  Logout
+
+<% end %>
+
+      <% end %>
+  </div>
+<% end %>
+
+
+
     </div>
   </div>
 </nav>
