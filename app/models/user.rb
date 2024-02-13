@@ -3,7 +3,9 @@ class User < ApplicationRecord
   belongs_to :company
   belongs_to :role
   has_many :expenses, dependent: :destroy
-  before_create :generate_uniq_user_code
+  before_create :generate_unique_code
+
+  validates :user_code, uniqueness: true
 
   validates_presence_of :role, if: :new_record?
   validate :blank_space
@@ -22,9 +24,12 @@ class User < ApplicationRecord
   end
    end
 
-   def generate_uniq_user_code
-    self.user_code = SecureRandom.hex(3)
-   end
+   def generate_unique_code
+    loop do
+      self.user_code = SecureRandom.hex(6) # Generate a unique 6-character code
+      break unless self.class.exists?(user_code: user_code)
+    end
+  end
 
     def set_default_role
       if self.role.nil?

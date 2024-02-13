@@ -3,9 +3,12 @@ Rails.application.routes.draw do
     registrations: 'users/registrations',
     sessions: 'users/sessions'
   }
+  
   devise_scope :user do
     get 'enter_company_code', to: 'users/sessions#enter_company_code'
     post 'process_company_code', to: 'users/sessions#process_company_code'
+    get 'enter_user_code', to: 'users/sessions#enter_user_code' # Add this line inside the devise_scope block
+    post 'process_user_code', to: 'users/sessions#process_user_code' 
   end
 
   resources :vendor_masters do
@@ -19,13 +22,6 @@ Rails.application.routes.draw do
   end    
 
   resources :categories
-  get '/categories/subcategories', to: 'categories#subcategories'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
   root "expenses#index"
-
-  # Defines the root path route ("/")
-  # root "posts#index"
 end

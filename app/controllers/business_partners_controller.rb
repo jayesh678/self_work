@@ -16,8 +16,10 @@ class BusinessPartnersController < ApplicationController
 
     def edit
       @business_partner = @vendor_master.business_partners.find(params[:id])
-      @customer_names = VendorMaster.pluck(:customer_name)
+      @customer_names = VendorMaster.pluck(:customer_name) # Assuming customer_name is a field in VendorMaster
+      puts "@customer_names in edit action: #{@customer_names.inspect}"
     end
+    
 
     def update
       @business_partner = @vendor_master.business_partners.find(params[:id])
@@ -43,6 +45,7 @@ class BusinessPartnersController < ApplicationController
       @vendor_master = VendorMaster.find(params[:vendor_master_id])
       @business_partner = @vendor_master.business_partners.build
       @customer_names = VendorMaster.pluck(:customer_name)
+      puts "@customer_names in new action: #{@customer_names.inspect}"
     end
 
   

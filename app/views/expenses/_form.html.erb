@@ -181,7 +181,6 @@
 <% end %>
 
 <script>
-$(document).ready(function() {
   $('#category-select').change(function() {
     var selectedCategory = $(this).val();
 
@@ -199,45 +198,6 @@ $(document).ready(function() {
       $('#travel-dates').hide();
     }
   });
-});
-
-$(document).ready(function() {
-  $('#category-select').change(function() {
-    var selectedCategory = $(this).val();
-    
-    $.ajax({
-      url: '/categories/subcategories',
-      method: 'GET',
-      data: { category_id: selectedCategory },
-      success: function(response) {
-        $('#regular-subcategories').hide();
-        $('#travel-subcategories').hide();
-        
-        if (selectedCategory === '1') {
-          $('#regular-subcategories').show();
-          updateSubcategoryOptions(response.regular_subcategories);
-        } else if (selectedCategory === '2') {
-          $('#travel-subcategories').show();
-          updateSubcategoryOptions(response.travel_subcategories);
-        }
-      }
-    });
-  });
-
-  function updateSubcategoryOptions(subcategories) {
-    var select = $('#subcategory');
-    select.empty(); // Clear existing options
-    
-    subcategories.forEach(function(subcategory) {
-      select.append($('<option>', {
-        value: subcategory.id, // Assuming subcategory has an 'id' attribute
-        text: subcategory.name // Assuming subcategory has a 'name' attribute
-      }));
-    });
-  }
-});
-
-
 
   function calculateTax() {
     var amount = parseFloat($('#amount-field').val());

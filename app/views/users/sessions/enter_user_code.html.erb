@@ -1,0 +1,11 @@
+<!-- app/views/users/sessions/enter_user_code.html.erb -->
+
+<h1>Enter Your Unique User Code</h1>
+
+<%= form_with(model: @user_code_form, url: process_user_code_path, method: :post) do |form| %>
+  <!-- Form fields for entering the user code -->
+  <%= form.label :user_code, "User Code" %>
+  <%= form.text_field :user_code %>
+
+  <%= form.submit "Submit" %>
+<% end %>
