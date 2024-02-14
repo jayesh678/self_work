@@ -1,11 +1,6 @@
 <div class="profile-box">
 
   <h1>User Profile</h1>
-
-  <div class="profile-field">
-  <p> Email </p>
-    <div class="editable-field" > <%= current_user.email %></div>
-  </div> 
     
   <div class="profile-field">
     <p>First Name:</p>
@@ -15,6 +10,11 @@
   <div class="profile-field">
     <p>Last Name:</p>
     <div class="editable-field" ><%= @user.lastname %></div>
+  </div>
+  
+  <div class="profile-field">
+    <p>Company code:</p>
+    <div class="editable-field" ><%= @user.user_code %></div>
   </div>
 
   <div class="profile-field">

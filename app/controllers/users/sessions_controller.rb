@@ -61,8 +61,8 @@ class Users::SessionsController < Devise::SessionsController
   
   private
 
-  def valid_company_code?(user_company, code)
+  def valid_user_code?(user_code)
     # Check if the entered code matches the company's code
-    user_company&.company_code == code
+    user_code == code
   end
 end

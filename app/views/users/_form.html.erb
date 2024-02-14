@@ -3,74 +3,86 @@
 
   <%= form_with(model: @user, :html => { :class => "form-horizontal" },wrapper: :horizontal_form, local: true, data: { turbo: false }) do |form| %>
    
+    <div>
     <!-- Firstname -->
-    <%= form.label :firstname, "Firstname*" %>
+    <%= form.label :firstname %> <span class="required">*</span>
     <%= form.text_field :firstname, class: "form-input" %>
     <% if @user.errors[:firstname].any? %>
-      <div class="error">
+      <div class="error-message">
         <b><%= "Firstname" + " " +@user.errors[:firstname].join(", ") %></b>
       </div>
     <% end %>
+    </div>
     <br/>
 
+    <div>
     <!-- Lastname -->
-    <%= form.label :lastname, "Lastname*" %>
+    <%= form.label :lastname %><span class="required">*</span>
     <%= form.text_field :lastname, class: "form-input" %>
     <% if @user.errors[:lastname].any? %>
-      <div class="error">
+      <div class="error-message">
         <b><%= "Lastname" + " " +@user.errors[:lastname].join(", ") %></b>
       </div>
     <% end %>
+    </div>
     <br/>
 
+    <div>
     <!-- Email -->
-    <%= form.label :email, "Email*" %>
+    <%= form.label :email %> <span class="required">*</span>
     <%= form.email_field :email, class: "form-input" %>
     <% if @user.errors[:email].any? %>
-      <div class="error">
+      <div class="error-message">
         <b><%= "Email" + " " +@user.errors[:email].join(", ") %></b>
       </div>
     <% end %>
+    </div>
     <br/>
 
+    <div>
     <!-- Password -->
-    <%= form.label :password, "Password*" %>
+    <%= form.label :password %> <span class="required">*</span>
     <%= form.password_field :password, class: "form-input" %>
     <% if @user.errors[:password].any? %>
-      <div class="error">
+      <div class="error-message">
         <b><%= "Password" + " " +@user.errors[:password].join(", ") %></b>
       </div>
     <% end %>
+    </div>
     <br/>
     
     <!-- Password Confirmation -->
     <%= form.label :password_confirmation, "Password Confirmation*" %>
     <%= form.password_field :password_confirmation, class: "form-input" %>
     <% if @user.errors[:password_confirmation].any? %>
-      <div class="error">
+      <div class="error-message">
         <b><%= "Password Confirmation" + " " +@user.errors[:password_confirmation].join(", ") %></b>
       </div>
     <% end %>
     <br/>
 
+    <div>
     <!-- Role -->
-    <%= form.label :role, "Role*" %>
+    <%= form.label :role %><span class="required">*</span> <br/>
     <%= form.collection_select :role_id, Role.where(role_name: ['admin', 'user']), :id, :role_name, prompt: "Select Role", class: "form-input" %>
     <% if @user.errors[:role].any? %>
-      <div class="error">
+      <div class="error-message">
         <b><%= "Role" + " " +@user.errors[:role].join(", ") %></b>
       </div>
     <% end %>
+    </div>
     <br/>
 
+    <div>
     <!-- Company -->
-    <%= form.label :company, "Company*" %>
+    <%= form.label :company %> <span class="required">*</span><br/>
     <%= form.collection_select :company_id, Company.all, :id, :company_name, prompt: "Select Company", class: "form-input" %>
     <% if @user.errors[:company].any? %>
-      <div class="error">
+      <div class="error-message">
         <b><%= "Company" + " " +@user.errors[:company].join(", ") %></b>
       </div>
     <% end %>
+    </div>
     <br/>
 
     <div class="form-field">
@@ -78,3 +90,9 @@
     </div>
   <% end %>
 </div>
+
+<style> 
+.required{
+  color: 	#ff0000
+}
+</style>

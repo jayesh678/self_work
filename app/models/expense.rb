@@ -14,8 +14,15 @@ class Expense < ApplicationRecord
   validates :tax_amount, presence: true
   validates :description, presence: true
   validates :receipt, presence: true
+  validates_presence_of :start_date, :end_date,:if => :travel_expense
+  validate :end_date_is_after_start_date, :if => :travel_expense
 
   
+
+  def travel_expense
+    @category_id = Category.find_by(name: "travel_expense")&.id
+  end
+
 private
 def generate_application_number
   category_prefix = category_prefix_for_application_number
@@ -39,4 +46,14 @@ end
       'T-'
     end
   end
+
+
+  
+def end_date_is_after_start_date
+  return if end_date.blank? || start_date.blank?
+
+  if end_date < start_date
+    errors.add(:end_date, "cannot be before the start date") 
+  end 
+end
 end

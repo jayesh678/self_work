@@ -5,6 +5,7 @@ class BusinessPartnersController < ApplicationController
   def index
     @vendor_master = VendorMaster.find(params[:vendor_master_id])
     @business_partners = @vendor_master.business_partners
+    @business_partners = @vendor_master.business_partners.paginate(page: params[:page],per_page: 2)
   end
     def show
       @business_partner = @vendor_master.business_partners.find_by(id: params[:id])
@@ -53,6 +54,7 @@ class BusinessPartnersController < ApplicationController
     def create
       @vendor_master = VendorMaster.find(params[:vendor_master_id])
       @business_partner = @vendor_master.business_partners.build(business_partner_params)
+       @customer_names = VendorMaster.pluck(:customer_name)
     
      
       selected_customer_name = params[:business_partner][:customer_name]

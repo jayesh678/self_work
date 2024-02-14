@@ -26,7 +26,12 @@
     <% end %>
     </br>
 
-     <%= form.label :role %>
+    <%= form.label :Code %>
+    <%= form.text_field :user_code, class: "form-input" %>
+
+
+
+    <%= form.label :role %>
       <%= form.collection_select :role_id, Role.where(role_name: ['admin', 'user']), :id, :role_name, prompt: "Select Role", class: "form-input" %>
     <%if @user.errors[:role].any?%>
     <div class="error">

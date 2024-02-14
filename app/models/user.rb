@@ -16,6 +16,18 @@ class User < ApplicationRecord
   validates :firstname, presence: true
   validates :lastname, presence: true
 
+  def super_admin?
+    role.role_name == 'super_admin'
+  end
+  
+  def admin?
+    role.role_name == 'admin'
+  end
+  
+  def user?
+    role.role_name == 'user'
+  end
+
   private 
 
    def blank_space

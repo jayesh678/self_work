@@ -65,13 +65,22 @@
     input[type="submit"]:hover {
       background-color: #0056b3;
     }
+     .error {
+    color: red; /* Set error messages to red */
+    font-weight: bold;
+    margin-top: 5px;
+  }
+ .required{
+  color: 	#ff0000;
+ }
+ 
   </style>
 </head>
 <body>
 <h1>New Expense</h1>
 <%= form_with(model: [@user, @expense], url: user_expenses_path(@user), method: :post, data: { turbo: false }) do |form| %>
   
-  <%= form.label :date_of_application %>
+  <%= form.label :date_of_application %><span class="required">*</span>
   <%= form.date_field :date_of_application %>
    <%if @expense.errors[:date_of_application].any?%>
     <div class="error">
@@ -80,16 +89,17 @@
     <% end %>
     </br>
 
-  <%= form.label :expense_date %>
+  <%= form.label :expense_date %><span class="required">*</span>
   <%= form.date_field :expense_date %>
   <%if @expense.errors[:expense_date].any?%>
     <div class="error">
       <b><%= "Expense Date" + " " +@expense.errors[:expense_date].join(", ") %></b>
+      # <%= @expense.errors.errors[0].type %>
     </div>
     <% end %>
     </br>
 
-  <%= form.label :category_id %>
+  <%= form.label :category_id %><span class="required">*</span>
   <%= form.collection_select(:category_id, @categories, :id, :name, { prompt: 'Select Category' }, { id: 'category-select' }) %>
   <%if @expense.errors[:category].any?%>
     <div class="error">
@@ -119,7 +129,6 @@
 
       <%= form.label :end_date %>
       <%= form.date_field :end_date %>
-    </div>
       <%if @expense.errors[:category].any?%>
     <div class="error">
       <b><%= "End Date" + " " +@expense.errors[:end_date].join(", ") %></b>
@@ -130,7 +139,7 @@
 
   </div>
 
-  <%= form.label :business_partner_id %>
+  <%= form.label :business_partner_id %><span class="required">*</span>
   <%= form.collection_select(:business_partner_id, @business_partners, :id, :customer_name, { prompt: 'Select Business Partner' }) %>
      <%if @expense.errors[:business_partner].any?%>
     <div class="error">
@@ -139,7 +148,7 @@
     <% end %>
     </br>
 
-  <div id="expense-amount">
+  <div id="expense-amount"><span class="required">*</span>
   <%= form.label :amount %>
   <%= form.number_field :amount, id: "amount-field" %>
   </div>
@@ -151,7 +160,7 @@
     </br>
 
   
-  <%= form.label :tax_amount %>
+  <%= form.label :tax_amount %><span class="required">*</span>
   <%= form.number_field :tax_amount, id: "tax-amount-field" %>
     <%if @expense.errors[:tax_amount].any?%>
     <div class="error">
@@ -162,11 +171,11 @@
 
 
 
-  <%= form.label :receipt %>
+  <%= form.label :receipt %><span class="required">*</span>
   <%= form.file_field :receipt %>
 
 
-  <%= form.label :description %>
+  <%= form.label :description %><span class="required">*</span>
   <%= form.text_area :description %>
     <%if @expense.errors[:description].any?%>
     <div class="error">

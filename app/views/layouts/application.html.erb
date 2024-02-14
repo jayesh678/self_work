@@ -23,7 +23,7 @@
   <%= render 'layouts/navigation' %>
 
 
-
+<div id="flash-messages"> 
 <% if flash[:notice].present? %>
   <p><%= flash[:notice] %></p>
 <% end %>
@@ -31,6 +31,7 @@
 <% if flash[:alert].present? %>
   <p><%= flash[:alert] %></p>
 <% end %>
+</div>
 
 <br/>
   <%= yield %>

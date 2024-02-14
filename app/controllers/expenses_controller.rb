@@ -5,16 +5,24 @@ class ExpensesController < ApplicationController
   before_action :set_business_partners, only: [:new, :create]
 
   
-    def index
+   def index
+    if current_user.super_admin?
       @expenses = Expense.includes(:user).all
+    elsif current_user.admin?
+      @expenses = Expense.includes(:user).where.not(user_id: User.where(role: Role.find_by(role_name: 'super_admin')).pluck(:id))
+    else
+      @expenses = current_user.expenses
     end
+    @expenses = @expenses.paginate(page: params[:page],per_page: 2)
+  end
+  
     
 
   def create
     @expense = @user.expenses.new(expense_params)
 
     if @expense.save
-      redirect_to user_expenses_path(@user, @expense), notice: 'Expense was successfully created.'
+      redirect_to user_expense_path(@user, @expense), notice: 'Expense was successfully created.'
 
     else
       render :new
