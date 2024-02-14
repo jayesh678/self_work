@@ -51,7 +51,14 @@
 
 <% if can? :update, User %>
   <div style="margin-top: 20px;">
-    <%= link_to 'New User', new_user_path, class: 'button' %>
+    <%= link_to new_user_path, class: 'button' do %>
+
+  <%= image_tag("add1.jpeg", style: "vertical-align: middle; margin-right: 5px; height: 35px; width: 35px") %>
+      Add User
+  <% end %>
+
+
+
     <br/> 
   </div>
 <% end %>

@@ -101,10 +101,15 @@
   </tbody>
 </table>
 <% if can? :update, BusinessPartner  %>
-<%= link_to 'New Business Partner', new_vendor_master_business_partner_path(@vendor_master), class: 'button new-business-partner-link' %>
+<%= link_to new_vendor_master_business_partner_path(@vendor_master), class: 'button new-business-partner-link' do %>
+<%= image_tag("add1.jpeg", style: "vertical-align: middle; margin-right: 5px; height: 35px; width: 35px") %>
+Add Business Partner
+<% end %>
 <% end %>
 </body>
 </html>
+
+</br>
 
 <div class="digg_pagination">
     <div class="page_info">
