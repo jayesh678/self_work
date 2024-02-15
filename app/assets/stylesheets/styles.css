@@ -31,14 +31,12 @@ h1 {
 
 .form-field input,
 .form-field button {
-  width: calc(100% - 20px);
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
 .form-field button {
-  color: #fff;
   border: none;
   cursor: pointer;
 }

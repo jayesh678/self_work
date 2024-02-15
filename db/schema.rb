@@ -10,7 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_12_110929) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_15_113721) do
+  create_table "Expenses", force: :cascade do |t|
+    t.float "amount"
+    t.float "tax_amount"
+    t.date "date_of_application"
+    t.string "description"
+    t.date "date"
+    t.integer "number_of_people"
+    t.date "expense_date"
+    t.string "receipt"
+    t.text "subcategory"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "category_id", null: false
+    t.integer "business_partner_id", null: false
+    t.integer "user_id", null: false
+    t.string "application_number"
+    t.integer "status", default: 0
+    t.index ["business_partner_id"], name: "index_expenses_on_business_partner_id"
+    t.index ["category_id"], name: "index_expenses_on_category_id"
+    t.index ["user_id"], name: "index_expenses_on_user_id"
+  end
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -70,30 +94,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_12_110929) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "expenses", force: :cascade do |t|
-    t.float "amount"
-    t.float "tax_amount"
-    t.date "date_of_application"
-    t.string "description"
-    t.date "date"
-    t.integer "number_of_people"
-    t.date "expense_date"
-    t.string "receipt"
-    t.text "subcategory"
-    t.date "start_date"
-    t.date "end_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "category_id", null: false
-    t.integer "business_partner_id", null: false
-    t.integer "user_id", null: false
-    t.string "application_number"
-    t.index ["business_partner_id"], name: "index_expenses_on_business_partner_id"
-    t.index ["category_id"], name: "index_expenses_on_category_id"
-    t.index ["user_id"], name: "index_expenses_on_user_id"
-  end
-
   create_table "flows", force: :cascade do |t|
+    t.string "flow_levels"
+    t.integer "assigned_user_id"
     t.date "start_date"
     t.date "end_date"
     t.datetime "created_at", null: false
@@ -157,12 +160,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_12_110929) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "Expenses", "business_partners"
+  add_foreign_key "Expenses", "categories"
+  add_foreign_key "Expenses", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "business_partners", "vendor_masters"
-  add_foreign_key "expenses", "business_partners"
-  add_foreign_key "expenses", "categories"
-  add_foreign_key "expenses", "users"
   add_foreign_key "travel_expenses", "categories"
   add_foreign_key "users", "companies"
   add_foreign_key "users", "roles"

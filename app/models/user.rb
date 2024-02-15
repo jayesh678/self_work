@@ -3,16 +3,13 @@ class User < ApplicationRecord
   belongs_to :company
   belongs_to :role
   has_many :expenses, dependent: :destroy
-  before_create :generate_unique_code
+  before_validation :generate_unique_code, on: :create
 
   validates :user_code, uniqueness: true
-
   validates_presence_of :role, if: :new_record?
   validate :blank_space
-
   after_create :set_default_role
   attr_accessor :company_code
-
   validates :firstname, presence: true
   validates :lastname, presence: true
 
@@ -27,23 +24,24 @@ class User < ApplicationRecord
   def user?
     role.role_name == 'user'
   end
+  
 
   private 
 
-   def blank_space
+  def blank_space
     if password&.include?(' ')
     errors.add(:password, "can't contain spaces")
   end
-   end
+  end
 
-   def generate_unique_code
+  def generate_unique_code
     loop do
-      self.user_code = SecureRandom.hex(6) # Generate a unique 6-character code
+      self.user_code = SecureRandom.hex(6) 
       break unless self.class.exists?(user_code: user_code)
     end
   end
 
-    def set_default_role
+  def set_default_role
       if self.role.nil?
         self.role = Role.find_by(role_name: 'super_admin')
       else 
@@ -51,6 +49,8 @@ class User < ApplicationRecord
       end
     # save
   end
+
+ 
 
 
   # Include default devise modules. Others available are:

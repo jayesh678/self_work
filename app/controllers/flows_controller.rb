@@ -8,7 +8,7 @@ class FlowsController < ApplicationController
     end
 
     def create
-        @flow = Flow.new(user_params)
+        @flow = Flow.new(flow_params)
         if @flow.save
             redirect_to
         else
@@ -30,4 +30,5 @@ class FlowsController < ApplicationController
         else
             render 'edit'
         end
+end
 end

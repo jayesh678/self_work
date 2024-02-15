@@ -5,6 +5,8 @@ class Expense < ApplicationRecord
   has_one_attached :receipt
   before_create :generate_application_number
 
+ enum status: {ideal: 0, initiator: 1, approved:2, cancel:3 }
+
   validates :application_number, uniqueness: true
   validates :date_of_application, presence: true
   validates :expense_date, presence: true
@@ -16,8 +18,6 @@ class Expense < ApplicationRecord
   validates :receipt, presence: true
   validates_presence_of :start_date, :end_date,:if => :travel_expense
   validate :end_date_is_after_start_date, :if => :travel_expense
-
-  
 
   def travel_expense
     @category_id = Category.find_by(name: "travel_expense")&.id

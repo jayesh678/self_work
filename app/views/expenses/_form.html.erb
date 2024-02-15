@@ -1,221 +1,269 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Expense</title>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Expense</title>
 
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
-      margin: 0;
-      padding: 20px;
+    <style>
+      body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+      }
+
+      h1 {
+        color: #007bff;
+      }
+
+      form {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      label {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        font-weight: bold;
+      }
+
+      label span.required {
+        margin-left: 5px;
+        color: #ff0000;
+      }
+
+      select,
+      input[type="text"],
+      input[type="date"],
+      input[type="number"],
+      textarea {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      textarea {
+        height: 100px;
+        resize: vertical;
+      }
+
+      input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #0056b3;
+      }
+
+      .error {
+        color: red; /* Set error messages to red */
+        font-weight: bold;
+        margin-top: 5px;
+      }
+    </style>
+  </head>
+  <body>
+  <h1>New Expense</h1>
+  <%= form_with(model: [@user, @expense], url: user_expenses_path(@user), method: :post, data: { turbo: false }) do |form| %>
+    
+    <div class="form-field">
+      <%= form.label :date_of_application do %>
+        Date of Application<span class="required">*</span>
+      <% end %>
+      <%= form.date_field :date_of_application %>
+      <% if @expense.errors[:date_of_application].any? %>
+        <div class="error">
+          <b><%= "Date " + @expense.errors[:date_of_application].join(", ") %></b>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="form-field">
+      <%= form.label :expense_date do %>
+        Expense Date<span class="required">*</span>
+      <% end %>
+      <%= form.date_field :expense_date %>
+      <% if @expense.errors[:expense_date].any? %>
+        <div class="error">
+          <b><%= "Expense Date " + @expense.errors[:expense_date].join(", ") %></b>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="form-field">
+      <%= form.label :category_id do %>
+        Category<span class="required">*</span>
+      <% end %>
+      <%= form.collection_select(:category_id, @categories, :id, :name, { prompt: 'Select Category' }, { id: 'category-select' }) %>
+      <% if @expense.errors[:category].any? %>
+        <div class="error">
+          <b><%= "Category " + @expense.errors[:category].join(", ") %></b>
+        </div>
+      <% end %>
+    </div>
+
+    <div id="subcategories">
+      <div id="regular-subcategories" style="display: none;">
+        <%= form.label :subcategory do %>
+          Subcategory<span class="required">*</span>
+        <% end %>
+        <%= form.select(:subcategory, @regular_subcategories.map { |subcategory| [subcategory.to_s, subcategory.to_s] }, { prompt: 'Select Subcategory' }) %>
+      </div>
+
+      <div id="travel-subcategories" style="display: none;">
+        <%= form.label :subcategory do %>
+        <% end %>
+        <%= form.select(:subcategory, @travel_subcategories.map { |subcategory| [subcategory.to_s, subcategory.to_s] }, { prompt: 'Select Subcategory' }) %>
+
+        <%= form.label :start_date do %>
+          Start Date<span class="required">*</span>
+        <% end %>
+        <%= form.date_field :start_date %>
+        <% if @expense.errors[:start_date].any? %>
+          <div class="error">
+            <b><%= "Start Date " + @expense.errors[:start_date].join(", ") %></b>
+          </div>
+        <% end %>
+
+        <%= form.label :end_date do %>
+          End Date<span class="required">*</span>
+        <% end %>
+        <%= form.date_field :end_date %>
+        <% if @expense.errors[:end_date].any? %>
+          <div class="error">
+            <b><%= "End Date " + @expense.errors[:end_date].join(", ") %></b>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <%= form.label :business_partner_id do %>
+        Business Partner<span class="required">*</span>
+      <% end %>
+      <%= form.collection_select(:business_partner_id, @business_partners, :id, :customer_name, { prompt: 'Select Business Partner' }) %>
+      <% if @expense.errors[:business_partner].any? %>
+        <div class="error">
+          <b><%= "Business Partner " + @expense.errors[:business_partner].join(", ") %></b>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="form-field">
+      <%= form.label :amount do %>
+        Amount<span class="required">*</span>
+      <% end %>
+      <%= form.number_field :amount, id: "amount-field" %>
+      <% if @expense.errors[:amount].any? %>
+        <div class="error">
+          <b><%= "Amount " + @expense.errors[:amount].join(", ") %></b>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="form-field">
+      <%= form.label :tax_amount do %>
+        Tax Amount<span class="required">*</span>
+      <% end %>
+      <%= form.number_field :tax_amount, id: "tax-amount-field" %>
+      <% if @expense.errors[:tax_amount].any? %>
+        <div class="error">
+          <b><%= "Tax Amount " + @expense.errors[:tax_amount].join(", ") %></b>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="form-field">
+      <%= form.label :receipt do %>
+        Receipt<span class="required">*</span>
+      <% end %>
+      <%= form.file_field :receipt %>
+    </div>
+
+    <div class="form-field">
+      <%= form.label :description do %>
+        Description<span class="required">*</span>
+      <% end %>
+      <%= form.text_area :description %>
+      <% if @expense.errors[:description].any? %>
+        <div class="error">
+          <b><%= "Description " + @expense.errors[:description].join(", ") %></b>
+        </div>
+      <% end %>
+    </div>
+
+    <%= form.hidden_field :application_number %>
+
+    <div class="form-field">
+      
+      <%= form.submit "Create expense application" %>
+      <%= link_to "Cancel", user_expenses_path(@user), class: 'button' %>
+     <%= button_to "Save", user_expenses_path(@user), params: { expense: @expense.attributes }, method: :post, class: 'button' %>
+    </div>
+
+  <% end %>
+
+  <script>
+    $('#category-select').change(function() {
+      var selectedCategory = $(this).val();
+
+      if (selectedCategory === '1') {
+        $('#regular-subcategories').show();
+        $('#travel-subcategories').hide();
+        $('#travel-dates').hide();
+      } else if (selectedCategory === '2') {
+        $('#regular-subcategories').hide();
+        $('#travel-subcategories').show();
+        $('#travel-dates').show();
+      } else {
+        $('#regular-subcategories').hide();
+        $('#travel-subcategories').hide();
+        $('#travel-dates').hide();
+      }
+    });
+
+    function calculateTax() {
+      var amount = parseFloat($('#amount-field').val());
+      var taxAmount = amount * 0.1; 
+      $('#tax-amount-field').val(taxAmount.toFixed(2)); // Set the calculated tax amount to the tax input field
     }
 
-    h1 {
-      color: #007bff;
-    }
-
-    form {
-      max-width: 600px;
-      margin: 0 auto;
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      padding: 20px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-
-    select,
-    input[type="text"],
-    input[type="date"],
-    input[type="number"],
-    textarea {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      margin-bottom: 15px;
-      box-sizing: border-box;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    textarea {
-      height: 100px;
-      resize: vertical;
-    }
-
-    input[type="submit"] {
-      background-color: #007bff;
-      color: #fff;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    input[type="submit"]:hover {
-      background-color: #0056b3;
-    }
-     .error {
-    color: red; /* Set error messages to red */
-    font-weight: bold;
-    margin-top: 5px;
-  }
- .required{
-  color: 	#ff0000;
- }
- 
-  </style>
-</head>
-<body>
-<h1>New Expense</h1>
-<%= form_with(model: [@user, @expense], url: user_expenses_path(@user), method: :post, data: { turbo: false }) do |form| %>
+    $('#amount-field').on('input', calculateTax);
+    $(document).ready(function() {
+      calculateTax();
+    }); 
+    
+    $('#receipt-field').change(function() {
+      var file = $(this)[0].files[0];
+      if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#receipt-preview').html('<img src="' + e.target.result + '" width="150">');
+          $('#receipt-preview').show();
+        }
+        reader.readAsDataURL(file);
+      } else {
+        $('#receipt-preview').hide();
+      }
+    });
+  </script>
+  </body>
+  </html>
   
-  <%= form.label :date_of_application %><span class="required">*</span>
-  <%= form.date_field :date_of_application %>
-   <%if @expense.errors[:date_of_application].any?%>
-    <div class="error">
-      <b><%= "Date" + " " +@expense.errors[:date_of_application].join(", ") %></b>
-    </div>
-    <% end %>
-    </br>
-
-  <%= form.label :expense_date %><span class="required">*</span>
-  <%= form.date_field :expense_date %>
-  <%if @expense.errors[:expense_date].any?%>
-    <div class="error">
-      <b><%= "Expense Date" + " " +@expense.errors[:expense_date].join(", ") %></b>
-      # <%= @expense.errors.errors[0].type %>
-    </div>
-    <% end %>
-    </br>
-
-  <%= form.label :category_id %><span class="required">*</span>
-  <%= form.collection_select(:category_id, @categories, :id, :name, { prompt: 'Select Category' }, { id: 'category-select' }) %>
-  <%if @expense.errors[:category].any?%>
-    <div class="error">
-      <b><%= "Category" + " " +@expense.errors[:category].join(", ") %></b>
-    </div>
-    <% end %>
-    </br>
-
-  <div id="subcategories">
-    <div id="regular-subcategories" style="display: none;">
-      <%= form.label :subcategory %>
-      <%= form.select(:subcategory, @regular_subcategories.map { |subcategory| [subcategory.to_s, subcategory.to_s] }, { prompt: 'Select Subcategory' }) %>
-    </div>
-
-    <div id="travel-subcategories" style="display: none;">
-      <%= form.label :subcategory %>
-      <%= form.select(:subcategory, @travel_subcategories.map { |subcategory| [subcategory.to_s, subcategory.to_s] }, { prompt: 'Select Subcategory' }) %>
-
-      <%= form.label :start_date %>
-      <%= form.date_field :start_date %>
-        <%if @expense.errors[:start_date].any?%>
-    <div class="error">
-      <b><%= "Start Date" + " " +@expense.errors[:start_date].join(", ") %></b>
-    </div>
-    <% end %>
-    </br>
-
-      <%= form.label :end_date %>
-      <%= form.date_field :end_date %>
-      <%if @expense.errors[:category].any?%>
-    <div class="error">
-      <b><%= "End Date" + " " +@expense.errors[:end_date].join(", ") %></b>
-    </div>
-    <% end %>
-    </br>
-  </div>
-
-  </div>
-
-  <%= form.label :business_partner_id %><span class="required">*</span>
-  <%= form.collection_select(:business_partner_id, @business_partners, :id, :customer_name, { prompt: 'Select Business Partner' }) %>
-     <%if @expense.errors[:business_partner].any?%>
-    <div class="error">
-      <b><%= "Business Partner" + " " +@expense.errors[:business_partner].join(", ") %></b>
-    </div>
-    <% end %>
-    </br>
-
-  <div id="expense-amount"><span class="required">*</span>
-  <%= form.label :amount %>
-  <%= form.number_field :amount, id: "amount-field" %>
-  </div>
-    <%if @expense.errors[:amount].any?%>
-    <div class="error">
-      <b><%= "Amount" + " " +@expense.errors[:amount].join(", ") %></b>
-    </div>
-    <% end %>
-    </br>
-
-  
-  <%= form.label :tax_amount %><span class="required">*</span>
-  <%= form.number_field :tax_amount, id: "tax-amount-field" %>
-    <%if @expense.errors[:tax_amount].any?%>
-    <div class="error">
-      <b><%= "Tax Amount" + " " +@expense.errors[:tax_amount].join(", ") %></b>
-    </div>
-    <% end %>
-    </br>
-
-
-
-  <%= form.label :receipt %><span class="required">*</span>
-  <%= form.file_field :receipt %>
-
-
-  <%= form.label :description %><span class="required">*</span>
-  <%= form.text_area :description %>
-    <%if @expense.errors[:description].any?%>
-    <div class="error">
-      <b><%= "Description" + " " +@expense.errors[:description].join(", ") %></b>
-    </div>
-    <% end %>
-    </br>
-
-  <%= form.hidden_field :application_number %>
-
-  <%= form.submit %>
-<% end %>
-
-<script>
-  $('#category-select').change(function() {
-    var selectedCategory = $(this).val();
-
-    if (selectedCategory === '1') {
-      $('#regular-subcategories').show();
-      $('#travel-subcategories').hide();
-      $('#travel-dates').hide();
-    } else if (selectedCategory === '2') {
-      $('#regular-subcategories').hide();
-      $('#travel-subcategories').show();
-      $('#travel-dates').show();
-    } else {
-      $('#regular-subcategories').hide();
-      $('#travel-subcategories').hide();
-      $('#travel-dates').hide();
-    }
-  });
-
-  function calculateTax() {
-    var amount = parseFloat($('#amount-field').val());
-    var taxAmount = amount * 0.1; 
-    $('#tax-amount-field').val(taxAmount.toFixed(2)); // Set the calculated tax amount to the tax input field
-  }
-
-  $('#amount-field').on('input', calculateTax);
-  $(document).ready(function() {
-    calculateTax();
-  });  
-</script>

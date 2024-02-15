@@ -28,3 +28,10 @@ document
       }
     });
   });
+$(document.body).on("click", ".digg_pagination a", function () {
+  // window.location.reload();
+  setTimeout(function () {
+    location.reload();
+  }, 100);
+  //your code goes here..
+});
