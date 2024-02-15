@@ -3,6 +3,7 @@ class ExpensesController < ApplicationController
   before_action :load_categories, only: [:new, :create]
   before_action :set_subcategories, only: [:new, :create]
   before_action :set_business_partners, only: [:new, :create]
+  before_action :find_expense, only: [:edit, :update, :destroy]
 
   def index
     if current_user.super_admin?

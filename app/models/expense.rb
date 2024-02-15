@@ -20,40 +20,30 @@ class Expense < ApplicationRecord
   validate :end_date_is_after_start_date, :if => :travel_expense
 
   def travel_expense
-    @category_id = Category.find_by(name: "travel_expense")&.id
+    category_id == Category.find_by(name: "travel_expense")&.id
   end
 
-private
-def generate_application_number
-  category_prefix = category_prefix_for_application_number
-  last_application_number = Expense.where(category_id: category_id).maximum(:application_number).to_i
-  new_application_number = last_application_number + 1
-  loop do
-    candidate_application_number = "#{category_prefix}#{new_application_number}"
-    unless Expense.exists?(application_number: candidate_application_number)
-      self.application_number = candidate_application_number
-      break
+  private
+
+  def generate_application_number
+    category_prefix = category_prefix_for_application_number
+    last_application_number = Expense.where(category_id: category_id).maximum(:application_number).to_i
+    new_application_number = last_application_number + 1
+    loop do
+      candidate_application_number = "#{category_prefix}#{new_application_number}"
+      unless Expense.exists?(application_number: candidate_application_number)
+        self.application_number = candidate_application_number
+        break
+      end
+      new_application_number += 1
     end
-    new_application_number += 1
   end
-end
-
 
   def category_prefix_for_application_number
-    if category_id == 1
-      'E-'
-    else 
-      'T-'
-    end
+    category_id == 1 ? 'E-' : 'T-'
   end
 
-
-  
-def end_date_is_after_start_date
-  return if end_date.blank? || start_date.blank?
-
-  if end_date < start_date
-    errors.add(:end_date, "cannot be before the start date") 
-  end 
-end
+  def end_date_is_after_start_date
+    errors.add(:end_date, "cannot be before the start date") if end_date < start_date
+  end
 end

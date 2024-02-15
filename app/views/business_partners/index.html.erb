@@ -86,28 +86,26 @@
         <td><%= business_partner.invoice_number %></td>
         <td><%= business_partner.bank_name %></td>
         
-        
         <td>
           <%= link_to 'Show', vendor_master_business_partner_path(@vendor_master, business_partner), class: 'button' %>
-          <% if can? :update, @business_partner %>
-          <%= link_to 'Edit', edit_vendor_master_business_partner_path(@vendor_master, business_partner), class: 'button' %>
+          <% if can? :update, business_partner %>
+            <%= link_to 'Edit', edit_vendor_master_business_partner_path(@vendor_master, business_partner), class: 'button' %>
           <% end %>
-          <% if can? :update, @business_partner%>
-          <%= link_to 'Delete', vendor_master_business_partner_path(@vendor_master, business_partner), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'button' %>
+          <% if can? :destroy, business_partner %>
+            <%= link_to 'Delete', vendor_master_business_partner_path(@vendor_master, business_partner), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'button' %>
           <% end %>
-          </td>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-<% if can? :update, BusinessPartner  %>
-<%= link_to new_vendor_master_business_partner_path(@vendor_master), class: 'button new-business-partner-link' do %>
-<%= image_tag("add1.jpeg", style: "vertical-align: middle; margin-right: 5px; height: 35px; width: 35px") %>
-Add Business Partner
+
+<% if can? :create, BusinessPartner %>
+  <%= link_to new_vendor_master_business_partner_path(@vendor_master), class: 'button new-business-partner-link' do %>
+    <%= image_tag("add1.jpeg", style: "vertical-align: middle; margin-right: 5px; height: 35px; width: 35px") %>
+    Add Business Partner
+  <% end %>
 <% end %>
-<% end %>
-</body>
-</html>
 
 </br>
 
