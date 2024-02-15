@@ -2,85 +2,108 @@
   <%= form_with(model: [@vendor_master, @business_partner], local: true, data: { turbo: false }) do |form| %>
 
     <div class="details-container">
-    <div>
-      <div class="form-field">
-        <%= form.label :customer_name %><span class="required">*</span> 
-         <%= form.select :customer_name, @customer_names, {}, class: 'customer-select' %>
-        <%= button_tag 'Fetch', type: 'button', class: 'fetch-button', data: { url: fetch_customer_details_vendor_master_business_partners_path(@vendor_master) } %>
+      <div>
+        <div class="form-field">
+          <div class="label-container">
+            <%= form.label :customer_name, "Customer Name" %><span class="required">*</span> 
+          </div>
+          <%= form.select :customer_name, @customer_names, {}, class: 'customer-select' %>
+          <%= button_tag 'Fetch', type: 'button', class: 'fetch-button', data: { url: fetch_customer_details_vendor_master_business_partners_path(@vendor_master) } %>
+        </div>
       </div>
-    </div>
       <%= link_to 'Add Vendor Master', new_vendor_master_path, class: 'button' %>
 
-     
       <div class="form-field">
-         <div><%= form.label :customer_code %><span class="required">*</span></div> 
+        <div class="label-container">
+          <%= form.label :customer_code, "Customer Code" %><span class="required">*</span>
+        </div>
         <%= form.text_field :customer_code, value: @business_partner.customer_code %>
-        <%if @business_partner.errors[:customer_code].any?%>
-    <div class="error-message">
-      <b><%= "Customer code" + " " +@expense.errors[:customer_code].join(", ") %></b>
-    </div>
-    <% end %>
+        <% if @business_partner.errors[:customer_code].any? %>
+          <div class="error-message">
+            <b><%= "Customer code " + @business_partner.errors[:customer_code].join(", ") %></b>
+          </div>
+        <% end %>
       </div>
-    
 
       <div class="form-field">
-        <%= form.label :corporate_number %><span class="required">*</span> 
+        <div class="label-container">
+          <%= form.label :corporate_number, "Corporate Number" %><span class="required">*</span>
+        </div>
         <%= form.number_field :corporate_number, value: @business_partner.corporate_number %>
+        <% if @business_partner.errors[:corporate_number].any? %>
+          <div class="error-message">
+            <b><%= "Corporate number " + @business_partner.errors[:corporate_number].join(", ") %></b>
+          </div>
+        <% end %>
       </div>
 
       <div class="form-field">
-        <%= form.label :invoice_number %><span class="required">*</span> 
+        <div class="label-container">
+          <%= form.label :invoice_number, "Invoice Number" %><span class="required">*</span>
+        </div>
         <%= form.number_field :invoice_number, value: @business_partner.invoice_number %>
+        <% if @business_partner.errors[:invoice_number].any? %>
+          <div class="error-message">
+            <b><%= "Invoice number " + @business_partner.errors[:invoice_number].join(", ") %></b>
+          </div>
+        <% end %>
       </div>
 
       <div class="form-field">
-        <%= form.label :address %><span class="required">*</span> 
+        <div class="label-container">
+          <%= form.label :address, "Address" %><span class="required">*</span>
+        </div>
         <%= form.text_area :address, value: @business_partner.address %>
-        <%if @business_partner.errors[:address].any?%>
-           <div class="error-message">
-            <b><%= "Address" + " " +@business_partner.errors[:address].join(", ") %></b>
+        <% if @business_partner.errors[:address].any? %>
+          <div class="error-message">
+            <b><%= "Address " + @business_partner.errors[:address].join(", ") %></b>
           </div>
         <% end %>
       </div>
 
       <div class="form-field">
-        <%= form.label :postal_code %><span class="required">*</span> 
+        <div class="label-container">
+          <%= form.label :postal_code, "Postal Code" %><span class="required">*</span>
+        </div>
         <%= form.number_field :postal_code, value: @business_partner.postal_code %>
-        <%if @business_partner.errors[:postal_code].any?%>
-           <div class="error-message">
-            <b><%= "Postal code" + " " +@business_partner.errors[:postal_code].join(", ") %></b>
+        <% if @business_partner.errors[:postal_code].any? %>
+          <div class="error-message">
+            <b><%= "Postal code " + @business_partner.errors[:postal_code].join(", ") %></b>
           </div>
         <% end %>
       </div>
 
       <div class="form-field">
-        <%= form.label :telephone_number %><span class="required">*</span> 
+        <div class="label-container">
+          <%= form.label :telephone_number, "Telephone Number" %><span class="required">*</span>
+        </div>
         <%= form.number_field :telephone_number, value: @business_partner.telephone_number %>
-         <%if @business_partner.errors[:telephone_number].any?%>
-           <div class="error-message">
-            <b><%= "Telephone Number" + " " +@business_partner.errors[:telephone_number].join(", ") %></b>
+        <% if @business_partner.errors[:telephone_number].any? %>
+          <div class="error-message">
+            <b><%= "Telephone number " + @business_partner.errors[:telephone_number].join(", ") %></b>
           </div>
         <% end %>
       </div>
 
       <div class="form-field">
-        <%= form.label :bank_name %><span class="required">*</span> 
+        <div class="label-container">
+          <%= form.label :bank_name, "Bank Name" %><span class="required">*</span>
+        </div>
         <%= form.text_field :bank_name, value: @business_partner.bank_name %>
-         <%if @business_partner.errors[:bank_name].any?%>
-           <div class="error-message">
-            <b><%= "Bank name" + " " +@business_partner.errors[:bank_name].join(", ") %></b>
+        <% if @business_partner.errors[:bank_name].any? %>
+          <div class="error-message">
+            <b><%= "Bank name " + @business_partner.errors[:bank_name].join(", ") %></b>
           </div>
         <% end %>
       </div>
 
       <div class="actions">
-  <% if @business_partner.persisted? %>
-    <%= form.submit 'Update Business Partner', class: 'submit-button' %>
-  <% else %>
-    <%= form.submit 'Create Business Partner', class: 'submit-button' %>
-  <% end %>
-</div>
-
+        <% if @business_partner.persisted? %>
+          <%= form.submit 'Update Business Partner', class: 'submit-button' %>
+        <% else %>
+          <%= form.submit 'Create Business Partner', class: 'submit-button' %>
+        <% end %>
+      </div>
     </div>
 
   <% end %>
@@ -113,7 +136,14 @@
 </script>
 
 <style>
-.required{
-  color: 	#ff0000;
-}
+  .required {
+    color: #ff0000;
+  }
+  .label-container {
+    display: flex;
+    align-items: center;
+  }
+  .label-container span {
+    margin-left: 5px;
+  }
 </style>

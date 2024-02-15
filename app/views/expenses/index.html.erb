@@ -8,8 +8,9 @@
 
 <body class="expense-index">
 
-  <h1>Expense Index</h1>
 
+  <h1>Expense Index</h1>
+  <% if @expenses.present? %>
   <label for="category-filter">Filter by Category Type:</label>
   <select id="category-filter">
     <option value="all">Each Category</option>
@@ -26,6 +27,7 @@
         <th>User</th>
         <th>Role</th>
         <th>Category</th>
+        <th> Actions </th>
       </tr>
     </thead>
     <tbody id="expense-table-body">
@@ -41,6 +43,7 @@
       <% end %>
     </tbody>
   </table>
+  <% end %>
 
   <!-- Add Expense button -->
   <%= link_to new_user_expense_path(user_id: current_user.id), class: 'button' do%>
@@ -105,5 +108,6 @@
   </style>
 </body>
 </html>
+<script src="application.js"></script>
 
 

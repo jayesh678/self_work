@@ -3,9 +3,9 @@ class ExpensesController < ApplicationController
   before_action :load_categories, only: [:new, :create]
   before_action :set_subcategories, only: [:new, :create]
   before_action :set_business_partners, only: [:new, :create]
+  before_action :find_expense, only: [:edit, :update, :destroy]
 
-  
-   def index
+  def index
     if current_user.super_admin?
       @expenses = Expense.includes(:user).all
     elsif current_user.admin?
@@ -13,17 +13,14 @@ class ExpensesController < ApplicationController
     else
       @expenses = current_user.expenses
     end
-    @expenses = @expenses.paginate(page: params[:page],per_page: 2)
+    @expenses = @expenses.paginate(page: params[:page], per_page: 2)
   end
-  
-    
 
   def create
     @expense = @user.expenses.new(expense_params)
 
     if @expense.save
       redirect_to user_expense_path(@user, @expense), notice: 'Expense was successfully created.'
-
     else
       render :new
     end
@@ -38,13 +35,39 @@ class ExpensesController < ApplicationController
     @expense = Expense.new
   end
 
+  def edit
+    @user = User.find(params[:user_id])
+  @expense = @user.expenses.find(params[:id])
+  @categories = Category.all
+  @subcategories = Category.pluck(:subcategories).flatten.uniq
+
+  end
+
+  def update
+    if @expense.update(expense_params)
+      redirect_to user_expense_path(@user, @expense), notice: 'Expense was successfully updated.'
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @expense = Expense.find(params[:id])
+    if @expense.destroy
+      redirect_to user_expenses_path(user_id: current_user.id), notice: 'Expense was successfully destroyed.'
+    else
+      redirect_to user_expense_path(user_id: current_user.id, id: @expense.id), alert: 'Failed to destroy expense.'
+    end
+  end
+  
+
 
   private
 
   def find_user
-     if params[:user_id]
-    @user = User.find(params[:user_id])
-     end
+    if params[:user_id]
+      @user = User.find(params[:user_id])
+    end
   end
 
   def set_business_partners
@@ -57,14 +80,16 @@ class ExpensesController < ApplicationController
 
   def set_subcategories
     @regular_subcategories = Category.find_by(name: 'Regular')&.subcategories || []
-  @regular_subcategories = JSON.parse(@regular_subcategories).map(&:to_s) if @regular_subcategories.present?
+    @regular_subcategories = JSON.parse(@regular_subcategories).map(&:to_s) if @regular_subcategories.present?
   
     travel_category = Category.find_by(category_type: 'Travel Expense')
     @travel_subcategories = travel_category&.subcategories || []
-
     @travel_subcategories = JSON.parse(@travel_subcategories).map { |subcategory| OpenStruct.new(name: subcategory) } if @travel_subcategories.present?
   end
 
+  def find_expense
+    @expense = @user.expenses.find(params[:id])
+  end
 
   def expense_params
     params.require(:expense).permit(:date_of_application, :expense_date, :category_id, :business_partner_id, :amount, :tax_amount, :receipt, :description, :subcategory, :start_date, :end_date, :application_number)
