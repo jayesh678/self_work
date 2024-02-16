@@ -27,18 +27,27 @@
         <th>User</th>
         <th>Role</th>
         <th>Category</th>
-        <th> Actions </th>
+        <th> Status </th>
       </tr>
     </thead>
     <tbody id="expense-table-body">
       <% @expenses.each do |expense| %>
         <tr>
-          <td><%= expense.application_number %></td>
+        <td>
+        <% if expense.user %>
+          <%= link_to expense.application_number, new_user_expense_path(user_id: expense.user.id, id: expense.id) %>
+        <% else %>
+          <%= expense.application_number %>
+        <% end %>
+      </td>
+      
+
           <td><%= expense.amount %></td>
           <td><%= expense.expense_date.strftime('%Y-%m-%d') %></td>
           <td><%= "#{expense.user.firstname} #{expense.user.lastname}" %></td>
           <td><%= expense.user.role.role_name %></td>
           <td><%= expense.category.category_type %></td>
+          <td><%= expense.status %></td>
         </tr>
       <% end %>
     </tbody>

@@ -24,6 +24,11 @@ class User < ApplicationRecord
   def user?
     role.role_name == 'user'
   end
+
+  def approver?
+    # Check if the current user is assigned as an approver in any flow
+    Flow.exists?(assigned_user_id: id)
+  end
   
 
   private 

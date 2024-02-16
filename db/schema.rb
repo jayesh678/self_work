@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_12_110929) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_16_012906) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -88,12 +88,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_12_110929) do
     t.integer "business_partner_id", null: false
     t.integer "user_id", null: false
     t.string "application_number"
+    t.integer "status", default: 0
     t.index ["business_partner_id"], name: "index_expenses_on_business_partner_id"
     t.index ["category_id"], name: "index_expenses_on_category_id"
     t.index ["user_id"], name: "index_expenses_on_user_id"
   end
 
   create_table "flows", force: :cascade do |t|
+    t.integer "user_assigned_id"
+    t.integer "assigned_user_id"
+    t.integer "flow_levels"
     t.date "start_date"
     t.date "end_date"
     t.datetime "created_at", null: false

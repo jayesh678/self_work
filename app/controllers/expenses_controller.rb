@@ -11,20 +11,36 @@ class ExpensesController < ApplicationController
     elsif current_user.admin?
       @expenses = Expense.includes(:user).where.not(user_id: User.where(role: Role.find_by(role_name: 'super_admin')).pluck(:id))
     else
+      @user = current_user
       @expenses = current_user.expenses
     end
     @expenses = @expenses.paginate(page: params[:page], per_page: 2)
   end
-
   def create
     @expense = @user.expenses.new(expense_params)
-
-    if @expense.save
-      redirect_to user_expense_path(@user, @expense), notice: 'Expense was successfully created.'
-    else
-      render :new
+    
+    if params[:save_button]  # Check if "Save" button was clicked
+      if @expense.save(validate: false)  # Temporarily save the expense without validation
+        redirect_to user_expense_path(@user, @expense), notice: 'Expense was saved.'
+      else
+        render :new
+      end
+    else  # Proceed with normal creation process
+      if @expense.save
+        if current_user.approver?  # Check if current user is an approver
+          redirect_to approve_expense_path(@user, @expense)  # Redirect to the approval page
+        else
+          @expense.update(status: :initiated)  # Update the status to "initiated"
+          create_initiator_flow(current_user.id)  # Create a flow record for the initiator
+          redirect_to user_expense_path(@user, @expense), notice: 'Expense was successfully created.'
+        end
+      else
+        render :new
+      end
     end
   end
+  
+  
 
   def show
     @user = User.find(params[:user_id])
@@ -37,10 +53,9 @@ class ExpensesController < ApplicationController
 
   def edit
     @user = User.find(params[:user_id])
-  @expense = @user.expenses.find(params[:id])
-  @categories = Category.all
-  @subcategories = Category.pluck(:subcategories).flatten.uniq
-
+    @expense = @user.expenses.find(params[:id])
+    @categories = Category.all
+    @subcategories = Category.pluck(:subcategories).flatten.uniq
   end
 
   def update
@@ -59,8 +74,6 @@ class ExpensesController < ApplicationController
       redirect_to user_expense_path(user_id: current_user.id, id: @expense.id), alert: 'Failed to destroy expense.'
     end
   end
-  
-
 
   private
 
@@ -89,6 +102,13 @@ class ExpensesController < ApplicationController
 
   def find_expense
     @expense = @user.expenses.find(params[:id])
+  end
+
+  def create_initiator_flow(initiator_id)
+    approvers_ids = [2, 3]  # IDs of the users who will be approvers
+    initiator_flow = Flow.find_or_create_by(user_assigned_id: initiator_id)
+    initiator_flow.update(assigned_user_id: approvers_ids, flow_levels: 'initiator_and_approvers')
+    # Additional logic can be added here if needed
   end
 
   def expense_params

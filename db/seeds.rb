@@ -12,3 +12,9 @@
 
 Category.create(name: 'Expense', category_type: 'Regular')
 Category.create(name: 'Travel Expense', category_type: 'Travel')
+
+Role.create(role_name: "super_admin")
+Role.create(role_name: "admin")
+Role.create(role_name: "user")
+
+Company.create(company_name: "THinkbiz", company_code: "TBZ1289")

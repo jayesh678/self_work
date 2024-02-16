@@ -210,10 +210,17 @@
   </div>
 
   <%= form.hidden_field :application_number %>
-
   <div class="form-field">
-    <%= form.submit %>
-  </div>
+  <% if current_user.approver? && @expense.pending_approval? %>
+    <%= button_tag "Approve", type: "submit", name: "approve_button", class: 'button' %>
+  <% else %>
+    <%= button_tag "Save", type: "submit", name: "save_button", class: 'button' %>
+    <%= button_tag "Create", type: "submit", name: "create_button", class: 'button' %>
+  <% end %>
+  <%= link_to "Cancel", user_expenses_path(@user), class: 'button' %>
+</div>
+
+
 
 <% end %>
 
