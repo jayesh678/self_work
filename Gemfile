@@ -85,3 +85,4 @@ gem "image_processing", "~> 1.2"
 
 gem 'will_paginate', '~> 4.0'
 gem 'pagy'
+gem 'font-awesome-sass'

@@ -1,9 +1,9 @@
 class ExpensesController < ApplicationController
-  before_action :find_user
+  before_action :find_user, except: [:index, :create]
   before_action :load_categories, only: [:new, :create]
   before_action :set_subcategories, only: [:new, :create]
   before_action :set_business_partners, only: [:new, :create]
-  before_action :find_expense, only: [:edit, :update, :destroy]
+  before_action :find_expense, only: [:edit, :update, :destroy, :approve]
 
   def index
     if current_user.super_admin?
@@ -16,34 +16,29 @@ class ExpensesController < ApplicationController
     end
     @expenses = @expenses.paginate(page: params[:page], per_page: 2)
   end
+
   def create
     @expense = @user.expenses.new(expense_params)
     
-    if params[:save_button]  # Check if "Save" button was clicked
-      if @expense.save(validate: false)  # Temporarily save the expense without validation
-        redirect_to user_expense_path(@user, @expense), notice: 'Expense was saved.'
+    if @expense.save
+      if current_user.approver?
+        redirect_to approve_expense_path(@user, @expense)
       else
-        render :new
-      end
-    else  # Proceed with normal creation process
-      if @expense.save
-        if current_user.approver?  # Check if current user is an approver
-          redirect_to approve_expense_path(@user, @expense)  # Redirect to the approval page
-        else
-          @expense.update(status: :initiated)  # Update the status to "initiated"
-          create_initiator_flow(current_user.id)  # Create a flow record for the initiator
+        flow = create_initiator_flow(current_user.id)
+        
+        if flow.present?
+          @expense.update(status: :initiated, flow: flow)
           redirect_to user_expense_path(@user, @expense), notice: 'Expense was successfully created.'
+        else
+          redirect_to new_user_expense_path(@user), alert: 'Failed to create expense flow.'
         end
-      else
-        render :new
       end
+    else
+      render :new
     end
   end
-  
-  
 
   def show
-    @user = User.find(params[:user_id])
     @expense = @user.expenses.find(params[:id])
   end
 
@@ -52,7 +47,6 @@ class ExpensesController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:user_id])
     @expense = @user.expenses.find(params[:id])
     @categories = Category.all
     @subcategories = Category.pluck(:subcategories).flatten.uniq
@@ -67,7 +61,6 @@ class ExpensesController < ApplicationController
   end
 
   def destroy
-    @expense = Expense.find(params[:id])
     if @expense.destroy
       redirect_to user_expenses_path(user_id: current_user.id), notice: 'Expense was successfully destroyed.'
     else
@@ -75,12 +68,19 @@ class ExpensesController < ApplicationController
     end
   end
 
+  def approve
+    if current_user.approver?
+      @expense.update(status: :approved)
+      redirect_to user_expense_path(@user, @expense), notice: 'Expense was successfully approved.'
+    else
+      redirect_to user_expense_path(@user, @expense), alert: 'You are not authorized to approve expenses.'
+    end
+  end
+
   private
 
   def find_user
-    if params[:user_id]
-      @user = User.find(params[:user_id])
-    end
+    @user = User.find(params[:user_id])
   end
 
   def set_business_partners
@@ -93,11 +93,7 @@ class ExpensesController < ApplicationController
 
   def set_subcategories
     @regular_subcategories = Category.find_by(name: 'Regular')&.subcategories || []
-    @regular_subcategories = JSON.parse(@regular_subcategories).map(&:to_s) if @regular_subcategories.present?
-  
-    travel_category = Category.find_by(category_type: 'Travel Expense')
-    @travel_subcategories = travel_category&.subcategories || []
-    @travel_subcategories = JSON.parse(@travel_subcategories).map { |subcategory| OpenStruct.new(name: subcategory) } if @travel_subcategories.present?
+    @travel_subcategories = Category.find_by(category_type: 'Travel Expense')&.subcategories || []
   end
 
   def find_expense
@@ -105,12 +101,16 @@ class ExpensesController < ApplicationController
   end
 
   def create_initiator_flow(initiator_id)
-    approvers_ids = [2, 3]  # IDs of the users who will be approvers
-    initiator_flow = Flow.find_or_create_by(user_assigned_id: initiator_id)
-    initiator_flow.update(assigned_user_id: approvers_ids, flow_levels: 'initiator_and_approvers')
-    # Additional logic can be added here if needed
+    # Find or create the default flow for the initiator
+    default_flow = Flow.find_or_create_by(default: true)
+    # Update the initiator's flow
+    default_flow.update(user_assigned_id: initiator_id, assigned_user_id: [2, 3], flow_levels: 'initiator_and_approvers')
+  
+    # Debug output
+    puts "Initiator flow created with assigned users: #{default_flow.assigned_user_id}"
+    default_flow
   end
-
+  
   def expense_params
     params.require(:expense).permit(:date_of_application, :expense_date, :category_id, :business_partner_id, :amount, :tax_amount, :receipt, :description, :subcategory, :start_date, :end_date, :application_number)
   end

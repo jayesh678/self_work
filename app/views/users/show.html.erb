@@ -1,50 +1,110 @@
-<div class="profile-box">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #ffdab9; /* Peach background color for the whole page */
+    }
+    .profile-box {
+      width: 600px; /* Increased width to accommodate additional content */
+      margin: 50px auto; /* Center profile box horizontally */
+    }
+    .profile-box .card {
+      border: none; /* Remove border from card */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
+    }
+    .profile-box .card-body {
+      padding: 20px;
+    }
+    .profile-field {
+      margin-bottom: 20px;
+      display: flex; /* Use flexbox for layout */
+      align-items: center; /* Align items vertically */
+    }
+    .profile-field p {
+      margin: 0; /* Remove margin for paragraphs */
+      flex: 0 0 150px; /* Set fixed width for labels */
+    }
+    .editable-field {
+      font-weight: bold;
+      padding: 10px; /* Add padding to values */
+      background-color: #f8f9fa; /* Light grey background color for values */
+      border-radius: 5px; /* Add border radius for rounded corners */
+      flex: 1; /* Fill remaining space */
+    }
+    .button {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
 
-  <h1>User Profile</h1>
-    
-  <div class="profile-field">
-    <p>First Name:</p>
-    <div class="editable-field" > <%= @user.firstname %></div>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8"> <!-- Increased column width for better layout -->
+      <div class="card bg-light profile-box"> <!-- Added profile-box class -->
+        <div class="card-body">
+          <h1 class="mb-4">User Profile</h1>
+          
+          <div class="profile-field">
+            <p>First Name:</p>
+            <div class="editable-field" ><%= @user.firstname %></div>
+          </div>
+          
+          <div class="profile-field">
+            <p>Last Name:</p>
+            <div class="editable-field" ><%= @user.lastname %></div>
+          </div>
+          
+          <div class="profile-field">
+            <p>Company code:</p>
+            <div class="editable-field" ><%= @user.company.company_code %></div>
+          </div>
+
+          <div class="profile-field">
+            <p>Company Unique ID:</p>
+            <div class="editable-field" ><%= @user.company.company_uniqueid %></div>
+          </div>
+
+          <div class="profile-field">
+            <p>Role:</p>
+            <div class="editable-field" ><%= Role.find(@user.role_id).role_name %></div>
+          </div> 
+
+          <%= link_to 'Change Password', edit_user_registration_path(@user), class: 'btn btn-primary button'%>
+          <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-secondary button' %>
+
+          <% if user_signed_in? %>
+            <!-- Additional content for signed-in users -->
+          <% else %>
+            <%= link_to "Sign up!", new_user_registration_path, class: 'btn btn-success button' %>
+            <%= link_to 'Login', new_user_session_path, class: 'btn btn-info button' %>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
-  
-  <div class="profile-field">
-    <p>Last Name:</p>
-    <div class="editable-field" ><%= @user.lastname %></div>
-  </div>
-  
-  <div class="profile-field">
-    <p>Company code:</p>
-    <div class="editable-field" ><%= @user.user_code %></div>
-  </div>
-
-  <div class="profile-field">
-    <p>Company Unique ID:</p>
-    <div class="editable-field" ><%= @user.company.company_uniqueid %></div>
-  </div>
-
-  <div class="profile-field">
-    <p>Role:</p>
-    <div class="editable-field" ><%= Role.find(@user.role_id).role_name %></div>
-  </div> 
-
-  <%= link_to 'Change Password', edit_user_registration_path(@user), class: 'button'%>
-  <br/>
-  <br/>
-  <%= link_to 'Edit Pofile',  edit_user_path(@user), class: 'button' %>  
-
-  <% if user_signed_in? %>
-
-  <% else %>
-  <%= link_to "Sign up!", new_user_registration_path %>
-  <br/>
-  <%= link_to 'Login', new_user_session_path %>
-  <% end %>
-
-  </br>
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 </html>
-
-
-
+<style>
+.editable-field {
+  font-weight: bold;
+  padding: 10px; /* Add padding to values */
+  background-color: #f8f9fa; /* Light grey background color for values */
+  border-radius: 5px; /* Add border radius for rounded corners */
+  border: 1px solid #ced4da; /* Add border */
+  flex: 1; /* Fill remaining space */
+}
+</style>

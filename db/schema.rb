@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_16_012906) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_18_194053) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -59,7 +59,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_16_012906) do
     t.string "category_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "subcategories"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -89,8 +88,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_16_012906) do
     t.integer "user_id", null: false
     t.string "application_number"
     t.integer "status", default: 0
+    t.float "total_amount"
+    t.string "source"
+    t.string "destination"
+    t.integer "flow_id"
     t.index ["business_partner_id"], name: "index_expenses_on_business_partner_id"
     t.index ["category_id"], name: "index_expenses_on_category_id"
+    t.index ["flow_id"], name: "index_expenses_on_flow_id"
     t.index ["user_id"], name: "index_expenses_on_user_id"
   end
 
@@ -102,10 +106,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_16_012906) do
     t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "default"
   end
 
   create_table "roles", force: :cascade do |t|
     t.string "role_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "roles_users", id: false, force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "role_id", null: false
+  end
+
+  create_table "subcategories", force: :cascade do |t|
+    t.string "name"
+    t.integer "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -166,6 +183,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_16_012906) do
   add_foreign_key "business_partners", "vendor_masters"
   add_foreign_key "expenses", "business_partners"
   add_foreign_key "expenses", "categories"
+  add_foreign_key "expenses", "flows"
   add_foreign_key "expenses", "users"
   add_foreign_key "travel_expenses", "categories"
   add_foreign_key "users", "companies"

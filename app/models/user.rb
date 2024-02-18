@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_one_attached :avatar
   belongs_to :company
   belongs_to :role
+  has_and_belongs_to_many :roles
   has_many :expenses, dependent: :destroy
   before_validation :generate_unique_code, on: :create
 
@@ -25,9 +26,12 @@ class User < ApplicationRecord
     role.role_name == 'user'
   end
 
+  def initiator?
+    role.present? && role.role_name == 'initiator'
+  end
+
   def approver?
-    # Check if the current user is assigned as an approver in any flow
-    Flow.exists?(assigned_user_id: id)
+    role.present? && role.role_name == "approver"
   end
   
 
