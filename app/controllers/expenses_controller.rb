@@ -16,27 +16,31 @@ class ExpensesController < ApplicationController
     end
     @expenses = @expenses.paginate(page: params[:page], per_page: 2)
   end
-
   def create
     @expense = @user.expenses.new(expense_params)
     
-    if @expense.save
-      if current_user.approver?
-        redirect_to approve_expense_path(@user, @expense)
+    if params[:save_button]  
+      if @expense.save(validate: false)  
+        redirect_to user_expense_path(@user, @expense), notice: 'Expense was saved.'
       else
-        flow = create_initiator_flow(current_user.id)
-        
-        if flow.present?
-          @expense.update(status: :initiated, flow: flow)
-          redirect_to user_expense_path(@user, @expense), notice: 'Expense was successfully created.'
-        else
-          redirect_to new_user_expense_path(@user), alert: 'Failed to create expense flow.'
-        end
+        render :new
       end
-    else
-      render :new
+    else 
+      if @expense.save
+        if current_user.approver?  
+          redirect_to approve_expense_path(@user, @expense) 
+        else
+          @expense.update(status: :initiated)  
+          create_initiator_flow(current_user.id)  
+          redirect_to user_expense_path(@user, @expense), notice: 'Expense was successfully created.'
+        end
+      else
+        render :new
+      end
     end
   end
+  
+  
 
   def show
     @expense = @user.expenses.find(params[:id])
@@ -47,6 +51,10 @@ class ExpensesController < ApplicationController
   end
 
   def edit
+<<<<<<< HEAD
+    @user = User.find(params[:user_id])
+=======
+>>>>>>> d3077a7cac3ff08c4c0758dd3fc51f6c72efc947
     @expense = @user.expenses.find(params[:id])
     @categories = Category.all
     @subcategories = Category.pluck(:subcategories).flatten.uniq
@@ -67,6 +75,8 @@ class ExpensesController < ApplicationController
       redirect_to user_expense_path(user_id: current_user.id, id: @expense.id), alert: 'Failed to destroy expense.'
     end
   end
+<<<<<<< HEAD
+=======
 
   def approve
     if current_user.approver?
@@ -76,6 +86,7 @@ class ExpensesController < ApplicationController
       redirect_to user_expense_path(@user, @expense), alert: 'You are not authorized to approve expenses.'
     end
   end
+>>>>>>> d3077a7cac3ff08c4c0758dd3fc51f6c72efc947
 
   private
 
@@ -101,6 +112,13 @@ class ExpensesController < ApplicationController
   end
 
   def create_initiator_flow(initiator_id)
+<<<<<<< HEAD
+    approvers_ids = [2, 3]  
+    initiator_flow = Flow.find_or_create_by(user_assigned_id: initiator_id)
+    initiator_flow.update(assigned_user_id: approvers_ids, flow_levels: 'initiator_and_approvers')
+  end
+
+=======
     # Find or create the default flow for the initiator
     default_flow = Flow.find_or_create_by(default: true)
     # Update the initiator's flow
@@ -111,7 +129,8 @@ class ExpensesController < ApplicationController
     default_flow
   end
   
+>>>>>>> d3077a7cac3ff08c4c0758dd3fc51f6c72efc947
   def expense_params
-    params.require(:expense).permit(:date_of_application, :expense_date, :category_id, :business_partner_id, :amount, :tax_amount, :receipt, :description, :subcategory, :start_date, :end_date, :application_number)
+    params.require(:expense).permit(:date_of_application, :expense_date, :category_id, :business_partner_id, :amount, :tax_amount, :receipt, :description, :subcategory, :start_date, :end_date, :application_number, :source, :destination)
   end
 end

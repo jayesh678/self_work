@@ -10,7 +10,7 @@ class User < ApplicationRecord
   validates_presence_of :role, if: :new_record?
   validate :blank_space
   after_create :set_default_role
-  attr_accessor :company_code
+  # attr_accessor :company_code
   validates :firstname, presence: true
   validates :lastname, presence: true
 
@@ -26,12 +26,8 @@ class User < ApplicationRecord
     role.role_name == 'user'
   end
 
-  def initiator?
-    role.present? && role.role_name == 'initiator'
-  end
-
   def approver?
-    role.present? && role.role_name == "approver"
+    Flow.exists?(assigned_user_id: id)
   end
   
 

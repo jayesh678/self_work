@@ -5,8 +5,7 @@ class BusinessPartnersController < ApplicationController
   def index
     @vendor_master = VendorMaster.find(params[:vendor_master_id])
     @business_partners = @vendor_master.business_partners
-    @business_partners = @vendor_master.business_partners.paginate(page: params[:page],per_page: 2)
-    @customer_names = VendorMaster.pluck(:customer_name)
+    @business_partners = @business_partners.paginate(page: params[:page], per_page: 2)
   end
     def show
       @business_partner = @vendor_master.business_partners.find_by(id: params[:id])
@@ -18,7 +17,7 @@ class BusinessPartnersController < ApplicationController
 
     def edit
       @business_partner = @vendor_master.business_partners.find(params[:id])
-      @customer_names = VendorMaster.pluck(:customer_name) # Assuming customer_name is a field in VendorMaster
+      @customer_names = VendorMaster.pluck(:customer_name) 
       puts "@customer_names in edit action: #{@customer_names.inspect}"
     end
     
@@ -47,7 +46,7 @@ class BusinessPartnersController < ApplicationController
       @vendor_master = VendorMaster.find(params[:vendor_master_id])
       @business_partner = @vendor_master.business_partners.build
       @customer_names = VendorMaster.pluck(:customer_name)
-      puts "@customer_names in new action: #{@customer_names.inspect}"
+      # puts "@customer_names = #{@customer_names.inspect}"
     end
 
   
