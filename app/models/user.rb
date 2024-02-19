@@ -2,7 +2,6 @@ class User < ApplicationRecord
   has_one_attached :avatar
   belongs_to :company
   belongs_to :role
-  has_and_belongs_to_many :roles
   has_many :expenses, dependent: :destroy
   before_validation :generate_unique_code, on: :create
 
