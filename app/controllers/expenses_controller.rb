@@ -23,6 +23,7 @@ class ExpensesController < ApplicationController
   @expense = current_user.expenses.new(expense_params)
   @expense.status = "initiated"
    @expense.initiator_id = current_user.id
+     @expense.approver_id = User.find_by(firstnamename: "Krish")
   
   if @expense.save
     # Assigning the current user as the initiator of the expense
