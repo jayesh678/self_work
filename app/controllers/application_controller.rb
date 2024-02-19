@@ -1,13 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user! 
   before_action :configure_permitted_parameters, if: :devise_controller? 
-   
- 
-
-  def current_user
-    # Replace this with the logic to fetch the current user in your application
-    User.first  # Example: Fetch the first user for demonstration purposes
-  end
   
   def enter_company_code
     if current_user.company_code.present?

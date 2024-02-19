@@ -1,5 +1,14 @@
 # app/controllers/users/sessions_controller.rb
 class Users::SessionsController < Devise::SessionsController
+<<<<<<< HEAD
+  before_action :authenticate_user!, except: [:new, :create, :enter_company_code, :process_company_code]
+
+ 
+  def create
+    self.resource = warden.authenticate!(auth_options)
+    sign_in(resource_name, resource)
+    yield resource if block_given?
+=======
     before_action :authenticate_user!, except: [:new, :create, :enter_company_code, :process_company_code]
   
     def new
@@ -36,6 +45,7 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   private
+>>>>>>> 43283adf9965e99836002668bd38fe8951ddf2f6
 
   def valid_company_code?(user_company, code)
     # Check if the entered code matches the company's code
