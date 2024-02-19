@@ -1,5 +1,5 @@
 class ExpensesController < ApplicationController
-  #main
+  # Main
   before_action :find_user
   before_action :load_categories, only: [:new, :create]
   before_action :set_subcategories, only: [:new, :create]
@@ -7,6 +7,7 @@ class ExpensesController < ApplicationController
   before_action :find_expense, only: [:edit, :update, :destroy]
 
   def index
+    # Logic for displaying expenses based on user roles
     if current_user.super_admin?
       @expenses = Expense.includes(:user).all
     elsif current_user.admin?
@@ -17,42 +18,35 @@ class ExpensesController < ApplicationController
     end
     @expenses = @expenses.paginate(page: params[:page], per_page: 2)
   end
-  def create
-    @expense = @user.expenses.new(expense_params)
-    
-    if params[:save_button]  # Check if "Save" button was clicked
-      if @expense.save(validate: false)  # Temporarily save the expense without validation
-        redirect_to user_expense_path(@user, @expense), notice: 'Expense was saved.'
-      else
-        render :new
-      end
-    else  # Proceed with normal creation process
-      if @expense.save
-        if current_user.approver?  # Check if current user is an approver
-          redirect_to approve_expense_path(@user, @expense)  # Redirect to the approval page
-        else
-          @expense.update(status: :initiated)  # Update the status to "initiated"
-          create_initiator_flow(current_user.id)  # Create a flow record for the initiator
-          redirect_to user_expense_path(@user, @expense), notice: 'Expense was successfully created.'
-        end
-      else
-        render :new
-      end
-    end
-  end
-  
-  
 
+ def create
+  @expense = current_user.expenses.new(expense_params)
+  @expense.status = "initiated"
+   @expense.initiator_id = current_user.id
+  
+  if @expense.save
+    # Assigning the current user as the initiator of the expense
+    @expense.update(initiator_id: current_user.id)
+    redirect_to user_expenses_path , notice: 'Expense was successfully created.'
+  else
+    render :new
+  end
+end
+
+  
   def show
+    # Finding the user and expense for the show page
     @user = User.find(params[:user_id])
     @expense = @user.expenses.find(params[:id])
   end
 
   def new
+    # Creating a new expense object
     @expense = Expense.new
   end
 
   def edit
+    # Finding the user and expense for editing
     @user = User.find(params[:user_id])
     @expense = @user.expenses.find(params[:id])
     @categories = Category.all
@@ -60,6 +54,7 @@ class ExpensesController < ApplicationController
   end
 
   def update
+    # Updating the expense
     if @expense.update(expense_params)
       redirect_to user_expense_path(@user, @expense), notice: 'Expense was successfully updated.'
     else
@@ -68,6 +63,7 @@ class ExpensesController < ApplicationController
   end
 
   def destroy
+    # Destroying the expense
     @expense = Expense.find(params[:id])
     if @expense.destroy
       redirect_to user_expenses_path(user_id: current_user.id), notice: 'Expense was successfully destroyed.'
@@ -79,38 +75,35 @@ class ExpensesController < ApplicationController
   private
 
   def find_user
+    # Finding the user if user_id parameter is present
     if params[:user_id]
       @user = User.find(params[:user_id])
     end
   end
 
   def set_business_partners
+    # Setting business partners
     @business_partners = BusinessPartner.all
   end
 
   def load_categories
+    # Loading categories
     @categories = Category.all
   end
 
   def set_subcategories
+    # Setting subcategories
     @regular_subcategories = Category.find_by(name: 'Regular')&.subcategories || []
     @travel_subcategories = Category.find_by(category_type: 'Travel Expense')&.subcategories || []
   end
 
-  
-
   def find_expense
+    # Finding the expense for edit, update, and destroy actions
     @expense = @user.expenses.find(params[:id])
   end
 
-  def create_initiator_flow(initiator_id)
-    approvers_ids = [2, 3]  # IDs of the users who will be approvers
-    initiator_flow = Flow.find_or_create_by(user_assigned_id: initiator_id)
-    initiator_flow.update(assigned_user_id: approvers_ids, flow_levels: 'initiator_and_approvers')
-    # Additional logic can be added here if needed
-  end
-
   def expense_params
+    # Strong parameters for expense creation and update
     params.require(:expense).permit(:date_of_application, :expense_date, :category_id, :business_partner_id, :amount, :tax_amount, :receipt, :description, :subcategory, :start_date, :end_date, :application_number)
   end
 end

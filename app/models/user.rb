@@ -3,6 +3,8 @@ class User < ApplicationRecord
   belongs_to :company
   belongs_to :role
   has_many :expenses, dependent: :destroy
+  has_many :initiated_flows, class_name: 'Flow', foreign_key: 'initiator_id'
+  has_many :approved_flows, class_name: 'Flow', foreign_key: 'approver_id'
   before_validation :generate_unique_code, on: :create
 
   validates :user_code, uniqueness: true

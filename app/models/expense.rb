@@ -1,6 +1,8 @@
 class Expense < ApplicationRecord
   # original
   belongs_to :user
+  belongs_to :flow, optional: true
+  belongs_to :initiator, class_name: 'User', foreign_key: 'initiator_id', optional: true
   belongs_to :business_partner
   belongs_to :category
   has_one_attached :receipt

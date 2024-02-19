@@ -1,5 +1,8 @@
 class Flow < ApplicationRecord
-    has_many :expenses
+     belongs_to :initiator, class_name: 'User'
+  belongs_to :approver, class_name: 'User'
+  has_many :expenses
+  
 
     def self.create_default_flow
         # Implement your logic to create a new default flow
