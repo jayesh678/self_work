@@ -1,83 +1,98 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="UTF-8">
-    <title> Registration Form </title>
-    <link rel="stylesheet" href="styles.css">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   </head>
 
-<body>  
-<div class="container">
-    <div class="title">Registration</div>
-<div class="user-details">
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<head>
+  <meta charset="UTF-8">
+  <title>Registration Form</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Custom CSS */
+    body {
+      background-color: #ffe5b4; /* Peach background color */
+    }
 
-  <div class="input-box">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-  <div class="input-box">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
+    .card {
+      width: 400px; /* Adjust as needed */
+      background-color: #f8f9fa; /* Light background color */
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Adding shadow for a card effect */
+    }
 
-  <div class="input-box">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
 
-  <div class="input-box">
-  <%= f.label :firstname %><br />
-  <%= f.text_field :firstname %>
-  </div>
+    .form-group {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
 
-  <div class="input-box">
-  <%= f.label :lastname %><br />
-  <%= f.text_field :lastname %>
-  </div>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="title text-center ">Registration</div>
+      <div class="user-details">
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "form" }) do |f| %>
+          <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="input-box">
-    <%= f.label :company %>
-    <%= f.collection_select :company_id, Company.all, :id, :company_name, prompt: "Select Company" %>
-  </div>
-
-
-
-  <div class="gender-details">
-          <input type="radio" name="gender" id="dot-1">
-          <input type="radio" name="gender" id="dot-2">
-          <input type="radio" name="gender" id="dot-3">
-          <span class="gender-title">Gender</span>
-          <div class="category">
-            <label for="dot-1">
-            <span class="dot one"></span>
-            <span class="gender">Male</span>
-          </label>
-          <label for="dot-2">
-            <span class="dot two"></span>
-            <span class="gender">Female</span>
-          </label>
-          <label for="dot-3">
-            <span class="dot three"></span>
-            <span class="gender">Prefer not to say</span>
-            </label>
+          <div class="form-group">
+            <%= f.label :email %><br />
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
           </div>
-        </div>
 
+          <div class="form-group">
+            <%= f.label :password %>
+            <% if @minimum_password_length %>
+              <em>(<%= @minimum_password_length %> characters minimum)</em>
+            <% end %><br />
+            <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+          </div>
 
+          <div class="form-group">
+            <%= f.label :password_confirmation %><br />
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+          </div>
 
+          <div class="form-group">
+            <%= f.label :firstname %><br />
+            <%= f.text_field :firstname, class: "form-control" %>
+          </div>
 
+          <div class="form-group">
+            <%= f.label :lastname %><br />
+            <%= f.text_field :lastname, class: "form-control" %>
+          </div>
 
-  <div class="button">
-    <%= f.submit "Sign up", data: { turbo: false } %>
+          <div class="form-group">
+            <%= f.label :company %>
+            <%= f.collection_select :company_id, Company.all, :id, :company_name, { prompt: "Select Company" }, class: "form-control" %>
+          </div>
+
+          <div class="form-group text-center">
+            <%= f.submit "Sign up", data: { turbo: false }, class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+      <%= render "devise/shared/links" %>
+    </div>
   </div>
-<% end %>
-</div>
-<%= render "devise/shared/links" %>
 
+  <!-- Bootstrap JS (optional) -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

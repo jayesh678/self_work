@@ -1,25 +1,53 @@
-<div class="form-container">
-<%= form_with model: @vendor_master do |form |%>
-    <div class="form-field">
-    <%= form.label :customer_code %>
-    <%= form.text_field :customer_code %>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title class="text-center">Vendor Master Form</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .form-container {
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
 
-    <div class="form-field">
-    <%= form.label :customer_name %>
-    <%= form.text_field :customer_name %>
-    </div>
-
-    <div class="form-field">
-    <%= form.label :corporate_number %>
-    <%= form.text_field :corporate_number %>
-    </div>
-
-    <div class="form-field">
-    <%= form.label :invoice_number %>
-    <%= form.text_field :invoice_number %>
-    </div>
-
-    <%= form.submit 'Add vendor master' %>
-<% end %>
+<div class="container mt-5">
+  <div class="form-container">
+    <h2 class="text-center">Vendor Master Form</h2>
+    <%= form_with model: @vendor_master do |form| %>
+      <table class="table table-bordered">
+        <tr>
+          <td><%= form.label :customer_code, class: "form-label" %></td>
+          <td><%= form.text_field :customer_code, class: 'form-control' %></td>
+        </tr>
+        <tr>
+          <td><%= form.label :customer_name, class: "form-label" %></td>
+          <td><%= form.text_field :customer_name, class: 'form-control' %></td>
+        </tr>
+        <tr>
+          <td><%= form.label :corporate_number, class: "form-label" %></td>
+          <td><%= form.text_field :corporate_number, class: 'form-control' %></td>
+        </tr>
+        <tr>
+          <td><%= form.label :invoice_number, class: "form-label" %></td>
+          <td><%= form.text_field :invoice_number, class: 'form-control' %></td>
+        </tr>
+      </table>
+      <div class="text-center">
+        <%= form.submit 'Add vendor master', class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+  </div>
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

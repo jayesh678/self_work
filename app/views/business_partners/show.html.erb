@@ -5,6 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Business Partner Details</title>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <style>
+    body {
+      background-color: #ffdab9; /* Peach background color for the whole page */
+      font-family: Arial, sans-serif; /* Set font family */
+    }
+    h1 {
+      text-align: center; /* Center align the heading */
+      margin-top: 20px; /* Add margin top for spacing */
+    }
+    .details-container {
+      max-width: 600px; /* Set max width for details container */
+      margin: 0 auto; /* Center the details container horizontally */
+      background-color: #fff; /* White background color */
+      padding: 20px; /* Add padding */
+      border-radius: 8px; /* Add border radius for rounded corners */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow */
+    }
+    .detail-box {
+      margin-bottom: 10px; /* Add margin bottom for spacing between detail boxes */
+    }
+    .detail-box strong {
+      font-weight: bold; /* Make detail labels bold */
+    }
+    .edit-back-links {
+      text-align: center; /* Center align the edit and back links */
+      margin-top: 20px; /* Add margin top for spacing */
+    }
+    .button {
+      display: inline-block; /* Make the button display inline */
+      padding: 8px 20px; /* Add padding */
+      background-color: #007bff; /* Button background color */
+      color: #fff; /* Button text color */
+      text-decoration: none; /* Remove underline */
+      border: none; /* Remove border */
+      border-radius: 4px; /* Add border radius for rounded corners */
+      transition: background-color 0.3s ease; /* Add transition for smooth color change */
+    }
+    .button:hover {
+      background-color: #0056b3; /* Change background color on hover */
+    }
+  </style>
 </head>
 <body>
 
@@ -45,12 +86,11 @@
 </div>
 
 <div class="edit-back-links">
-<% if can? :update, BusinessPartner%>
-  <%= link_to 'Edit', edit_vendor_master_business_partner_path(@vendor_master, @business_partner), class: 'button' %> 
+  <% if can? :update, BusinessPartner %>
+    <%= link_to 'Edit', edit_vendor_master_business_partner_path(@vendor_master, @business_partner), class: 'button' %> 
   <% end %>
 
   <%= link_to 'Back', vendor_master_business_partners_path(@vendor_master), class: 'button' %>
-
 </div>
 
 </body>

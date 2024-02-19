@@ -5,7 +5,7 @@ class Expense < ApplicationRecord
   has_one_attached :receipt
   before_create :generate_application_number
 
- enum status: {ideal: 0, initiator: 1, approved:2, cancel:3 }
+ enum status: {ideal: 0, initiated: 1, approved:2, cancel:3 }
 
   validates :application_number, uniqueness: true
   validates :date_of_application, presence: true

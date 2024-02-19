@@ -66,7 +66,7 @@ def user_params
 if action_name == "create"
   params.require(:user).permit(:firstname, :lastname, :email, :password, :password_confirmation, :role_id, :company_id)
 elsif action_name == "update"
-  params.require(:user).permit(:firstname, :lastname, :user_code, :role_id)
+  params.require(:user).permit(:firstname, :lastname, :user_code, :role_id, :avatar)
 end
 end
 end

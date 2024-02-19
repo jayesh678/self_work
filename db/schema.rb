@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_15_113721) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_16_124417) do
   create_table "Expenses", force: :cascade do |t|
     t.float "amount"
     t.float "tax_amount"
@@ -30,6 +30,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_15_113721) do
     t.integer "user_id", null: false
     t.string "application_number"
     t.integer "status", default: 0
+    t.string "source"
+    t.string "destination"
     t.index ["business_partner_id"], name: "index_expenses_on_business_partner_id"
     t.index ["category_id"], name: "index_expenses_on_category_id"
     t.index ["user_id"], name: "index_expenses_on_user_id"
@@ -96,6 +98,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_15_113721) do
 
   create_table "flows", force: :cascade do |t|
     t.string "flow_levels"
+    t.integer "user_assigned_id"
     t.integer "assigned_user_id"
     t.date "start_date"
     t.date "end_date"

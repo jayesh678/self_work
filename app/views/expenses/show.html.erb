@@ -1,10 +1,38 @@
-<!-- app/views/expenses/show.html.erb -->
-
-<h1>Expense Details</h1>
-<p><strong>Application number:</strong> <%= @expense.application_number %></p>
-<p><strong>Amount:</strong> <%= @expense.amount %></p>
-<p><strong>Expense Date:</strong> <%= @expense.expense_date %></p>
-<!-- Add more details as needed -->
-
-<%= link_to 'Create New Expense', new_user_expense_path(@user), class: 'action-button' %>
-<%= link_to 'Back to Expenses', user_expenses_path(@user) %>
+<div class="container">
+  <div class="card mt-4">
+    <div class="card-header bg-primary text-white">
+      <h1 class="card-title mb-0"><center>Expense Details</center></h1>
+    </div>
+    <div class="card-body">
+      <div class="row justify-content-center"> <!-- Added justify-content-center class -->
+        <div class="col-md-6">
+          <div class="card bg-light mb-4">
+            <div class="card-body">
+              <h5 class="card-title text-center">Expense Information</h5> <!-- Added text-center class -->
+              <div class="mb-3">
+                <div class="form-group">
+                  <label for="application_number">Application Number:</label>
+                  <input type="text" class="form-control" id="application_number" value="<%= @expense.application_number %>" readonly>
+                </div>
+                <div class="form-group">
+                  <label for="amount">Amount:</label>
+                  <input type="text" class="form-control" id="amount" value="<%= @expense.amount %>" readonly>
+                </div>
+                <div class="form-group">
+                  <label for="expense_date">Expense Date:</label>
+                  <input type="text" class="form-control" id="expense_date" value="<%= @expense.expense_date %>" readonly>
+                </div>
+                <!-- Add more details as needed -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <%= link_to 'Back to Expenses', user_expenses_path(@user), class: 'btn btn-secondary' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

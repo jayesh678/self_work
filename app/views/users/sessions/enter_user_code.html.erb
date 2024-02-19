@@ -1,11 +1,52 @@
-<!-- app/views/users/sessions/enter_user_code.html.erb -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body.user {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f2f2f2; 
+    }
 
+     .user-container {
+      background-color: #FFE4E1;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .fork-field {
+      margin-bottom: 15px;
+    }
+
+      .fork-actions {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="user-container">
 <h1>Enter Your Unique User Code</h1>
+
 
 <%= form_with(model: @user_code_form, url: process_user_code_path, method: :post) do |form| %>
   <!-- Form fields for entering the user code -->
+  <div class="fork-field">
   <%= form.label :user_code, "User Code" %>
   <%= form.text_field :user_code %>
+  </div>
 
+  <div clas="fork-actions">
   <%= form.submit "Submit" %>
 <% end %>
+</div>
+</div>
+</body>
+</html>

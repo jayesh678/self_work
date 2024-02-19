@@ -1,50 +1,90 @@
-<h1>Editing User</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit User</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #ffdab9; /* Peach background color for the whole page */
+    }
+    .form-container {
+      width: 400px; /* Set width of the form container */
+      margin: 50px auto; /* Center the form container horizontally */
+      padding: 20px; /* Add padding */
+      background-color: #fff; /* White background color */
+      border-radius: 8px; /* Add border radius for rounded corners */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow */
+    }
+    .form-input {
+      width: 100%; /* Set width of form inputs */
+      margin-bottom: 10px; /* Add margin bottom for spacing between inputs */
+    }
+    .error {
+      color: red; /* Set color for error messages */
+      margin-top: 5px; /* Add margin top for spacing between error messages */
+    }
+    .button {
+      display: inline-block; /* Make the button display inline */
+      padding: 8px 20px; /* Add padding */
+      background-color: #007bff; /* Button background color */
+      color: #fff; /* Button text color */
+      text-decoration: none; /* Remove underline */
+      border: none; /* Remove border */
+      border-radius: 4px; /* Add border radius for rounded corners */
+      transition: background-color 0.3s ease; /* Add transition for smooth color change */
+    }
+    .button:hover {
+      background-color: #0056b3; /* Change background color on hover */
+    }
+  </style>
+</head>
+<body>
 
-<div class= "form-container">
- <%= form_with(model: @user, local: true, data: { turbo: false }) do |form| %>
-       <% if @user.errors.any? %>
-      <%= @user.errors.full_messages %>
+<div class="form-container">
+  <h1>Editing User</h1>
+
+  <%= form_with(model: @user, local: true, data: { turbo: false }) do |form| %>
+    <% if @user.errors.any? %>
+      <%= @user.errors.full_messages.each do |msg| %>
+        <div class="error"><%= msg %></div>
+      <% end %>
     <% end %>
 
-
-     <%= form.label :firstname %>
+    <div class="form-group">
+      <%= form.label :firstname %>
       <%= form.text_field :firstname, class: "form-input" %>
-      <%if @user.errors[:firstname].any?%>
-    <div class="error">
-      <b><%= "Firstname" + " " +@user.errors[:firstname].join(", ") %></b>
     </div>
-    <% end %>
-    </br>
 
-
+    <div class="form-group">
       <%= form.label :lastname %>
       <%= form.text_field :lastname, class: "form-input" %>
-      <%if @user.errors[:firstname].any?%>
-    <div class="error">
-      <b><%= "Lastname" + " " +@user.errors[:lastname].join(", ") %></b>
     </div>
-    <% end %>
-    </br>
 
-    <%= form.label :Code %>
-    <%= form.text_field :user_code, class: "form-input" %>
+    <div class="form-group">
+      <%= form.label :user_code, "Code" %>
+      <%= form.text_field :user_code, class: "form-input" %>
+    </div>
 
-
-
-    <%= form.label :role %>
+    <div class="form-group">
+      <%= form.label :role %>
       <%= form.collection_select :role_id, Role.where(role_name: ['admin', 'user']), :id, :role_name, prompt: "Select Role", class: "form-input" %>
-    <%if @user.errors[:role].any?%>
-    <div class="error">
-      <b><%= "Role" + " " +@user.errors[:role].join(", ") %></b>
     </div>
-    <% end %>
-    <br/>
-  
-    <div>
-    <%= form.submit 'Update'%>
-    </div> 
-    <br/>
+
+    <div class="actions">
+      <%= form.submit 'Update', class: "button" %>
+    </div>
+
     <%= link_to 'Back', users_path, class: 'button' %>
-<% end %>
-    
-    
+  <% end %>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
