@@ -81,12 +81,15 @@
     </div>
 
     <% end %>
+<div class="mt-3">
+  <%= link_to new_user_expense_path(user_id: current_user.id), class: 'btn btn-success btn-lg rounded-pill shadow d-inline-flex align-items-center justify-content-center px-4' do %>
+    <i class="fas fa-plus-circle fa-2x me-2"></i>
+    <span class="d-none d-md-inline">Add Expense</span>
+  <% end %>
+</div>
 
-    <div class="mt-3">
-    <%= link_to new_user_expense_path(user_id: current_user.id), class: 'btn btn-success btn-lg rounded-circle shadow' do %>
-      <i class="fas fa-plus"></i>
-    <% end %>
-  </div>  
+
+
   
     <div class="digg_pagination mt-3">
       <div class="page_info">

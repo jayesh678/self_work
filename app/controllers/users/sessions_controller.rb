@@ -2,10 +2,7 @@
 class Users::SessionsController < Devise::SessionsController
   before_action :authenticate_user!, except: [:new, :create, :enter_company_code, :process_company_code]
 
-  def new
-    super
-  end
-
+ 
   def create
     self.resource = warden.authenticate!(auth_options)
     sign_in(resource_name, resource)
