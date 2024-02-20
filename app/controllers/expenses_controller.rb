@@ -22,7 +22,6 @@ class ExpensesController < ApplicationController
  def create
   @expense = current_user.expenses.new(expense_params)
   @expense.status = "initiated"
-   @expense.initiator_id = current_user.id
     @expense.initiator_id = current_user.id
     
     # Find the user with the specified email to set as the approver
@@ -48,8 +47,8 @@ end
   def new
     # Creating a new expense object
     @expense = Expense.new
-    @regular_subcategories = Category.find_by(name: 'Expense')&.subcategories
-    @travel_subcategories = Category.find_by(name: 'Travel Expense')&.subcategories
+    @regular_subcategories = Category.find_by(category_type: 'Regular')&.subcategories
+    @travel_subcategories = Category.find_by(category_type: 'Travel')&.subcategories
     
   end
 
@@ -58,8 +57,8 @@ end
     @user = User.find(params[:user_id])
     @expense = @user.expenses.find(params[:id])
     @categories = Category.all
-    @regular_subcategories = Category.find_by(name: 'Expense')&.subcategories
-    @travel_subcategories = Category.find_by(name: 'Travel Expense')&.subcategories
+    @regular_subcategories = Category.find_by(category_type: 'Regular')&.subcategories
+    @travel_subcategories = Category.find_by(category_type: 'Travel')&.subcategories
     @business_partners = BusinessPartner.all
   end
 
@@ -103,17 +102,15 @@ end
 
   def set_subcategories
     # Setting subcategories
-    @regular_subcategories = Category.find_by(name: 'Regular')&.subcategories
-    @travel_subcategories = Category.find_by(category_type: 'Travel Expense')&.subcategories
+    @regular_subcategories = Category.find_by(category_type: 'Regular')&.subcategories
+    @travel_subcategories = Category.find_by(category_type: 'Travel')&.subcategories
   end
 
   def find_expense
-    # Finding the expense for edit, update, and destroy actions
     @expense = @user.expenses.find(params[:id])
   end
 
   def expense_params
-    # Strong parameters for expense creation and update
     params.require(:expense).permit(:date_of_application, :expense_date, :category_id, :business_partner_id, :amount, :tax_amount, :receipt, :description, :subcategory, :start_date, :end_date, :application_number)
   end
 end
