@@ -10,7 +10,6 @@
 </head>
 <body>
 <div class="container">
-  <h1 class="mt-5">New Expense</h1>
   <div class="card mt-4">
     <div class="card-body bg-LIGHT">
   <%= form_with(model: [@user, @expense], url: user_expenses_path(@user), method: :post, data: { turbo: false }) do |form| %>
@@ -70,13 +69,15 @@
             <%= form.label :subcategory do %>
               Subcategory<span class="required">*</span>
             <% end %>
-            <%= form.select(:subcategory, @regular_subcategories.map { |subcategory| [subcategory.to_s, subcategory.to_s] }, { prompt: 'Select Subcategory' }, class: 'form-control') %>
-          </div>
+           <%= form.select(:subcategory_id, @regular_subcategories.map { |subcategory| [subcategory.name, subcategory.id] }, { prompt: 'Select Subcategory' }, { class: 'form-control' }) %>
 
+
+
+          </div>
           <div id="travel-subcategories" style="display: none;">
             <%= form.label :subcategory do %>
             <% end %>
-            <%= form.select(:subcategory, @travel_subcategories.map { |subcategory| [subcategory.to_s, subcategory.to_s] }, { prompt: 'Select Subcategory' }, class: 'form-control') %>
+            <%= form.select(:subcategory_id, @travel_subcategories.map { |subcategory| [subcategory.name, subcategory.id] }, { prompt: 'Select Subcategory' }, class: 'form-control') %>
 
             <%= form.label :start_date do %>
               Start Date<span class="required">*</span>
@@ -181,7 +182,12 @@
         <%= button_tag "Approve", type: "submit", name: "approve_button", class: 'btn btn-primary' %>
       <% else %>
         <%= button_tag "Save", type: "submit", name: "save_button", class: 'btn btn-primary' %>
+         <% if @expense.persisted? %>
+        <%= button_tag "Update", type: "submit", name: "create_button", class: 'btn btn-primary' %>
+          <% else %>
         <%= button_tag "Create", type: "submit", name: "create_button", class: 'btn btn-primary' %>
+        <% end %>
+
       <% end %>
       <%= link_to "Cancel", user_expenses_path(@user), class: 'btn btn-secondary' %>
     </div>

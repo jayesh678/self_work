@@ -8,6 +8,7 @@ class Expense < ApplicationRecord
   belongs_to :category
   has_one_attached :receipt
   before_create :generate_application_number
+  before_create :assign_approver_for_initiated_expense
 
   enum status: { ideal: 0, initiated: 1, approved: 2, canceled: 3 }
 
@@ -45,6 +46,10 @@ class Expense < ApplicationRecord
 
   def category_prefix_for_application_number
     category_id == 1 ? 'E-' : 'T-'
+  end
+ 
+  def assign_approver_for_initiated_expense
+    self.approver_id = 4 if status == 'initiated'
   end
 
   def end_date_is_after_start_date

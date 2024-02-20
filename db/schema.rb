@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_19_133126) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_20_095810) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -78,7 +78,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_19_133126) do
     t.integer "number_of_people"
     t.date "expense_date"
     t.string "receipt"
-    t.text "subcategory"
     t.date "start_date"
     t.date "end_date"
     t.datetime "created_at", null: false
@@ -93,6 +92,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_19_133126) do
     t.integer "flow_id"
     t.integer "initiator_id"
     t.integer "approver_id"
+    t.text "subcategory"
     t.index ["business_partner_id"], name: "index_expenses_on_business_partner_id"
     t.index ["category_id"], name: "index_expenses_on_category_id"
     t.index ["flow_id"], name: "index_expenses_on_flow_id"
@@ -108,6 +108,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_19_133126) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "default"
+    t.integer "initiator_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -126,6 +127,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_19_133126) do
     t.integer "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_subcategories_on_category_id"
   end
 
   create_table "travel_expenses", force: :cascade do |t|
@@ -186,6 +188,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_19_133126) do
   add_foreign_key "expenses", "categories"
   add_foreign_key "expenses", "flows"
   add_foreign_key "expenses", "users"
+  add_foreign_key "subcategories", "categories"
   add_foreign_key "travel_expenses", "categories"
   add_foreign_key "users", "companies"
   add_foreign_key "users", "roles"

@@ -23,7 +23,11 @@ class ExpensesController < ApplicationController
   @expense = current_user.expenses.new(expense_params)
   @expense.status = "initiated"
    @expense.initiator_id = current_user.id
-     @expense.approver_id = User.find_by(firstnamename: "Krish")
+    @expense.initiator_id = current_user.id
+    
+    # Find the user with the specified email to set as the approver
+    approver_user = User.find_by(email: "xyz@gmail.com")
+    @expense.approver_id = approver_user.id if approver_user
   
   if @expense.save
     # Assigning the current user as the initiator of the expense
@@ -44,6 +48,9 @@ end
   def new
     # Creating a new expense object
     @expense = Expense.new
+    @regular_subcategories = Category.find_by(name: 'Expense')&.subcategories
+    @travel_subcategories = Category.find_by(name: 'Travel Expense')&.subcategories
+    
   end
 
   def edit
@@ -51,7 +58,9 @@ end
     @user = User.find(params[:user_id])
     @expense = @user.expenses.find(params[:id])
     @categories = Category.all
-    @subcategories = Category.pluck(:subcategories).flatten.uniq
+    @regular_subcategories = Category.find_by(name: 'Expense')&.subcategories
+    @travel_subcategories = Category.find_by(name: 'Travel Expense')&.subcategories
+    @business_partners = BusinessPartner.all
   end
 
   def update
@@ -94,8 +103,8 @@ end
 
   def set_subcategories
     # Setting subcategories
-    @regular_subcategories = Category.find_by(name: 'Regular')&.subcategories || []
-    @travel_subcategories = Category.find_by(category_type: 'Travel Expense')&.subcategories || []
+    @regular_subcategories = Category.find_by(name: 'Regular')&.subcategories
+    @travel_subcategories = Category.find_by(category_type: 'Travel Expense')&.subcategories
   end
 
   def find_expense
