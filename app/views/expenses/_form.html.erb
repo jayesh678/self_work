@@ -183,18 +183,22 @@
 
     <%= form.hidden_field :application_number %>
     <div class="form-group">
-       <%= button_tag "Save", type: "submit", name: "save_button", class: 'btn btn-primary' %>
-      <% if current_user.id == @flow.assigned_user_id %>
-          <%= button_tag "Approve", type: "submit", name: "approve_button", class: 'btn btn-primary' %>
-      <% elsif @expense.persisted? %>
-          <%= button_tag "Update", type: "submit", name: "create_button", class: 'btn btn-primary' %>
-      <% else %>
-          <%= button_tag "Create", type: "submit", name: "create_button", class: 'btn btn-primary' %>
-      <% end %>
-      <% end %>
-    <%= link_to "Cancel", user_expenses_path(@user), class: 'btn btn-secondary' %>
+    <%= button_tag "Save", type: "submit", name: "save_button", class: 'btn btn-primary' %>
+    
+    <% if @expense.persisted? && current_user.id == @flow.assigned_user_id %>
+      <%= button_to "Approve", approve_user_expense_path(@expense), method: :put, class: 'btn btn-primary', data: { confirm: 'Are you sure you want to approve this expense?' }, params: { authenticity_token: form_authenticity_token } %>
+    <% end %>
 
-    </div>
+    <% if @expense.persisted? %>
+      <%= button_tag "Update", type: "submit", name: "create_button", class: 'btn btn-primary' %>
+    <% else %>
+      <%= button_tag "Create", type: "submit", name: "create_button", class: 'btn btn-primary' %>
+    <% end %>
+    
+    <%= link_to "Cancel", user_expenses_path(@user), class: 'btn btn-secondary' %>
+  </div>
+<% end %>
+  </div>
   </div>
 </div>
 
@@ -256,6 +260,4 @@
   background-color: #FFDAB9; /* Peach color */
   min-height: 100vh; /* Ensure the background covers the full height of the viewport */
 }
-
-.
 </style>
