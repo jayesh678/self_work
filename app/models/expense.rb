@@ -7,7 +7,7 @@ class Expense < ApplicationRecord
   belongs_to :business_partner
   belongs_to :category
   belongs_to :subcategory,optional: true
-  has_one_attached :receipt
+  has_one_attached :receipt 
   before_create :generate_application_number
   before_validation :associate_flow, on: :create
 

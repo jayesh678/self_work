@@ -24,7 +24,7 @@
                 </div>
                 <div class="form-group">
                   <label for="receipt">Receipt</label>
-                  <input type="text" class="form-control" id="receipt" value="<%= @expense.receipt %>" readonly>
+                  <%= image_tag @expense.receipt %>
                 </div>
                 <!-- Add more details as needed -->
               </div>

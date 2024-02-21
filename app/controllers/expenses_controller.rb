@@ -42,13 +42,13 @@ end
 
   def new
     @expense = Expense.new
-    @flow = Flow.find_by(user_assigned_id: user_assigned_ids)
+    @flow = Flow.find_by(user_assigned_id: user_assigned_id)
   end
 
   def edit
     @user = User.find(params[:user_id])
     @expense = @user.expenses.find(params[:id])
-    @flow = Flow.find_by(user_assigned_id: user_assigned_ids)
+    @flow = Flow.find_by(user_assigned_id: user_assigned_id)
     @categories = Category.all
     @regular_subcategories = Category.find_by(category_type: 'Regular')&.subcategories
     @travel_subcategories = Category.find_by(category_type: 'Travel')&.subcategories
@@ -106,7 +106,7 @@ end
     @expense = @user.expenses.find(params[:id])
   end
 
-  def user_assigned_ids
+  def user_assigned_id
     Flow.pluck(:user_assigned_id)
   end
 
