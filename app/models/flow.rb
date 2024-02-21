@@ -3,6 +3,7 @@ class Flow < ApplicationRecord
   # belongs_to :approver, class_name: 'User'
   has_many :expenses, dependent: :destroy
   
+  attribute :assigned_user_id, :integer
 
     def self.create_default_flow
         # Implement your logic to create a new default flow

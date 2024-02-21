@@ -2,8 +2,8 @@ class Expense < ApplicationRecord
   # original
   belongs_to :user
   belongs_to :flow
-  belongs_to :initiator, class_name: 'User', foreign_key: 'initiator_id'
-  belongs_to :approver, class_name: 'User', foreign_key: 'approver_id', optional: true
+  # belongs_to :initiator, class_name: 'User', foreign_key: 'initiator_id'
+  # belongs_to :approver, class_name: 'User', foreign_key: 'approver_id', optional: true
   belongs_to :business_partner
   belongs_to :category
   belongs_to :subcategory,optional: true
@@ -54,16 +54,16 @@ class Expense < ApplicationRecord
   end
 
    def associate_flow
-    # Find or create a flow for the current user
     self.flow ||= Flow.find_or_create_by(user_assigned_id: user_id)
-    # Assign the predefined approver_id to the flow's assigned_user_id
     self.flow.update(assigned_user_id: predefined_approver_id)
   end
 
   def predefined_approver_id
-  
     approver_email = 'xyz@gmail.com'
     approver = User.find_by(email: approver_email)
     approver.id if approver
   end
+  # approver_emails = "a@b.com", 'c@d.com'
+  # approver = User.where(email: approver_emails)
+  # approvers.pluck(:id)
 end
