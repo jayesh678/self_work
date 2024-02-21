@@ -1,7 +1,7 @@
 class Flow < ApplicationRecord
-     belongs_to :initiator, class_name: 'User'
-  belongs_to :approver, class_name: 'User'
-  has_many :expenses
+  #    belongs_to :initiator, class_name: 'User'
+  # belongs_to :approver, class_name: 'User'
+  has_many :expenses, dependent: :destroy
   
 
     def self.create_default_flow

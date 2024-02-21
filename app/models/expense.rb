@@ -1,16 +1,17 @@
 class Expense < ApplicationRecord
   # original
   belongs_to :user
-  belongs_to :flow, optional: true
-  belongs_to :initiator, class_name: 'User', foreign_key: 'initiator_id', optional: true
+  belongs_to :flow
+  belongs_to :initiator, class_name: 'User', foreign_key: 'initiator_id'
   belongs_to :approver, class_name: 'User', foreign_key: 'approver_id', optional: true
   belongs_to :business_partner
   belongs_to :category
+  belongs_to :subcategory,optional: true
   has_one_attached :receipt
   before_create :generate_application_number
-  before_create :assign_approver_for_initiated_expense
+  before_validation :associate_flow, on: :create
 
-  enum status: { ideal: 0, initiated: 1, approved: 2, canceled: 3 }
+  enum status: { ideal: 0, initiated: 1, approved: 2, cancelled: 3 }
 
   validates :application_number, uniqueness: true
   validates :date_of_application, presence: true
@@ -21,12 +22,12 @@ class Expense < ApplicationRecord
   validates :tax_amount, presence: true
   validates :description, presence: true
   validates :receipt, presence: true
-  validates_presence_of :start_date, :end_date, if: :travel_expense
-  validate :end_date_is_after_start_date, if: -> { travel_expense && start_date.present? && end_date.present? }
+  # validates_presence_of :start_date, :end_date, if: :travel_expense
+  # validate :end_date_is_after_start_date, if: -> { travel_expense && start_date.present? && end_date.present? }
 
-  def travel_expense
-    category_id == Category.find_by(name: "travel_expense")&.id
-  end
+  # def travel_expense
+  #   category_id == Category.find_by(category_type: "Travel")&.id
+  # end
 
   private
 
@@ -47,12 +48,22 @@ class Expense < ApplicationRecord
   def category_prefix_for_application_number
     category_id == 1 ? 'E-' : 'T-'
   end
- 
-  def assign_approver_for_initiated_expense
-    self.approver_id = 4 if status == 'initiated'
-  end
 
   def end_date_is_after_start_date
     errors.add(:end_date, "cannot be before the start date") if end_date < start_date
+  end
+
+   def associate_flow
+    # Find or create a flow for the current user
+    self.flow ||= Flow.find_or_create_by(user_assigned_id: user_id)
+    # Assign the predefined approver_id to the flow's assigned_user_id
+    self.flow.update(assigned_user_id: predefined_approver_id)
+  end
+
+  def predefined_approver_id
+  
+    approver_email = 'xyz@gmail.com'
+    approver = User.find_by(email: approver_email)
+    approver.id if approver
   end
 end
