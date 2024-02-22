@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   end    
 
   resources :categories
+  resources :flows
 
 
   root "expenses#index"

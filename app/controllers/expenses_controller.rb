@@ -7,7 +7,6 @@ class ExpensesController < ApplicationController
   before_action :find_expense, only: [:edit, :update, :destroy]
 
   def index
-    # Logic for displaying expenses based on user roles
     if current_user.super_admin?
       @expenses = Expense.includes(:user).all
     elsif current_user.admin?
@@ -22,13 +21,21 @@ class ExpensesController < ApplicationController
  
   def create
   @expense = current_user.expenses.new(expense_params)
+  # flow_id = @expense.flow_id
   # @flow = Flow.find_by(user_assigned_id: user_assigned_ids)
   @expense.status = "initiated"
-  @expense.initiator_id = current_user.id
+  # @expense.user_assigned_id = current_user.id
   
-  if @expense.save
+if @expense.save
       flow = Flow.find_or_create_by(user_assigned_id: current_user.id)
   @expense.update(flow_id: flow.id)
+     if @expense.flow_id.present?
+  flow = Flow.find_by(id: @expense.flow_id)
+  if flow.present? && flow.assigned_user_id.present?
+    ExpenseMailer.notify_assigned_user(flow.assigned_user_id).deliver_now
+  end
+
+    end
     redirect_to user_expenses_path , notice: 'Expense was successfully created.'
   else
     #  flash.now[:error] = @expense.errors.full_messages.join(". ")
@@ -57,7 +64,7 @@ end
   end
 
   def update
-    # binding.pry
+    
     @expense = Expense.find(params[:id])
     @flow = Flow.find_by(user_assigned_id: @expense.user_id)
     
@@ -147,7 +154,7 @@ end
 
 def update_status_and_redirect(status, notice_message)
   if @expense.update(status: status)
-    redirect_to user_expenses_path(current_user), notice: "Status was successfully updated"
+    redirect_to user_expenses_path(current_user), notice: notice_message
   else
     render :edit
   end
@@ -155,7 +162,7 @@ end
 
 def update_expense
   if @expense.update(expense_params)
-    redirect_to user_expenses_path(current_user), notice: 'Expense was successfully updated.'
+    redirect_to user_expenses_path(current_user), notice: notice
   else
     render :edit
   end

@@ -20,10 +20,15 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.label :customer_name, "Customer Name" %><span class="required">*</span> 
-                      <%= form.select :customer_name, @customer_names, {}, class: 'form-control customer-select' %>
-                      <%= button_tag 'Fetch', type: 'button', class: 'btn btn-primary mt-2 fetch-button', data: { url: fetch_customer_details_vendor_master_business_partners_path(@vendor_master) } %>
-                      <%= link_to 'Add Vendor Master', new_vendor_master_path, class: 'btn btn-primary mt-2' %>
+                     <%= form.label :customer_name, "Customer Name" %><span class="required">*</span> 
+                        <%= form.text_field :customer_name, list: 'customer_names_list', class: 'form-control customer-select', autocomplete: 'off' %>
+                        <datalist id="customer_names_list">
+                          <% @customer_names.each do |customer_name| %>
+                          <option value="<%= customer_name %>">
+                    <% end %>
+                          </datalist>
+                        <%= button_tag 'Fetch', type: 'button', class: 'btn btn-primary mt-2 fetch-button', data: { url: fetch_customer_details_vendor_master_business_partners_path(@vendor_master) } %>
+                        <%= link_to 'Add Vendor Master', new_vendor_master_path, class: 'btn btn-primary mt-2' %>
                     </div>
                   </div>
                 </div>

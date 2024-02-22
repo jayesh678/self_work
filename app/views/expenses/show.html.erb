@@ -22,6 +22,12 @@
                   <label for="expense_date">Expense Date</label>
                   <input type="text" class="form-control" id="expense_date" value="<%= @expense.expense_date %>" readonly>
                 </div>
+
+                <div class="form-group">
+                  <label for="expense_status">Expense Status</label>
+                  <input type="text" class="form-control" id="expense_status" value="<%= @expense.status %>" readonly>
+                </div>
+
                 <div class="form-group">
                   <label for="receipt">Receipt</label>
                   <%= image_tag @expense.receipt %>
