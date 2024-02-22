@@ -95,6 +95,7 @@ end
   end
 
 
+
   def destroy
     @expense = Expense.find(params[:id])
     if @expense.destroy

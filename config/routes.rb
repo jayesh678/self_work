@@ -26,5 +26,6 @@ Rails.application.routes.draw do
 
   resources :categories
 
+
   root "expenses#index"
 end

@@ -1,0 +1,16 @@
+<!-- new.html.erb (View) -->
+<%= form_with(model: @flow, url: flows_path) do |form| %>
+  <%= form.label :initiator %>
+  <%= form.text_field :initiator, value: @flow.user_assigned_id, readonly: true %>
+
+  <%= form.label :approver %>
+  <%= form.text_field :approver, value: @flow.assigned_user_id, readonly: true %>
+
+  <%= form.label :start_date %>
+  <%= form.date_field :start_date %>
+
+  <%= form.label :end_date %>
+  <%= form.date_field :end_date %>
+
+  <%= form.submit 'Create Flow' %>
+<% end %>
