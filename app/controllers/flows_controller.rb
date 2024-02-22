@@ -1,9 +1,8 @@
 class FlowsController < ApplicationController
-  before_action :set_flow, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user! # Example of authentication, adjust as per your setup
+  before_action :authenticate_user! 
   
   def index
-    @flows = Flow.all.page(params[:page]).per(10) # Example pagination, adjust per your needs
+    @flows = Flow.all
   end
 
   def new

@@ -18,7 +18,10 @@ Rails.application.routes.draw do
   end
  
   resources :users do
-    resources :expenses
+    resources :expenses do
+      put 'approve', on: :member
+      put 'cancel', on: :member
+    end
   end    
 
   resources :categories

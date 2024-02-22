@@ -1,7 +1,7 @@
 class ExpensesController < ApplicationController
   # Main
   before_action :find_user
-  before_action :load_categories, only: [:new, :create]
+  before_action :load_categories, only: [:new, :create, :update]
   before_action :set_subcategories, only: [:new, :create, :update]
   before_action :set_business_partners, only: [:new, :create, :update]
   before_action :find_expense, only: [:edit, :update, :destroy]
@@ -22,7 +22,7 @@ class ExpensesController < ApplicationController
  
   def create
   @expense = current_user.expenses.new(expense_params)
-  @flow = Flow.find_by(user_assigned_id: user_assigned_ids)
+  # @flow = Flow.find_by(user_assigned_id: user_assigned_ids)
   @expense.status = "initiated"
   @expense.initiator_id = current_user.id
   
@@ -57,14 +57,43 @@ end
   end
 
   def update
-    @categories = Category.all
-    if @expense.update(expense_params)
-      redirect_to user_expense_path(@user, @expense), notice: 'Expense was successfully updated.'
+    # binding.pry
+    @expense = Expense.find(params[:id])
+    @flow = Flow.find_by(user_assigned_id: @expense.user_id)
+    
+    if current_user.id == @flow.assigned_user_id
+      if params[:approve_button]
+        update_status_and_redirect(:approved, 'Expense was successfully approved.')
+      elsif params[:cancel_button]
+        update_status_and_redirect(:cancelled, 'Expense was successfully cancelled.')
+      else
+        update_expense
+      end
     else
-       #  flash.now[:error] = @expense.errors.full_messages
-      render :edit
+      update_expense
     end
   end
+  
+
+
+  def approve
+    @expense = Expense.find(params[:id])
+    if @expense.update(status: :approved)
+      redirect_to user_expenses_path, notice: 'Expense approved successfully.'
+    else
+      redirect_to user_expenses_path, alert: 'Failed to approve expense.'
+    end
+  end
+
+  def cancel
+    @expense = Expense.find(params[:id])
+    if @expense.update(status: :cancelled)
+      redirect_to user_expenses_path, notice: 'Expense cancelled successfully.'
+    else
+      redirect_to user_expenses_path, alert: 'Failed to cancel expense.'
+    end
+  end
+
 
   def destroy
     @expense = Expense.find(params[:id])
@@ -114,7 +143,24 @@ end
     Flow.pluck(:assigned_user_id)
   end
 
+
+def update_status_and_redirect(status, notice_message)
+  if @expense.update(status: status)
+    redirect_to user_expenses_path(current_user), notice: "Status was successfully updated"
+  else
+    render :edit
+  end
+end
+
+def update_expense
+  if @expense.update(expense_params)
+    redirect_to user_expenses_path(current_user), notice: 'Expense was successfully updated.'
+  else
+    render :edit
+  end
+end
+
   def expense_params
-    params.require(:expense).permit(:date_of_application, :subcategory_id, :expense_date, :category_id,:start_date, :end_date, :business_partner_id, :amount, :tax_amount, :receipt, :description, :application_number)
+    params.require(:expense).permit(:date_of_application, :subcategory_id, :expense_date, :category_id,:start_date, :end_date, :business_partner_id, :amount, :tax_amount, :status, :receipt, :description, :application_number)
   end
 end
