@@ -1,9 +1,8 @@
 class FlowsController < ApplicationController
-  before_action :set_flow, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user! # Example of authentication, adjust as per your setup
   
   def index
-    @flows = Flow.all.page(params[:page]).per(10) # Example pagination, adjust per your needs
+    @flows = Flow.all
   end
 
   def new
@@ -40,12 +39,6 @@ class FlowsController < ApplicationController
   end
 
   private
-
-  def set_flow
-    @flow = Flow.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to flows_path, alert: 'Flow not found.'
-  end
 
   def flow_params
     params.require(:flow).permit(:user_assigned_id, :assigned_user_id, :flow_levels)
