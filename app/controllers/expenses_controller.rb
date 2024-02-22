@@ -169,6 +169,6 @@ def update_expense
 end
 
   def expense_params
-    params.require(:expense).permit(:date_of_application, :subcategory_id, :expense_date, :category_id,:start_date, :end_date, :business_partner_id, :amount, :tax_amount, :status, :receipt, :description, :application_number)
+    params.require(:expense).permit(:date_of_application, :subcategory_id, :expense_date, :category_id,:start_date, :end_date, :source, :destination, :business_partner_id, :amount, :tax_amount, :status, :receipt, :description, :application_number)
   end
 end

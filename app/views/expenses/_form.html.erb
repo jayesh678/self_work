@@ -80,6 +80,31 @@
                   <%= form.label :subcategory do %>
                   <% end %>
                   <%= form.select(:subcategory_id, @travel_subcategories.map { |subcategory| [subcategory.name, subcategory.id] }, { prompt: 'Select Subcategory' }, class: 'form-control') %>
+                  
+
+                 <%= form.label :source do %>
+                  Source<span class="required">*</span>
+                <% end %>
+
+                  <%= form.text_field :source, class: 'form-control'%>
+                  <% if @expense.errors[:source].any? %>
+                    <div class="error">
+                      <b><%= "Source " + @expense.errors[:source].join(", ") %></b>
+                    </div>
+                  <% end %>
+
+                <%= form.label :destination do %>
+                  Destination<span class="required">*</span>
+                <% end %>
+
+                  <%= form.text_field :destination, class: 'form-control'%>
+                  <% if @expense.errors[:destination].any? %>
+                    <div class="error">
+                      <b><%= "Destination " + @expense.errors[:destination].join(", ") %></b>
+                    </div>
+                  <% end %>
+
+
 
                   <%= form.label :start_date do %>
                     Start Date<span class="required">*</span>

@@ -22,7 +22,7 @@ class Expense < ApplicationRecord
   validates :tax_amount, presence: true
   validates :description, presence: true
   validates :receipt, presence: true
-  validates_presence_of :start_date, :end_date, if: :travel_expense
+  validates_presence_of :start_date, :end_date, :source, :destination, if: :travel_expense
   validate :end_date_is_after_start_date, if: -> { travel_expense && start_date.present? && end_date.present? }
 
   def travel_expense
