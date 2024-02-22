@@ -21,10 +21,13 @@ Rails.application.routes.draw do
     resources :expenses do
       put 'approve', on: :member
       put 'cancel', on: :member
+      resources :flows, only: [:new, :create] # Nested flows routes under expenses
     end
-  end    
+  end
+   
 
   resources :categories
+
 
   root "expenses#index"
 end

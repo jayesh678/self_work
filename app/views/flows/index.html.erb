@@ -1,0 +1,29 @@
+<!-- index.html.erb (View) -->
+<h1>Flows</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Initiator</th>
+      <th>Approver</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @flows.each do |flow| %>
+      <tr>
+        <td><%= flow.initiator %></td>
+        <td><%= flow.approver %></td>
+        <td><%= flow.start_date %></td>
+        <td><%= flow.end_date %></td>
+        <td><%= link_to 'Show', flow %></td>
+        <td><%= link_to 'Edit', edit_flow_path(flow) %></td>
+        <td><%= link_to 'Destroy', flow, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New Flow', new_flow_path, class: 'btn btn-primary' %>

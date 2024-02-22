@@ -1,46 +1,28 @@
 class FlowsController < ApplicationController
-  before_action :authenticate_user! # Example of authentication, adjust as per your setup
-  
-  def index
-    @flows = Flow.all
-  end
-
+  # GET /flows/new
   def new
     @flow = Flow.new
   end
 
+  # POST /flows
   def create
     @flow = Flow.new(flow_params)
+
     if @flow.save
-      redirect_to flow_path(@flow), notice: 'Flow was successfully created.'
+      redirect_to @flow, notice: 'Flow was successfully created.'
     else
-      render :new, status: :unprocessable_entity
+      render :new
     end
   end
 
-  def edit
-    # Add authorization logic here if needed
-  end
-
+  # GET /flows/:id
   def show
-  end
-
-  def update
-    if @flow.update(flow_params)
-      redirect_to flow_path(@flow), notice: 'Flow was successfully updated.'
-    else
-      render :edit
-    end
-  end
-
-  def destroy
-    @flow.destroy
-    redirect_to flows_path, notice: 'Flow was successfully destroyed.'
+    @flow = Flow.find(params[:id])
   end
 
   private
 
+  # Only allow a list of trusted parameters through.
   def flow_params
-    params.require(:flow).permit(:user_assigned_id, :assigned_user_id, :flow_levels)
+    params.require(:flow).permit(:user_assigned_id, :assigned_user_id, :start_date, :end_date)
   end
-end
