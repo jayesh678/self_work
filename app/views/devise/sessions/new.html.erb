@@ -10,15 +10,23 @@
   <style>
     /* Custom CSS */
     body {
-      background-color: #ffe5b4; /* Peach background color */
+      background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg79o6YuL1NSBuUxeUJJq8st_iZcMqkXJvy47Qx4gVcU7S8HiEa_SdDvk9ZxXt5fUA8cbuHkQbTH60sYzj5mT43vgYlCjUkfXmTG8rLGxWDyzTEcnSclIp-rZKs2MVo5yYeN17mezLFpY8pzmP63YTb94l3RiYxSUlN0Rylq7thurBopYhfNcL26vXcLmY/s320/20240224_153132_0000.png');
+      /* Replace 'your_background_image_url.jpg' with the URL of your image */
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      overflow: hidden; /* Prevent scrollbar */
     }
 
     .login-card {
-      background-color: #f8f9fa; /* Light background color for the card */
+      width: 400px; /* Adjust as needed */
+      background: linear-gradient(135deg, #CDFFD8, #94B9FF); /* Gradient background */
       border: none;
       border-radius: 10px;
-      padding: 20px;
+      padding: 20px; /* Increased padding */
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Adding shadow for a card effect */
+      margin-left: 400px;
+      margin-bottom: 40px;
     }
 
     .page-container {
@@ -39,9 +47,9 @@
 
     .input-field {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
       border: 1px solid #ccc;
-      border-radius: 3px;
+      border-radius: 20px; /* Adjusted radius for rounded rectangles */
     }
 
     .remember-me-field {
@@ -50,16 +58,16 @@
 
     .login-button {
       width: 100%;
-      padding: 10px;
-      background-color: #007bff;
+      padding: 15px; /* Increased padding */
+      background-color: #000; /* Black background color */
       color: #fff;
       border: none;
-      border-radius: 3px;
+      border-radius: 20px; /* Adjusted radius for rounded rectangles */
       cursor: pointer;
     }
 
     .login-button:hover {
-      background-color: #0056b3;
+      background-color: #333; /* Darker shade on hover */
     }
 
     .remember-me-checkbox {
@@ -68,6 +76,11 @@
 
     .form-actions {
       text-align: center;
+      margin-top: 10px; /* Add margin to separate links from the button */
+    }
+
+    .login-links a {
+      color: #000; /* Black color for links */
     }
   </style>
 </head>
@@ -75,11 +88,7 @@
 <body>
 
   <div class="container">
-    <div class="row">
-      <!-- Image Column -->
-      <div class="col-md-6">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrWRvF7Xi0X1sh2_ACB7QSk5YtIiynmxWHOQ&usqp=CAU" alt="Image" class="img-fluid">
-      </div>
+    <div class="row justify-content-center">
       <!-- Form Column -->
       <div class="col-md-6">
         <div class="page-container">
@@ -121,7 +130,9 @@
               </div>
               <% end %>
 
-              <%= render "devise/shared/links" %>
+              <div class="login-links text-center">
+                <%= render "devise/shared/links" %>
+              </div>
             </div>
           </div>
         </div>

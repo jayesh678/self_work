@@ -4,212 +4,288 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>New Expense</title>
-
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: radial-gradient( #5DE0E6, #004AAD);
+    }
+    .card {
+      background: linear-gradient(to bottom, #CDFFD8, #94B9FF);
+    }
+    label {
+      font-weight: bold;
+    }
+    .btn {
+      background-color: black;
+      color: white;
+    }
+    .btn:hover {
+      background-color: white;
+      color: black;
+    }
+    .form-control {
+      border: 2px solid black;
+  border-radius: 20px; /* Adjust the value as needed */
+}
+
+/* Adjust the rounded corners for file input field */
+.form-control-file {
+  border-radius: 20px; /* Adjust the value as needed */
+}
+
+/* Custom CSS for rounded buttons */
+.btn {
+  border-radius: 20px; /* Adjust the value as needed */
+}
+  </style>
 </head>
 <body>
 <div class="container">
   <div class="card mt-4">
-    <div class="card-body bg-LIGHT">
+    <div class="card-body">
       <%= form_with(model: [@user, @expense], data: { turbo: false }) do |form| %>
-        <body class="peach-bg">
-          <div class="row">
-            <div class="col-md-4">
-              <div class="form-group">
-                <%= form.label :date_of_application do %>
-                  Date of Application<span class="required">*</span>
-                <% end %>
-                <%= form.date_field :date_of_application, class: 'form-control' %>
-                <!-- Error handling -->
-                <% if @expense.errors[:date_of_application].any? %>
-                  <div class="error">
-                    <b><%= "Date " + @expense.errors[:date_of_application].join(", ") %></b>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="form-group">
-                <%= form.label :expense_date do %>
-                  Expense Date<span class="required">*</span>
-                <% end %>
-                <%= form.date_field :expense_date, class: 'form-control' %>
-                <!-- Error handling -->
-                <% if @expense.errors[:expense_date].any? %>
-                  <div class="error">
-                    <b><%= "Expense Date " + @expense.errors[:expense_date].join(", ") %></b>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="form-group">
-                <%= form.label :category_id do %>
-                  Category<span class="required">*</span>
-                <% end %>
-                <%= form.collection_select(:category_id, @categories, :id, :name, { prompt: 'Select Category' }, { id: 'category-select', class: 'form-control' }) %>
-                <!-- Error handling -->
-                <% if @expense.errors[:category].any? %>
-                  <div class="error">
-                    <b><%= "Category " + @expense.errors[:category].join(", ") %></b>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <%= form.label :subcategory_id, "Subcategory" %>
-            <%= form.collection_select(:subcategory_id, @subcategories, :id, :name, { prompt: 'Select Subcategory' }, { class: 'form-control' }) %>
-          </div>
-
-          <!-- Subcategories Row -->
-          <div class="row">
-            <div class="col-md-4">
-              <div id="subcategories">
-                <div id="regular-subcategories" style="display: none;">
-                  <%= form.label :subcategory do %>
-                    Subcategory<span class="required">*</span>
-                  <% end %>
-                  <%= form.select(:subcategory_id, @regular_subcategories.map { |subcategory| [subcategory.name, subcategory.id] }, { prompt: 'Select Subcategory' }, { class: 'form-control' }) %>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <%= form.label :application_name do %>
+                Application Name<span class="required">*</span>
+              <% end %>
+              <%= form.text_field :application_name, class: 'form-control' %>
+              <!-- Error handling -->
+              <% if @expense.errors[:application_name].any? %>
+                <div class="error">
+                  <b><%= "Application Name " + @expense.errors[:application_name].join(", ") %></b>
                 </div>
-                <div id="travel-subcategories" style="display: none;">
-                  <%= form.label :subcategory do %>
-                  <% end %>
-                  <%= form.select(:subcategory_id, @travel_subcategories.map { |subcategory| [subcategory.name, subcategory.id] }, { prompt: 'Select Subcategory' }, class: 'form-control') %>
-                  
-
-                 <%= form.label :source do %>
+              <% end %>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <%= form.label :date_of_application do %>
+                Date of Application<span class="required">*</span>
+              <% end %>
+              <%= form.date_field :date_of_application, class: 'form-control' %>
+              <!-- Error handling -->
+              <% if @expense.errors[:date_of_application].any? %>
+                <div class="error">
+                  <b><%= "Date " + @expense.errors[:date_of_application].join(", ") %></b>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <%= form.label :expense_date do %>
+                Expense Date<span class="required">*</span>
+              <% end %>
+              <%= form.date_field :expense_date, class: 'form-control' %>
+              <!-- Error handling -->
+              <% if @expense.errors[:expense_date].any? %>
+                <div class="error">
+                  <b><%= "Expense Date " + @expense.errors[:expense_date].join(", ") %></b>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <%= form.label :category_id do %>
+                Category<span class="required">*</span>
+              <% end %>
+              <%= form.collection_select(:category_id, @categories, :id, :name, { prompt: 'Select Category' }, { id: 'category-select', class: 'form-control' }) %>
+              <!-- Error handling -->
+              <% if @expense.errors[:category].any? %>
+                <div class="error">
+                  <b><%= "Category " + @expense.errors[:category].join(", ") %></b>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Subcategory Field -->
+        <div class="form-group">
+          <%= form.label :subcategory_id, "Subcategory" %>
+          <%= form.collection_select(:subcategory_id, @subcategories, :id, :name, { prompt: 'Select Subcategory' }, { id: 'subcategory-select', class: 'form-control' }) %>
+        </div>
+        
+        <!-- Fields for Travel Category -->
+        <div id="travel-fields" style="display: none;">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <%= form.label :source do %>
                   Source<span class="required">*</span>
                 <% end %>
-
-                  <%= form.text_field :source, class: 'form-control'%>
-                  <% if @expense.errors[:source].any? %>
-                    <div class="error">
-                      <b><%= "Source " + @expense.errors[:source].join(", ") %></b>
-                    </div>
-                  <% end %>
-
+                <%= form.text_field :source, class: 'form-control' %>
+                <% if @expense.errors[:source].any? %>
+                  <div class="error">
+                    <b><%= "Source " + @expense.errors[:source].join(", ") %></b>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
                 <%= form.label :destination do %>
                   Destination<span class="required">*</span>
                 <% end %>
-
-                  <%= form.text_field :destination, class: 'form-control'%>
-                  <% if @expense.errors[:destination].any? %>
-                    <div class="error">
-                      <b><%= "Destination " + @expense.errors[:destination].join(", ") %></b>
-                    </div>
-                  <% end %>
-
-
-
-                  <%= form.label :start_date do %>
-                    Start Date<span class="required">*</span>
-                  <% end %>
-                  <%= form.date_field :start_date, class: 'form-control' %>
-                  <% if @expense.errors[:start_date].any? %>
-                    <div class="error">
-                      <b><%= "Start Date " + @expense.errors[:start_date].join(", ") %></b>
-                    </div>
-                  <% end %>
-
-                  <%= form.label :end_date do %>
-                    End Date<span class="required">*</span>
-                  <% end %>
-                  <%= form.date_field :end_date, class: 'form-control' %>
-                  <% if @expense.errors[:end_date].any? %>
-                    <div class="error">
-                      <b><%= "End Date " + @expense.errors[:end_date].join(", ") %></b>
-                    </div>
-                  <% end %>
+                <%= form.text_field :destination, class: 'form-control' %>
+                <% if @expense.errors[:destination].any? %>
+                  <div class="error">
+                    <b><%= "Destination " + @expense.errors[:destination].join(", ") %></b>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <%= form.label :start_date do %>
+                  Start Date<span class="required">*</span>
+                <% end %>
+                <%= form.date_field :start_date, class: 'form-control' %>
+                <% if @expense.errors[:start_date].any? %>
+                  <div class="error">
+                    <b><%= "Start Date " + @expense.errors[:start_date].join(", ") %></b>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <%= form.label :end_date do %>
+                  End Date<span class="required">*</span>
+                <% end %>
+                <%= form.date_field :end_date, class: 'form-control' %>
+                <% if @expense.errors[:end_date].any? %>
+                  <div class="error">
+                    <b><%= "End Date " + @expense.errors[:end_date].join(", ") %></b>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Fields for Regular Category -->
+        <div id="regular-fields" style="display: none;">
+          <!-- Add fields specific to regular category if needed -->
+        </div>
+        
+        
+        <!-- Remaining Form Fields -->
+        <!-- Business Partner, Amount, Tax Amount, Receipt, Description fields -->
+        <!-- Remaining Form Fields -->
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <%= form.label :business_partner_id, "Business Partner<span class='required'>*</span>".html_safe %>
+              <%= form.collection_select(:business_partner_id, @business_partners, :id, :customer_name, { prompt: 'Select Business Partner' }, { class: 'form-control' }) %>
+              <!-- Error handling -->
+              <% if @expense.errors[:business_partner].any? %>
+                <div class="error">
+                  <b><%= "Business Partner " + @expense.errors[:business_partner].join(", ") %></b>
                 </div>
-              </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <%= form.label :amount do %>
+                Amount<span class="required">*</span>
+              <% end %>
+              <%= form.number_field :amount, id: "amount-field", class: 'form-control' %>
+              <!-- Error handling -->
+              <% if @expense.errors[:amount].any? %>
+                <div class="error">
+                  <b><%= "Amount " + @expense.errors[:amount].join(", ") %></b>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <%= form.label :tax_amount do %>
+                Tax Amount<span class="required">*</span>
+              <% end %>
+              <%= form.number_field :tax_amount, id: "tax-amount-field", class: 'form-control' %>
+              <!-- Error handling -->
+              <% if @expense.errors[:tax_amount].any? %>
+                <div class="error">
+                  <b><%= "Tax Amount " + @expense.errors[:tax_amount].join(", ") %></b>
+                </div>
+              <% end %>
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-md-4">
-              <div class="form-group">
-                <%= form.label :business_partner_id, "Business Partner<span class='required'>*</span>".html_safe %>
-                <%= form.collection_select(:business_partner_id, @business_partners, :id, :customer_name, { prompt: 'Select Business Partner' }, { class: 'form-control' }) %>
-                <!-- Error handling -->
-                <% if @expense.errors[:business_partner].any? %>
-                  <div class="error">
-                    <b><%= "Business Partner " + @expense.errors[:business_partner].join(", ") %></b>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="form-group">
-                <%= form.label :amount do %>
-                  Amount<span class="required">*</span>
-                <% end %>
-                <%= form.number_field :amount, id: "amount-field", class: 'form-control' %>
-                <!-- Error handling -->
-                <% if @expense.errors[:amount].any? %>
-                  <div class="error">
-                    <b><%= "Amount " + @expense.errors[:amount].join(", ") %></b>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="form-group">
-                <%= form.label :tax_amount do %>
-                  Tax Amount<span class="required">*</span>
-                <% end %>
-                <%= form.number_field :tax_amount, id: "tax-amount-field", class: 'form-control' %>
-                <!-- Error handling -->
-                <% if @expense.errors[:tax_amount].any? %>
-                  <div class="error">
-                    <b><%= "Tax Amount " + @expense.errors[:tax_amount].join(", ") %></b>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-4">
-              <div class="form-group">
-                <%= form.label :receipt do %>
-                  Receipt<span class="required">*</span>
-                <% end %>
-                <%= form.file_field :receipt, class: 'form-control-file' %> 
-              </div>
-            </div>
-
-            <div class="col-md-8">
-              <div class="form-group">
-                <%= form.label :description do %>
-                  Description<span class="required">*</span>
-                <% end %>
-                <%= form.text_area :description, class: 'form-control' %>
-                <!-- Error handling -->
-                <% if @expense.errors[:description].any? %>
-                  <div class="error">
-                    <b><%= "Description " + @expense.errors[:description].join(", ") %></b>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-          </div>
-
-          <%= form.hidden_field :application_number %>
+          <div class="col-md-3">
           <div class="form-group">
-            <%= button_tag "Save", type: "submit", name: "save_button", class: 'btn btn-primary' %>
+            <%= form.label :total_amount do %>
+              Total Amount<span class="required">*</span>
+            <% end %>
+            <%= form.number_field :total_amount, id: "total-amount-field", class: 'form-control', readonly: true %>
+            <!-- Error handling -->
+            <% if @expense.errors[:total_amount].any? %>
+              <div class="error">
+                <b><%= "Total Amount " + @expense.errors[:total_amount].join(", ") %></b>
+              </div>
+            <% end %>
+          </div>
+        </div>
+          
+        <!-- Total Amount Field -->
+        <div class="row">
 
+
+        <div class="row">
+  <div class="col-md-3">
+    <div class="form-group">
+      <%= form.label :number_of_people do %>
+        Number of People<span class="required">*</span>
+      <% end %>
+      <%= form.number_field :number_of_people, class: 'form-control' %>
+      <!-- Error handling -->
+      <% if @expense.errors[:number_of_people].any? %>
+        <div class="error">
+          <b><%= "Number of People " + @expense.errors[:number_of_people].join(", ") %></b>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="form-group">
+      <%= form.label :receipt do %>
+        Receipt<span class="required">*</span>
+      <% end %>
+      <%= form.file_field :receipt, class: 'form-control-file' %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= form.label :description do %>
+        Description<span class="required">*</span>
+      <% end %>
+      <%= form.text_area :description, class: 'form-control' %>
+      <!-- Error handling -->
+      <% if @expense.errors[:description].any? %>
+        <div class="error">
+          <b><%= "Description " + @expense.errors[:description].join(", ") %></b>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+        
+        <%= form.hidden_field :application_number %>
+        
+        <div class="form-group">
+          <%= button_tag "Save", type: "submit", name: "save_button", class: 'btn btn-primary' %>
           <% if @expense.persisted? && current_user.id == @flow.assigned_user_id %>
             <%= button_to "Approve", approve_user_expense_path(@user, @expense), class: 'btn btn-primary', method: :put, data: { turbo_method: :put, confirm: 'Are you sure you want to approve this expense?' }, params: { approve_button: true, authenticity_token: form_authenticity_token } %>
-
             <%= button_to "Cancel", cancel_user_expense_path(@user, @expense), class: 'btn btn-primary', method: :put, data: { turbo_method: :put, confirm: 'Are you sure you want to cancel this expense?' }, params: { cancel_button: true, authenticity_token: form_authenticity_token } %>
-
           <% else %>
             <% if @expense.persisted? %>
               <%= button_tag "Update", type: "submit", name: "create_button", class: 'btn btn-primary' %>
@@ -218,33 +294,64 @@
             <% end %>
             <%= link_to "Cancel", user_expenses_path(@user), class: 'btn btn-secondary' %>
           <% end %>
-        <% end %>
+        </div>
+        
+      <% end %>
     </div>
   </div>
 </div>
-</body>
-</html>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+  .peach-bg {
+    background-color: #FFDAB9; /* Peach color */
+    min-height: 100vh; /* Ensure the background covers the full height of the viewport */
+  }
+</style>
+
 
 
 
   <script>
-    $('#category-select').change(function() {
-      var selectedCategory = $(this).val();
-
-      if (selectedCategory === '1') {
-        $('#regular-subcategories').show();
-        $('#travel-subcategories').hide();
-        $('#travel-dates').hide();
-      } else if (selectedCategory === '2') {
-        $('#regular-subcategories').hide();
-        $('#travel-subcategories').show();
-        $('#travel-dates').show();
-      } else {
-        $('#regular-subcategories').hide();
-        $('#travel-subcategories').hide();
-        $('#travel-dates').hide();
-      }
-    });
+  $('#category-select').change(function() {
+    var selectedCategory = $(this).val();
+  
+    if (selectedCategory === '1') {
+      $('#regular-fields').show();
+      $('#travel-fields').hide();
+    } else if (selectedCategory === '2') {
+      $('#regular-fields').hide();
+      $('#travel-fields').show();
+    } else {
+      $('#regular-fields').hide();
+      $('#travel-fields').hide();
+    }
+  });
+  
+  // Handle subcategory selection based on the selected category type
+  $('#category-select').change(function() {
+    var selectedCategory = $(this).val();
+    var subcategorySelect = $('#subcategory-select');
+  
+    if (selectedCategory === '1') {
+      // Populate regular subcategories
+      subcategorySelect.empty().append('<option value="">Select Subcategory</option>');
+      <% @regular_subcategories.each do |subcategory| %>
+        subcategorySelect.append('<option value="<%= subcategory.id %>"><%= subcategory.name %></option>');
+      <% end %>
+    } else if (selectedCategory === '2') {
+      // Populate travel subcategories
+      subcategorySelect.empty().append('<option value="">Select Subcategory</option>');
+      <% @travel_subcategories.each do |subcategory| %>
+        subcategorySelect.append('<option value="<%= subcategory.id %>"><%= subcategory.name %></option>');
+      <% end %>
+    } else {
+      subcategorySelect.empty().append('<option value="">Select Subcategory</option>');
+    }
+  });
 
     function calculateTax() {
       var amount = parseFloat($('#amount-field').val());
@@ -270,6 +377,21 @@
         $('#receipt-preview').hide();
       }
     });
+
+    function calculateTotalAmount() {
+    var amount = parseFloat($('#amount-field').val());
+    var taxAmount = parseFloat($('#tax-amount-field').val());
+    var totalAmount = amount + taxAmount;
+    $('#total-amount-field').val(totalAmount.toFixed(2)); // Set the calculated total amount to the total amount input field
+  }
+
+  // Call the calculateTotalAmount function whenever there is a change in the amount or tax amount field
+  $('#amount-field, #tax-amount-field').on('input', calculateTotalAmount);
+
+  // Calculate total amount initially when the page loads
+  $(document).ready(function() {
+    calculateTotalAmount();
+  });
   </script>
 
   <!-- Bootstrap JS -->
@@ -279,9 +401,3 @@
 </div>
 </body>
 </html>
-<style>
-.peach-bg {
-  background-color: #FFDAB9; /* Peach color */
-  min-height: 100vh; /* Ensure the background covers the full height of the viewport */
-}
-</style>

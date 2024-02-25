@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Business Partners</title>
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <title>List of Business Partners</title>
+  <%= stylesheet_link_tag 'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <!-- Font Awesome CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-<SHA_HASH>" crossorigin="anonymous" />
   
-
   <style>
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #ffe6e6; /* Light rose color */
+      background: radial-gradient(#5DE0E6, #004AAD);
       margin: 0;
       padding: 20px;
     }
@@ -21,25 +21,38 @@
       text-align: center;
     }
 
+    .card {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 60px;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    th, td {
-      border: 1px solid black; /* Add a dark black border to every cell */
-      padding: 12px;
-      text-align: left;
+      border-spacing: 0;
+      margin-bottom: 20px; /* Add spacing between table and buttons */
+     
     }
 
     th {
       background-color: #007bff;
       color: #fff;
+      padding: 12px;
+      text-align: left;
+      border-radius: 30px; /* Rounded corners */
+      text-align: center;
     }
 
-    tbody tr:hover {
-      background-color: #f5f5f5;
+    td {
+      padding: 12px;
+      text-align: center;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #F6F4F1;
     }
 
     a.button {
@@ -47,11 +60,13 @@
       padding: 8px 12px;
       text-align: center;
       text-decoration: none;
-      background-color: #007bff;
-      color: #fff;
-      border-radius: 4px;
+      background-color: #fff;
+      color: #007bff;
+      border-radius: 20px; 
+      border: 2px solid #007bff; /* Add border with blue color */
       transition: background-color 0.3s ease;
     }
+    
 
     a.button:hover {
       background-color: #0056b3;
@@ -61,122 +76,180 @@
       display: block;
       margin-top: 20px;
     }
+
+    .pagination-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px; /* Add margin between the table and pagination */
+    }
+    
+    .add-user {
+      margin-top: auto; /* Push Add User button to bottom */
+    }
+    
+    .pagination {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+  .page_info {
+  font-size: 14px;
+  color: #000;
+  margin-bottom: 10px; /* Add margin for spacing */
+}
+    
+pagination-links a {
+  display: inline-block;
+  padding: 8px 12px;
+  text-align: center;
+  text-decoration: none;
+  background-color: #fff;
+  color: #007bff;
+  border-radius: 20px;
+  border: 2px solid #007bff;
+  transition: background-color 0.3s ease;
+  margin: 0 2px;
+}
+    
+.pagination-links a:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+{
+    text-align: center;
+}
+
+
+
   </style>
 </head>
 <body>
 
-<h1>Business Partners</h1>
+<div class="card">
+  <h1>Business Partners</h1>
+  <br>
 
-<table>
-  <thead>
-    <tr>
-      <th>Customer Name</th>
-      <th>Customer Code</th>
-      <th>Corporate Number</th>
-      <th>Invoice Number</th>
-      <th>Bank Name</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @business_partners.each do |business_partner| %>
+  <div class="table-container">
+  <table>
+    <thead>
       <tr>
-        <td><%= business_partner.customer_name %></td>
-        <td><%= business_partner.customer_code %></td>
-        <td><%= business_partner.corporate_number %></td>
-        <td><%= business_partner.invoice_number %></td>
-        <td><%= business_partner.bank_name %></td>
-        
-        <td>
-        <%= link_to vendor_master_business_partner_path(@vendor_master, business_partner) , class: 'btn btn-primary btn-sm' do %>
-                    <i class="fas fa-eye"></i> View
-                  <% end %>
-        
-        <% if can? :update, business_partner %>
-          <%= link_to edit_vendor_master_business_partner_path(@vendor_master, business_partner) , class: 'btn btn-secondary btn-sm' do %>
-                    <i class="fas fa-edit"></i> Edit
-                  <% end %>
-                  
-        <% end %>
-        
-        <% if can? :destroy, business_partner %>
-          <%= link_to vendor_master_business_partner_path(@vendor_master, business_partner), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' do %>
-                    <i class="fas fa-trash-alt"></i> Delete
-                  <% end %>
-                  <% end %>
-                  
-          </td>
-      </td>
-      
+        <th>Customer Name</th>
+        <th>Customer Code</th>
+        <th>Corporate Number</th>
+        <th>Invoice Number</th>
+        <th>Bank Name</th>
+        <th>Actions</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-<% if can? :create, BusinessPartner %>
-  <%= link_to new_vendor_master_business_partner_path(@vendor_master), class: 'button new-business-partner-link' do %>
-    <i class="fas fa-user-plus" style="margin-right: 5px;"></i> <!-- Font Awesome icon -->
-    Add Business Partner
-  <% end %>
-<% end %>
+    </thead>
+    <tbody>
+      <% @business_partners.each do |business_partner| %>
+        <tr>
+          <td><%= business_partner.customer_name %></td>
+          <td><%= business_partner.customer_code %></td>
+          <td><%= business_partner.corporate_number %></td>
+          <td><%= business_partner.invoice_number %></td>
+          <td><%= business_partner.bank_name %></td>
+          <td>
+            <%= link_to vendor_master_business_partner_path(@vendor_master, business_partner), class: 'btn btn-primary btn-sm' do %>
+              <i class="fas fa-eye"></i> View
+            <% end %>
+            <% if can? :update, business_partner %>
+              <%= link_to edit_vendor_master_business_partner_path(@vendor_master, business_partner), class: 'btn btn-secondary btn-sm' do %>
+                <i class="fas fa-edit"></i> Edit
+              <% end %>
+            <% end %>
+            <% if can? :destroy, business_partner %>
+              <%= link_to vendor_master_business_partner_path(@vendor_master, business_partner), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' do %>
+                <i class="fas fa-trash-alt"></i> Delete
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-
-</br>
-<div class="digg_pagination" style="text-align: center; margin-top: 320px;">
-    <div class="page_info">
-      <%= page_entries_info @business_partners %>
+  <div class="row justify-content-between">
+    <div class="col-md-auto">
+      <% if can? :create, BusinessPartner %>
+        <%= link_to new_vendor_master_business_partner_path(@vendor_master), class: 'button new-business-partner-link' do %>
+          <i class="fas fa-user-plus" style="margin-right: 5px;"></i> <!-- Font Awesome icon -->
+          Add Business Partner
+        <% end %>
+      <% end %>
     </div>
-    <%= will_paginate @business_partners, :container => false %>
+    <div class="col-md-auto">
+      <div class="digg_pagination">
+        <div class="page_info">
+          <%= page_entries_info @business_partners %>
+        </div>
+        <%= will_paginate @business_partners, :container => false %>
+      </div>
+    </div>
   </div>
+</div>
+  
 
-
+</body>
+</html>
 <style>
 .digg_pagination {
-  cursor: default;
-  /* self-clearing method: */ }
-  .digg_pagination a, .digg_pagination span, .digg_pagination em {
-    padding: 0.2em 0.5em;
-    display: block;
-    float: left;
-    margin-right: 1px; }
-  .digg_pagination .disabled {
-    color: #999999;
-    border: 1px solid #dddddd; }
-  .digg_pagination .current {
-    font-style: normal;
-    font-weight: bold;
-    background: #2e6ab1;
-    color: white;
-    border: 1px solid #2e6ab1; }
-  .digg_pagination a {
-    text-decoration: none;
-    color: #105cb6;
-    border: 1px solid #9aafe5; }
+      cursor: default;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .digg_pagination a, .digg_pagination span, .digg_pagination em {
+      padding: 0.2em 0.5em;
+      display: block;
+      float: left;
+      margin-right: 1px;
+    }
+    .digg_pagination .disabled {
+      color: #999999;
+      border: 1px solid #dddddd;
+    }
+    .digg_pagination .current {
+      font-style: normal;
+      font-weight: bold;
+      background: #2e6ab1;
+      color: white;
+      border: 1px solid #2e6ab1;
+    }
+    .digg_pagination a {
+      text-decoration: none;
+      color: #105cb6;
+      border: 1px solid #9aafe5;
+    }
     .digg_pagination a:hover, .digg_pagination a:focus {
       color: #000033;
-      border-color: #000033; }
-  .digg_pagination .page_info {
-    background: #2e6ab1;
-    color: white;
-    padding: 0.4em 0.6em;
-    width: 22em;
-    margin-bottom: 0.3em;
-    text-align: center; }
+      border-color: #000033;
+    }
+    .digg_pagination .page_info {
+      background: #2e6ab1;
+      color: white;
+      padding: 0.4em 0.6em;
+      width: 22em;
+      margin-bottom: 0.3em;
+      text-align: center;
+    }
     .digg_pagination .page_info b {
       color: #000033;
       background: #6aa6ed;
-      padding: 0.1em 0.25em; }
-  .digg_pagination:after {
-    content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden; }
-  * html .digg_pagination {
-    height: 1%; }
-  *:first-child + html .digg_pagination {
-    overflow: hidden; }
-  </style>
- 
-</body>
-</html>
+      padding: 0.1em 0.25em;
+    }
+    .digg_pagination:after {
+      content: ".";
+      display: block;
+      height: 0;
+      clear: both;
+      visibility: hidden;
+    }
+    * html .digg_pagination {
+      height: 1%;
+    }
+    *:first-child + html .digg_pagination {
+      overflow: hidden;
+    }
+</style>

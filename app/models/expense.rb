@@ -6,7 +6,7 @@ class Expense < ApplicationRecord
   # belongs_to :approver, class_name: 'User', foreign_key: 'approver_id', optional: true
   belongs_to :business_partner
   belongs_to :category
-  belongs_to :subcategory,optional: true
+  has_many :subcategories
   has_one_attached :receipt 
   before_create :generate_application_number
   before_validation :associate_flow, on: :create

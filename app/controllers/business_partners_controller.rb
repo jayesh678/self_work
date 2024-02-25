@@ -24,6 +24,7 @@ class BusinessPartnersController < ApplicationController
 
     def update
       @business_partner = @vendor_master.business_partners.find(params[:id])
+      @customer_names = VendorMaster.pluck(:customer_name) 
   
       if @business_partner.update(business_partner_params)
         redirect_to vendor_master_business_partner_path(@vendor_master, @business_partner), notice: 'Business Partner was successfully updated.'

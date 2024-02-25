@@ -8,7 +8,8 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background-color: #ffdab9; /* Peach background color for the whole page */
+      background: linear-gradient(to bottom right, #5DE0E6, #004AAD); /* Gradient background color for the whole page */
+      overflow: hidden; /* Prevent scrollbar */
     }
     .container {
       display: flex;
@@ -20,6 +21,10 @@
       width: 400px; /* Set width of the card */
       padding: 20px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background: linear-gradient(to bottom right, #CDFFD8, #94B9FF); /* Gradient background color for the card */
+      border: 1px solid #000; /* Black border */
+      border-radius: 5px; /* Rounded corners */
+      margin-bottom: 110px;
     }
     .card-title {
       text-align: center;
@@ -27,14 +32,32 @@
     .field {
       margin-bottom: 20px;
     }
+    .field input[type="password"],
+    .field input[type="text"],
+    .field input[type="email"] {
+      border: 1px solid #000; /* Black border */
+      border-radius: 20px; /* Rounded corners */
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+    }
     .actions {
       text-align: center;
+    }
+    .actions input[type="submit"] {
+      border: 1px solid #000; /* Black border */
+      border-radius: 5px; /* Rounded corners */
+      background-color: #000; /* Black background color */
+      color: #fff; /* White text color */
+      padding: 10px 20px; /* Padding for the button */
+      cursor: pointer;
     }
     .back-link {
       text-align: center;
       margin-top: 10px; /* Add margin-top to create space */
     }
-  </style>
+</style>
+
 </head>
 <body>
 

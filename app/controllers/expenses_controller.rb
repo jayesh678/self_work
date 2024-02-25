@@ -20,6 +20,7 @@ class ExpensesController < ApplicationController
 
  
   def create
+  @subcategories = Subcategory.all
   @expense = current_user.expenses.new(expense_params)
   # flow_id = @expense.flow_id
   # @flow = Flow.find_by(user_assigned_id: user_assigned_ids)
@@ -27,6 +28,7 @@ class ExpensesController < ApplicationController
   # @expense.user_assigned_id = current_user.id
   
 if @expense.save
+  
       flow = Flow.find_or_create_by(user_assigned_id: current_user.id)
   @expense.update(flow_id: flow.id)
      if @expense.flow_id.present?
@@ -169,6 +171,6 @@ def update_expense
 end
 
   def expense_params
-    params.require(:expense).permit(:date_of_application, :subcategory_id, :expense_date, :category_id,:start_date, :end_date, :source, :destination, :business_partner_id, :amount, :tax_amount, :status, :receipt, :description, :application_number)
+    params.require(:expense).permit(:number_of_people ,:application_name, :total_amount, :date_of_application, :subcategory_id, :expense_date, :category_id,:start_date, :end_date, :source, :destination, :business_partner_id, :amount, :tax_amount, :status, :receipt, :description, :application_number)
   end
 end

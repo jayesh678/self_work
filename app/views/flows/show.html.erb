@@ -52,42 +52,27 @@
     <div class="col-md-8"> <!-- Increased column width for better layout -->
       <div class="card profile-box"> <!-- Added profile-box class -->
         <div class="card-body">
-          <h1 class="mb-4"><center>User Profile</center></h1>
+          <h1 class="mb-4"><center>Flow Information</center></h1>
           
           <div class="profile-field">
             <p>First Name:</p>
-            <div class="editable-field" ><%= @user.firstname %></div>
+            <div class="editable-field" ><%= @flow.user_assigned_id%></div>
           </div>
           
           <div class="profile-field">
             <p>Last Name:</p>
-            <div class="editable-field" ><%= @user.lastname %></div>
+            <div class="editable-field" ><%= @flow.assigned_user_id %></div>
           </div>
           
           <div class="profile-field">
             <p>Company code:</p>
-            <div class="editable-field" ><%= @user.company.company_code %></div>
+            <div class="editable-field" ><%= @flow.start_date %></div>
           </div>
 
           <div class="profile-field">
             <p>Company Unique ID:</p>
-            <div class="editable-field" ><%= @user.company.company_uniqueid %></div>
+            <div class="editable-field" ><%= @flow.end_date %></div>
           </div>
-
-          <div class="profile-field">
-            <p>Role:</p>
-            <div class="editable-field" ><%= Role.find(@user.role_id).role_name %></div>
-          </div> 
-
-          <%= link_to 'Change Password', edit_user_registration_path(@user), class: 'btn btn-dark button'%>
-          <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-dark button' %>
-
-          <% if user_signed_in? %>
-            <!-- Additional content for signed-in users -->
-          <% else %>
-            <%= link_to "Sign up!", new_user_registration_path, class: 'btn btn-success button' %>
-            <%= link_to 'Login', new_user_session_path, class: 'btn btn-info button' %>
-          <% end %>
         </div>
       </div>
     </div>

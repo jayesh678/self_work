@@ -1,29 +1,59 @@
-<!-- index.html.erb (View) -->
-<h1>Flows</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flows</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
 
-<table>
-  <thead>
-    <tr>
-      <th>Initiator</th>
-      <th>Approver</th>
-      <th>Start Date</th>
-      <th>End Date</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @flows.each do |flow| %>
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .btn {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Flows</h1>
+  <table>
+    <thead>
       <tr>
-        <td><%= flow.initiator %></td>
-        <td><%= flow.approver %></td>
-        <td><%= flow.start_date %></td>
-        <td><%= flow.end_date %></td>
-        <td><%= link_to 'Show', flow %></td>
-        <td><%= link_to 'Edit', edit_flow_path(flow) %></td>
-        <td><%= link_to 'Destroy', flow, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Initiator</th>
+        <th>Approver</th>
+        <th>Start Date</th>
+        <th>End Date</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @flows.each do |flow| %>
+        <tr>
+          <td><%= flow.user_assigned_id %></td>
+          <td><%= flow.assigned_user_id %></td>
+          <td><%= flow.start_date %></td>
+          <td><%= flow.end_date %></td>
 
-<%= link_to 'New Flow', new_flow_path, class: 'btn btn-primary' %>
+
+        
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</body>
+</html>

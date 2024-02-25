@@ -10,7 +10,12 @@
   <style>
     /* Custom CSS */
     body {
-      background-color: #ffe5b4; /* Peach background color */
+      background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg79o6YuL1NSBuUxeUJJq8st_iZcMqkXJvy47Qx4gVcU7S8HiEa_SdDvk9ZxXt5fUA8cbuHkQbTH60sYzj5mT43vgYlCjUkfXmTG8rLGxWDyzTEcnSclIp-rZKs2MVo5yYeN17mezLFpY8pzmP63YTb94l3RiYxSUlN0Rylq7thurBopYhfNcL26vXcLmY/s320/20240224_153132_0000.png');
+      /* Replace 'your_background_image_url.jpg' with the URL of your image */
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      overflow: hidden; /* Prevent scrollbar */
     }
 
     .container {
@@ -22,21 +27,36 @@
 
     .card {
       width: 400px; /* Adjust as needed */
-      background-color: #f8f9fa; /* Light background color */
+      height:730px;
+      background: linear-gradient(135deg, #CDFFD8, #94B9FF); /* Gradient background */
       border: none;
       border-radius: 10px;
-      padding: 10px;
+      padding: 20px; /* Increased padding */
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Adding shadow for a card effect */
+      margin-left: 600px;
+      margin-bottom: 40px;
     }
 
     .title {
       font-size: 20px;
       font-weight: bold;
-      margin-bottom: 10px;
+      margin-bottom: 20px; /* Increased margin */
     }
 
     .form-group {
-      margin-bottom: 10px;
+      margin-bottom: 20px; /* Increased margin */
+    }
+
+    .form-control {
+      border-radius: 20px; /* Rounded rectangle */
+    }
+
+    .btn {
+      padding: 10px 20px; /* Increased padding */
+      border-radius: 20px; /* Rounded rectangle */
+    }
+    .login-links a {
+      color: #000; /* Black color for links */
     }
   </style>
 </head>
@@ -83,12 +103,13 @@
           </div>
 
           <div class="form-group text-center">
-            <%= f.submit "Sign up", data: { turbo: false }, class: "btn btn-primary" %>
+            <%= f.submit "Sign up", data: { turbo: false }, class: "btn btn-dark" %>
           </div>
         <% end %>
+        
+        <div class="login-links text-center">
+        <%= render "devise/shared/links" %>
       </div>
-      <%= render "devise/shared/links" %>
-    </div>
   </div>
 
   <!-- Bootstrap JS (optional) -->

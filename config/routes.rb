@@ -21,11 +21,12 @@ Rails.application.routes.draw do
     resources :expenses do
       put 'approve', on: :member
       put 'cancel', on: :member
+      resources :flows
     end
   end    
 
   resources :categories
-  resources :flows
+
 
 
   root "expenses#index"

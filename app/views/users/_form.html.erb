@@ -1,4 +1,56 @@
-<body class="peach-bg">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create New User</title>
+
+<style>
+  .peach-bg {
+    background: linear-gradient(135deg, #5DE0E6, #004AAD);
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  .form-container, .card {
+    background: linear-gradient(135deg, #CDFFD8, #94B9FF);
+    border-radius: 10px;
+    padding: 20px;
+  }
+
+  .required {
+    color: #ff0000;
+  }
+
+  .form-label {
+    font-weight: bold;
+  }
+
+  .form-field {
+    text-align: center;
+  }
+
+  .btn-primary {
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    border: 2px solid black;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  /* Additional styles for rounded text fields */
+  .form-control {
+    border-radius: 35px;
+    border: 1px solid black;
+    padding: 10px;
+    width: 100% ;
+    box-sizing: border-box; /* Ensure padding and border are included in width */
+  }
+</style>
+</head>
+<body class="peach-bg" >
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-6">
@@ -87,7 +139,7 @@
               </div>
 
               <div class="form-field">
-                <%= form.button 'Create User', class: "btn btn-primary" %>
+                <%= form.button 'Create User', class: "btn btn-dark" %>
               </div>
             <% end %>
           </div>
@@ -99,10 +151,7 @@
 </body>
 
 <style>
-.peach-bg {
-  background-color: #FFDAB9; /* Peach color */
-  min-height: 100vh; /* Ensure the background covers the full height of the viewport */
-}
+
     .required {
       color: #ff0000; /* Red color */
     }

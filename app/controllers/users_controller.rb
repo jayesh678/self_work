@@ -8,7 +8,7 @@ def index
   @user = current_user
   current_company = current_user.company
   @users = current_company.users
-  @users = @users.paginate(page: params[:page],per_page: 2)
+  @users = @users.paginate(page: params[:page],per_page: 5)
 end
 
 def show
