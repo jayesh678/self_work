@@ -4,11 +4,18 @@ class ExpenseMailer < ApplicationMailer
     flow = Flow.find_by(user_assigned_id: flow_id)
     if flow.present? 
       @user = User.find_by(id: flow.assigned_user_id)
-      @expense = Expense.all
       if @user.present?
-        @expense = Expense.find_by(flow_id: flow.id)
+        @expense = Expense.where(flow_id: flow.id).order(created_at: :desc).first
         mail(to: @user.email, subject: 'New Expense Assigned') if @expense.present?
       end
     end
   end
+
+
+  def notify_super_admin(expense)
+    @expense = expense
+    @super_admin_email = 'xyz@gmail.com' # Replace with the actual email of the super admin
+    mail(to: @super_admin_email, subject: 'Expense Approved')
+  end
+  
 end

@@ -161,16 +161,18 @@ pagination-links a {
             <% end %>
             
             <% if can? :update, user %>
-            <% if current_user == user %> <!-- Check if current_user is the same as the user being displayed -->
-              <%= link_to edit_user_path(user), class: 'btn btn-secondary btn-sm' do %>
-                <i class="fas fa-edit"></i> Edit
+              <% if current_user == user %> <!-- Check if current_user is the same as the user being displayed -->
+                <%= link_to edit_user_path(user), class: 'btn btn-secondary btn-sm' do %>
+                  <i class="fas fa-edit"></i> Edit
+                <% end %>
               <% end %>
             <% end %>
-          <% end %>
             
             <% if can? :destroy, User %>
-              <%= link_to user_path(user), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' do %>
-                <i class="fas fa-trash-alt"></i> Delete
+              <% unless user.role.role_name == "super_admin" %>
+                <%= link_to user_path(user), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' do %>
+                  <i class="fas fa-trash-alt"></i> Delete
+                <% end %>
               <% end %>
             <% end %>
             

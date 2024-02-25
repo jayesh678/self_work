@@ -39,7 +39,7 @@ if @expense.save
      if @expense.flow_id.present?
   flow = Flow.find_by(id: @expense.flow_id)
   if flow.present? && flow.assigned_user_id.present?
-    ExpenseMailer.notify_assigned_user(flow.assigned_user_id).deliver_now
+    ExpenseMailer.notify_assigned_user(flow.id).deliver_now
   end
 
     end
@@ -78,13 +78,14 @@ end
     if current_user.id == @flow.assigned_user_id
       if params[:approve_button]
         update_status_and_redirect(:approved, 'Expense was successfully approved.')
+        ExpenseMailer.notify_super_admin(@expense).deliver_now
       elsif params[:cancel_button]
         update_status_and_redirect(:cancelled, 'Expense was successfully cancelled.')
       else
         update_expense('Expense was successfully updated')
       end
     else
-      update_expense
+      update_expense('Expense was successfully updated')
     end
   end
   
@@ -167,13 +168,15 @@ def update_status_and_redirect(status, notice_message)
   end
 end
 
-def update_expense
+def update_expense(success_message = 'Expense was successfully updated')
   if @expense.update(expense_params)
-    redirect_to user_expenses_path(current_user), notice: notice
+    flash[:notice] = success_message
+    redirect_to user_expenses_path(current_user)
   else
     render :edit
   end
 end
+
 
   def expense_params
     params.require(:expense).permit(:number_of_people ,:application_name, :total_amount, :date_of_application, :subcategory_id, :expense_date, :category_id,:start_date, :end_date, :source, :destination, :business_partner_id, :amount, :tax_amount, :status, :receipt, :description, :application_number)
