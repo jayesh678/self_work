@@ -14,6 +14,9 @@ class Expense < ApplicationRecord
   enum status: { ideal: 0, initiated: 1, approved: 2, cancelled: 3 }
 
   validates :application_number, uniqueness: true
+  validates :application_name, presence: true 
+  validates :number_of_people, presence: true 
+  validates :total_amount, presence: true 
   validates :date_of_application, presence: true
   validates :expense_date, presence: true
   validates :category, presence: true

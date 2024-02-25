@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  rescue_from CanCan::AccessDenied do |exception|
+    render "shared/access_denied", status: :forbidden
+  end
   before_action :set_user, only: [:show,:edit, :update, :destroy]
   load_and_authorize_resource
    

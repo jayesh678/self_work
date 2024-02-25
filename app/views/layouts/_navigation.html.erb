@@ -1,4 +1,5 @@
 <% if current_user %>
+<% if session[:company_code_entered] %>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <%= link_to "SmartFlow", root_path, class: "nav-link font-weight-bold text-dark "%>
@@ -11,9 +12,12 @@
           <li class="nav-item">
             <%= link_to "Users", users_path, class: "nav-link font-weight-bold text-dark "%>
           </li>
+          <% if current_user.role.role_name != "user" %>
           <li class="nav-item">
-            <%= link_to "Business Partners", vendor_master_business_partners_path(vendor_master_id: 1), class: "nav-link font-weight-bold text-dark " %>
+            <%= link_to "Business Partners", vendor_master_business_partners_path(vendor_master_id: 1), class: "nav-link font-weight-bold text-dark" %>
           </li>
+        <% end %>
+        
         </ul>
         
         <div class="user-profile ml-3"> <!-- Adjust margin and align content to the right -->
@@ -24,12 +28,13 @@
           <% end %>
         </div>
         
-        <%= link_to destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: "font-weight-bold text-white ml-3" do %> <!-- Adjust margin and make text white -->
+        <%= link_to destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: "font-weight-bold text-dark ml-3" do %> <!-- Adjust margin and make text white -->
           <i class="fas fa-sign-out-alt" style="vertical-align: middle; margin-right: 5px;"></i>
         <% end %>
       </div>
     </div>
   </nav>
+  <% end %>
 <% end %>
 
 

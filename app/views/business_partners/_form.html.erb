@@ -33,10 +33,22 @@
       background-color: black !important; /* Set black background for buttons */
       color: white !important; /* Set white text for buttons */
     }
+
     .btn:hover {
-    background-color: white !important;
-    color: black !important;
-  }
+      background-color: white !important;
+      color: black !important;
+    }
+
+    .required::after {
+      content: "*";
+      color: #ff0000;
+      margin-left: 5px; /* Adjust the spacing between the label and the asterisk */
+    }
+
+    .error-message {
+      color: #ff0000;
+    }
+
   </style>
 </head>
 <body>
@@ -50,7 +62,7 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <%= form.label :customer_name, "Customer Name" %><span class="required">*</span> 
+                    <%= form.label :customer_name, "Customer Name" %> 
                     <%= form.text_field :customer_name, list: 'customer_names_list', class: 'form-control customer-select', autocomplete: 'off' %>
                     <datalist id="customer_names_list">
                       <% @customer_names.each do |customer_name| %>
@@ -66,7 +78,7 @@
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">
-                    <%= form.label :customer_code, "Customer Code" %><span class="required">*</span>
+                    <%= form.label :customer_code, "Customer Code", class: 'required' %>
                     <%= form.text_field :customer_code, value: @business_partner.customer_code, class: 'form-control' %>
                     <% if @business_partner.errors[:customer_code].any? %>
                       <div class="error-message">
@@ -77,7 +89,7 @@
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <%= form.label :corporate_number, "Corporate Number" %><span class="required">*</span>
+                    <%= form.label :corporate_number, "Corporate Number", class: 'required' %>
                     <%= form.number_field :corporate_number, value: @business_partner.corporate_number, class: 'form-control' %>
                     <% if @business_partner.errors[:corporate_number].any? %>
                       <div class="error-message">
@@ -88,7 +100,7 @@
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <%= form.label :invoice_number, "Invoice Number" %><span class="required">*</span>
+                    <%= form.label :invoice_number, "Invoice Number", class: 'required' %>
                     <%= form.number_field :invoice_number, value: @business_partner.invoice_number, class: 'form-control' %>
                     <% if @business_partner.errors[:invoice_number].any? %>
                       <div class="error-message">
@@ -102,7 +114,7 @@
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">
-                    <%= form.label :address, "Address" %><span class="required">*</span>
+                    <%= form.label :address, "Address", class: 'required' %>
                     <%= form.text_area :address, value: @business_partner.address, class: 'form-control' %>
                     <% if @business_partner.errors[:address].any? %>
                       <div class="error-message">
@@ -113,7 +125,7 @@
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <%= form.label :postal_code, "Postal Code" %><span class="required">*</span>
+                    <%= form.label :postal_code, "Postal Code", class: 'required' %>
                     <%= form.number_field :postal_code, value: @business_partner.postal_code, class: 'form-control' %>
                     <% if @business_partner.errors[:postal_code].any? %>
                       <div class="error-message">
@@ -124,7 +136,7 @@
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <%= form.label :telephone_number, "Telephone Number" %><span class="required">*</span>
+                    <%= form.label :telephone_number, "Telephone Number", class: 'required' %>
                     <%= form.number_field :telephone_number, value: @business_partner.telephone_number, class: 'form-control' %>
                     <% if @business_partner.errors[:telephone_number].any? %>
                       <div class="error-message">
@@ -138,7 +150,7 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <%= form.label :bank_name, "Bank Name" %><span class="required">*</span>
+                    <%= form.label :bank_name, "Bank Name", class: 'required' %>
                     <%= form.text_field :bank_name, value: @business_partner.bank_name, class: 'form-control' %>
                     <% if @business_partner.errors[:bank_name].any? %>
                       <div class="error-message">

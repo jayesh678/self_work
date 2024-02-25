@@ -3,19 +3,18 @@ class Ability
 
   def initialize(user)
     user ||= User.new
-    # role_id 1=super_admin, role_id 2 = admin , role_id 3 = user
-    if user.role_id == 1
+    if user.role.role_name == "super_admin"
       can :manage, :all
-      cannot :destroy, User, role_id: 1 
-    elsif user.role_id == 2
-      can :manage, :all
-      cannot :update, User, role_id: 1 
-      cannot :destroy, User, role_id: 1 
-    elsif user.role_id == 3
-      can :read, [User, BusinessPartner, Expense]
-      can :update, [User, BusinessPartner], id: user.id  
-    else 
-      can :read, :all
+      cannot :destroy, User, role: { role_name: "super_admin" }
+    elsif user.role.role_name == "admin"
+      can :manage, [User, BusinessPartner, Expense]
+      cannot :update, User, role: { role_name: "super_admin" }
+      cannot :destroy, User, role: { role_name: "super_admin" }
+    elsif user.role.role_name == "user"
+      can :read, Expense, user_id: user.id
+      cannot :read, BusinessPartner
+    else
+      can :read, [User, Expense]
     end
   end
 end

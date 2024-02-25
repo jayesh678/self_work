@@ -1,4 +1,9 @@
 class ExpensesController < ApplicationController
+  
+    rescue_from CanCan::AccessDenied do |exception|
+      render "shared/access_denied", status: :forbidden
+    end
+  load_and_authorize_resource
   # Main
   before_action :find_user
   before_action :load_categories, only: [:new, :create, :update]
@@ -76,7 +81,7 @@ end
       elsif params[:cancel_button]
         update_status_and_redirect(:cancelled, 'Expense was successfully cancelled.')
       else
-        update_expense
+        update_expense('Expense was successfully updated')
       end
     else
       update_expense

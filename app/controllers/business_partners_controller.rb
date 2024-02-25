@@ -1,4 +1,8 @@
 class BusinessPartnersController < ApplicationController
+  rescue_from CanCan::AccessDenied do |exception|
+    render "shared/access_denied", status: :forbidden
+  end
+  load_and_authorize_resource
   before_action :set_vendor_master, only: [:new, :create, :edit, :update, :destroy, :show]
 
 

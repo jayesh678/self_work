@@ -1,32 +1,136 @@
-<div style="max-width: 400px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-
-  <%= form_for(current_user, url: process_company_code_path, method: :post) do |f| %>
-    <div style="margin-bottom: 15px;">
-      <%= f.label :company_code %><br />
-      <%= f.text_field :company_code, style: 'width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;' %>
-    </div>
-
-    <div class="actions">
-      <%= f.submit "Submit Company Code", style: 'background-color: #4CAF50; color: #fff; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;' %>
-    </div>
-  <% end %>
-
-  <% if flash[:notice].present? %>
-    <p style="color: #008000; margin-bottom: 10px;"><%= flash[:notice] %></p>
-  <% end %>
-
-  <% if flash[:alert].present? %>
-    <p style="color: #ff0000; margin-bottom: 10px;"><%= flash[:alert] %></p>
-  <% end %>
-
-</div>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    var warningMessage = document.getElementById("warning-message");
-    if (warningMessage) {
-      setTimeout(function() {
-        warningMessage.style.display = "none";
-      }, 5000); 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Code Form</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(#5DE0E6, #004AAD);
+      font-family: Arial, sans-serif;
     }
+
+    .company-form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 400px;
+    }
+
+    .card {
+      background: linear-gradient(to bottom right, #CDFFD8, #94B9FF);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .dark-label {
+      color: #333;
+      font-weight: bold;
+    }
+
+    .dark-text-field {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #000;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+    }
+
+    .dark-button {
+      background-color: #000;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .dark-button:hover {
+      background-color: #555;
+    }
+
+    .note-container {
+      margin-top: 20px;
+    }
+
+    .note {
+      background-color: #f9f9f9;
+      border-left: 6px solid #3498db;
+      padding: 15px;
+    }
+
+    .note-text {
+      font-size: 14px;
+      color: #333;
+    }
+
+    .note-label {
+      font-weight: bold;
+      color: #3498db;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="company-form">
+    <div class="container">
+      <div class="card">
+      <%= form_for(current_user, url: process_company_code_path, method: :post) do |f| %>
+          <div class="form-group">
+            <%= f.label :company_code, "Company Code", class: "dark-label" %><br />
+            <%= f.text_field :company_code, class: 'form-control dark-text-field' %>
+          </div>
+
+          <div class="actions">
+            <%= f.submit "Submit Company Code", class: 'btn btn-primary dark-button' %>
+          </div>
+
+          <div class="note-container">
+            <div class="note">
+              <p class="note-text">
+                <span class="note-label">Note:</span>
+                <span class="dark-title"> Please enter the company code associated with your company, not any other company. For any further assistance, contact our team.</span>
+              </p>
+            </div>
+          </div>
+        <% end %>
+
+        <% if flash[:notice].present? %>
+          <p class="noticify"><%= flash[:notice] %></p>
+        <% end %>
+
+        <% if flash[:alert].present? %>
+          <p class="alertify"><%= flash[:alert] %></p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+      var notices = document.querySelectorAll('.noticify');
+      notices.forEach(function(notice) {
+        notice.remove();
+      });
+
+      var alerts = document.querySelectorAll('.alertify');
+      alerts.forEach(function(alert) {
+        alert.remove();
+      });
+    }, 5000); // 5000 milliseconds = 5 seconds
   });
 </script>
+

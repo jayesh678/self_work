@@ -16,10 +16,12 @@
     background: linear-gradient(135deg, #CDFFD8, #94B9FF);
     border-radius: 10px;
     padding: 20px;
+    margin-top: 10px ;
   }
 
   .required {
     color: #ff0000;
+    margin-left: 5px; /* Add margin to separate from the label */
   }
 
   .form-label {
@@ -53,7 +55,7 @@
 <body class="peach-bg" >
 <div class="container">
   <div class="row justify-content-center">
-    <div class="col-md-6">
+    <div class="col-md-8">
       <div class="card bg-light">
         <div class="card-body">
           <div class="form-container bg-light p-4">
@@ -61,81 +63,92 @@
 
             <%= form_with(model: @user, :html => { :class => "form-horizontal" }, wrapper: :horizontal_form, local: true, data: { turbo: false }) do |form| %>
              
-              <div class="mb-3">
+              <div class="row mb-3">
                 <!-- Firstname -->
-                <%= form.label :firstname, class: "form-label" %> <span class="required">*</span>
-                <%= form.text_field :firstname, class: "form-control" %>
-                <% if @user.errors[:firstname].any? %>
-                  <div class="error-message">
-                    <b><%= "Firstname" + " " +@user.errors[:firstname].join(", ") %></b>
-                  </div>
-                <% end %>
-              </div>
+                <div class="col-md-4">
+                  <%= form.label :firstname, class: "form-label requireded" %>
+                  <%= form.text_field :firstname, class: "form-control required" %>
+                  <% if @user.errors[:firstname].any? %>
+                    <div class="error-message">
+                      <b><%= "Firstname" + " " +@user.errors[:firstname].join(", ") %></b>
+                    </div>
+                  <% end %>
+                </div>
 
-              <div class="mb-3">
                 <!-- Lastname -->
-                <%= form.label :lastname, class: "form-label" %><span class="required">*</span>
-                <%= form.text_field :lastname, class: "form-control" %>
-                <% if @user.errors[:lastname].any? %>
-                  <div class="error-message">
-                    <b><%= "Lastname" + " " +@user.errors[:lastname].join(", ") %></b>
-                  </div>
-                <% end %>
-              </div>
+                <div class="col-md-4">
+                  <%= form.label :lastname, class: "form-label requireded" %>
+                  <%= form.text_field :lastname, class: "form-control required" %>
+                  <% if @user.errors[:lastname].any? %>
+                    <div class="error-message">
+                      <b><%= "Lastname" + " " +@user.errors[:lastname].join(", ") %></b>
+                    </div>
+                  <% end %>
+                </div>
 
-              <div class="mb-3">
                 <!-- Email -->
-                <%= form.label :email, class: "form-label" %> <span class="required">*</span>
-                <%= form.email_field :email, class: "form-control" %>
-                <% if @user.errors[:email].any? %>
-                  <div class="error-message">
-                    <b><%= "Email" + " " +@user.errors[:email].join(", ") %></b>
-                  </div>
-                <% end %>
+                <div class="col-md-4">
+                  <%= form.label :email, class: "form-label requireded" %>
+                  <%= form.email_field :email, class: "form-control required" %>
+                  <% if @user.errors[:email].any? %>
+                    <div class="error-message">
+                      <b><%= "Email" + " " +@user.errors[:email].join(", ") %></b>
+                    </div>
+                  <% end %>
+                </div>
               </div>
 
-              <div class="mb-3">
+              <div class="row mb-3">
                 <!-- Password -->
-                <%= form.label :password, class: "form-label" %> <span class="required">*</span>
-                <%= form.password_field :password, class: "form-control" %>
-                <% if @user.errors[:password].any? %>
-                  <div class="error-message">
-                    <b><%= "Password" + " " +@user.errors[:password].join(", ") %></b>
-                  </div>
-                <% end %>
-              </div>
-              
-              <div class="mb-3">
+                <div class="col-md-4">
+                  <%= form.label :password, class: "form-label requireded" %>
+                  <%= form.password_field :password, class: "form-control required" %>
+                  <% if @user.errors[:password].any? %>
+                    <div class="error-message">
+                      <b><%= "Password" + " " +@user.errors[:password].join(", ") %></b>
+                    </div>
+                  <% end %>
+                </div>
+                
                 <!-- Password Confirmation -->
-                <%= form.label :password_confirmation, "Password Confirmation", class: "form-label" %>
-                <%= form.password_field :password_confirmation, class: "form-control" %>
-                <% if @user.errors[:password_confirmation].any? %>
-                  <div class="error-message">
-                    <b><%= "Password Confirmation" + " " +@user.errors[:password_confirmation].join(", ") %></b>
-                  </div>
-                <% end %>
+                <div class="col-md-8">
+                  <%= form.label :password_confirmation, "Password Confirmation", class: "form-label requireded" %>
+                  <%= form.password_field :password_confirmation, class: "form-control required" %>
+                  <% if @user.errors[:password_confirmation].any? %>
+                    <div class="error-message">
+                      <b><%= "Password Confirmation" + " " +@user.errors[:password_confirmation].join(", ") %></b>
+                    </div>
+                  <% end %>
+                </div>
               </div>
 
-              <div class="mb-3">
+              <div class="row mb-3">
                 <!-- Role -->
-                <%= form.label :role, class: "form-label" %><span class="required">*</span>
-                <%= form.collection_select :role_id, Role.where(role_name: ['admin', 'user']), :id, :role_name, prompt: "Select Role", class: "form-select" %>
-                <% if @user.errors[:role].any? %>
-                  <div class="error-message">
-                    <b><%= "Role" + " " +@user.errors[:role].join(", ") %></b>
-                  </div>
-                <% end %>
-              </div>
+                <div class="col-md-4">
+                  <%= form.label :role, class: "form-label requireded" %>
+                  <%= form.collection_select :role_id, Role.where(role_name: ['admin', 'user']), :id, :role_name, prompt: "Select Role", class: "form-select required" %>
+                  <% if @user.errors[:role].any? %>
+                    <div class="error-message">
+                      <b><%= "Role" + " " +@user.errors[:role].join(", ") %></b>
+                    </div>
+                  <% end %>
+                </div>
 
-              <div class="mb-3">
                 <!-- Company -->
-                <%= form.label :company, class: "form-label" %> <span class="required">*</span>
-                <%= form.collection_select :company_id, Company.all, :id, :company_name, prompt: "Select Company", class: "form-select" %>
-                <% if @user.errors[:company].any? %>
-                  <div class="error-message">
-                    <b><%= "Company" + " " +@user.errors[:company].join(", ") %></b>
-                  </div>
-                <% end %>
+                <div class="col-md-4">
+                  <%= form.label :company, class: "form-label requireded" %>
+                  <%= form.collection_select :company_id, Company.all, :id, :company_name, prompt: "Select Company", class: "form-select required" %>
+                  <% if @user.errors[:company].any? %>
+                    <div class="error-message">
+                      <b><%= "Company" + " " +@user.errors[:company].join(", ") %></b>
+                    </div>
+                  <% end %>
+                </div>
+
+                <!-- Additional Column -->
+                <div class="col-md-4">
+                  <!-- Add your additional field here -->
+                </div>
               </div>
 
               <div class="form-field">
@@ -152,7 +165,12 @@
 
 <style>
 
-    .required {
+.requireded::after {
+  content: "*";
       color: #ff0000; /* Red color */
+    }
+
+    .error-message{
+      color: #ff0000;
     }
   </style>

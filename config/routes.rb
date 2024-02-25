@@ -5,10 +5,10 @@ Rails.application.routes.draw do
   }
   
   devise_scope :user do
-    get 'enter_company_code', to: 'users/sessions#enter_company_code'
-    post 'process_company_code', to: 'users/sessions#process_company_code'
-    get 'enter_user_code', to: 'users/sessions#enter_user_code' # Add this line inside the devise_scope block
-    post 'process_user_code', to: 'users/sessions#process_user_code' 
+    get '/enter_company_code', to: 'users/sessions#enter_company_code', as: :enter_company_code
+  post '/process_company_code', to: 'users/sessions#process_company_code', as: :process_company_code
+    # get 'enter_user_code', to: 'users/sessions#enter_user_code' # Add this line inside the devise_scope block
+    # post 'process_user_code', to: 'users/sessions#process_user_code' 
   end
 
   resources :vendor_masters do
