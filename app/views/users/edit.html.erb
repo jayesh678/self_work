@@ -97,16 +97,22 @@
       <% end %>
     </div>
 
+    <% unless @user.super_admin? %>
     <div class="form-group">
       <%= form.label :role, class: "form-label requireded" %>
       <%= form.collection_select :role_id, Role.where(role_name: ['admin', 'user']), :id, :role_name, { prompt: "Select Role" }, { class: "form-control required" } %>
       <% if @user.errors[:role].any? %>
         <div class="error-message">
-          <b><%= "Role" + " " +@user.errors[:role].join(", ") %></b>
+          <b><%= "Role" + " " + @user.errors[:role].join(", ") %></b>
         </div>
       <% end %>
     </div>
-
+  <% else %>
+    <div class="form-group">
+      <%= form.label :role, class: "form-label requireded" %>
+      <%= form.text_field :role_id, value: "super_admin", class: "form-control", readonly: true %>
+    </div>
+  <% end %>
     <div class="actions">
       <%= form.submit 'Update', class: "button" %>
     </div>

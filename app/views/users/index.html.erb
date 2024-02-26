@@ -161,7 +161,7 @@ pagination-links a {
             <% end %>
             
             <% if can? :update, user %>
-              <% if current_user == user %> <!-- Check if current_user is the same as the user being displayed -->
+              <% if current_user == user || current_user.role.role_name == "super_admin" %>
                 <%= link_to edit_user_path(user), class: 'btn btn-secondary btn-sm' do %>
                   <i class="fas fa-edit"></i> Edit
                 <% end %>
@@ -175,6 +175,7 @@ pagination-links a {
                 <% end %>
               <% end %>
             <% end %>
+            
             
             </td>
           </tr>

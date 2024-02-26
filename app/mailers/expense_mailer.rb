@@ -14,7 +14,7 @@ class ExpenseMailer < ApplicationMailer
 
   def notify_super_admin(expense)
     @expense = expense
-    @super_admin_email = 'xyz@gmail.com' # Replace with the actual email of the super admin
+    @super_admin_email = 'xyz@gmail.com' 
     mail(to: @super_admin_email, subject: 'Expense Approved')
   end
   

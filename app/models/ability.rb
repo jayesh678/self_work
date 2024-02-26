@@ -6,6 +6,7 @@ class Ability
     if user.role.role_name == "super_admin"
       can :manage, :all
       cannot [:destroy, :update], User, role: { role_name: "super_admin" }
+      can [:update, :destroy], User, id: user.id
     elsif user.role.role_name == "admin"
       can :manage, [User, BusinessPartner]
       can [:read, :update, :destroy], Expense, user: { role: { role_name: ["admin", "user"] } }
@@ -13,7 +14,9 @@ class Ability
       cannot [:destroy, :update], User, role: { role_name: "super_admin" }
     elsif user.role.role_name == "user"
       can :read, Expense
+      can :read, User
       can [:create, :update, :destroy], Expense, user_id: user.id
+      can [:update, :destroy], User, id: user.id
     else
       can :read, [User, Expense, BusinessPartner]
     end
