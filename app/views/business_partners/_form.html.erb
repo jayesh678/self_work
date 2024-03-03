@@ -69,7 +69,7 @@
                         <option value="<%= customer_name %>">
                       <% end %>
                     </datalist>
-                    <%= button_tag 'Fetch', type: 'button', class: 'btn btn-primary mt-2 fetch-button', data: { url: fetch_customer_details_vendor_master_business_partners_path(@vendor_master) } %>
+                    <%= button_tag 'Fetch', type: 'button', class: 'btn btn-primary mt-2 fetch-button', data: { url: fetch_customer_details_business_partners_path(@business_partner) } %>
                     <%= link_to 'Add Vendor Master', new_vendor_master_path, class: 'btn btn-primary mt-2' %>
                   </div>
                 </div>

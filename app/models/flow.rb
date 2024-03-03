@@ -1,14 +1,11 @@
 class Flow < ApplicationRecord
   #    belongs_to :initiator, class_name: 'User'
   # belongs_to :approver, class_name: 'User'
-  has_many :expenses, dependent: :destroy
+  belongs_to :expense
+  has_and_belongs_to_many :assigned_users, class_name: 'User'
+  # serialize :assigned_user_ids, Array, coder: JSON
   
   # attribute :assigned_user_id, :integer
 
-    def self.create_default_flow
-        # Implement your logic to create a new default flow
-        # For example:
-        Flow.create(default: true)
-      end
 
   end

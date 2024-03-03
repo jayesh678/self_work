@@ -81,11 +81,11 @@
 
           <% if current_user.super_admin? %>
   <%= link_to 'Change Password', edit_user_registration_path(@user), class: 'btn btn-dark button' %>
-  <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-dark button' unless @user.super_admin? %>
+  <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-dark button' %>
 <% elsif current_user.admin? %>
-  <% unless @user.super_admin? %>
+  <% if current_user == @user || (@user.admin? && !@user.super_admin?) %>
     <%= link_to 'Change Password', edit_user_registration_path(@user), class: 'btn btn-dark button' %>
-    <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-dark button' if @user.admin? %>
+    <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-dark button' %>
   <% end %>
 <% else %>
   <% if current_user == @user %>
@@ -94,7 +94,9 @@
   <% end %>
 <% end %>
 
-          <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-dark button' %>
+
+
+          
 
           <% if user_signed_in? %>
             <!-- Additional content for signed-in users -->

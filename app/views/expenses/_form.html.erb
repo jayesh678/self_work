@@ -300,22 +300,25 @@
         
         <%= form.hidden_field :application_number %>
         
+        
         <div class="form-group">
-          <%= button_tag "Save", type: "submit", name: "save_button", class: 'btn btn-primary' %>
-          <% if @expense.persisted? && current_user.id == @flow.assigned_user_id %>
+        <%= button_tag "Save", type: "submit", name: "save_button", class: 'btn btn-primary' %>
+        <% @flows.each do |flow| %>
+          <% if flow.assigned_user_ids.include?(current_user.id) %>
             <%= button_to "Approve", approve_user_expense_path(@user, @expense), class: 'btn btn-primary', method: :put, data: { turbo_method: :put, confirm: 'Are you sure you want to approve this expense?' }, params: { approve_button: true, authenticity_token: form_authenticity_token } %>
             <%= button_to "Cancel", cancel_user_expense_path(@user, @expense), class: 'btn btn-primary', method: :put, data: { turbo_method: :put, confirm: 'Are you sure you want to cancel this expense?' }, params: { cancel_button: true, authenticity_token: form_authenticity_token } %>
-          <% else %>
-            <% if @expense.persisted? %>
-              <%= button_tag "Update", type: "submit", name: "create_button", class: 'btn btn-primary' %>
-            <% else %>
-              <%= button_tag "Create", type: "submit", name: "create_button", class: 'btn btn-primary' %>
-            <% end %>
-            <%= link_to "Cancel", user_expenses_path(@user), class: 'btn btn-secondary' %>
+            <% break %> <!-- End the loop -->
           <% end %>
-        </div>
-        
+        <% end %>
+        <% if @expense.persisted? && !@flows.any? { |flow| flow.assigned_user_ids.include?(current_user.id) } %>
+          <%= button_tag "Update", type: "submit", name: "create_button", class: 'btn btn-primary' %>
+        <% else %>
+          <%= button_tag "Create", type: "submit", name: "create_button", class: 'btn btn-primary' %>
+        <% end %>
+        <%= link_to "Cancel", user_expenses_path(@user), class: 'btn btn-secondary' %>
+      </div>
       <% end %>
+        
     </div>
   </div>
 </div>
@@ -335,42 +338,72 @@
 
 
   <script>
-  $('#category-select').change(function() {
-    var selectedCategory = $(this).val();
-  
-    if (selectedCategory === '1') {
-      $('#regular-fields').show();
-      $('#travel-fields').hide();
-    } else if (selectedCategory === '2') {
-      $('#regular-fields').hide();
-      $('#travel-fields').show();
-    } else {
-      $('#regular-fields').hide();
-      $('#travel-fields').hide();
+  $(document).ready(function() {
+    $('#category-select').change(function() {
+        var selectedCategory = $(this).val();
+
+        if (selectedCategory === '1') {
+            $('#regular-fields').show();
+            $('#travel-fields').hide();
+        } else if (selectedCategory === '2') {
+            $('#regular-fields').hide();
+            $('#travel-fields').show();
+        } else {
+            $('#regular-fields').hide();
+            $('#travel-fields').hide();
+        }
+    });
+
+    // Handle subcategory selection based on the selected category type
+    $('#category-select').change(function() {
+        var selectedCategory = $(this).val();
+        var subcategorySelect = $('#subcategory-select');
+
+        if (selectedCategory === '1') {
+            // Populate regular subcategories
+            subcategorySelect.empty().append('<option value="">Select Subcategory</option>');
+            <% @regular_subcategories.each do |subcategory| %>
+            subcategorySelect.append('<option value="<%= subcategory.id %>"><%= subcategory.name %></option>');
+            <% end %>
+        } else if (selectedCategory === '2') {
+            // Populate travel subcategories
+            subcategorySelect.empty().append('<option value="">Select Subcategory</option>');
+            <% @travel_subcategories.each do |subcategory| %>
+            subcategorySelect.append('<option value="<%= subcategory.id %>"><%= subcategory.name %></option>');
+            <% end %>
+        } else {
+            subcategorySelect.empty().append('<option value="">Select Subcategory</option>');
+        }
+    });
+
+    // Function to show/hide travel fields based on category
+    function showHideTravelFields() {
+        var selectedCategory = $('#category-select').val();
+        if (selectedCategory === '2') {
+            $('#travel-fields').show();
+        } else {
+            $('#travel-fields').hide();
+        }
     }
-  });
-  
-  // Handle subcategory selection based on the selected category type
-  $('#category-select').change(function() {
-    var selectedCategory = $(this).val();
-    var subcategorySelect = $('#subcategory-select');
-  
-    if (selectedCategory === '1') {
-      // Populate regular subcategories
-      subcategorySelect.empty().append('<option value="">Select Subcategory</option>');
-      <% @regular_subcategories.each do |subcategory| %>
-        subcategorySelect.append('<option value="<%= subcategory.id %>"><%= subcategory.name %></option>');
-      <% end %>
-    } else if (selectedCategory === '2') {
-      // Populate travel subcategories
-      subcategorySelect.empty().append('<option value="">Select Subcategory</option>');
-      <% @travel_subcategories.each do |subcategory| %>
-        subcategorySelect.append('<option value="<%= subcategory.id %>"><%= subcategory.name %></option>');
-      <% end %>
-    } else {
-      subcategorySelect.empty().append('<option value="">Select Subcategory</option>');
-    }
-  });
+
+    // Show/hide travel fields on page load
+    showHideTravelFields();
+
+    // Show/hide travel fields whenever category selection changes
+    $('#category-select').change(function() {
+        showHideTravelFields();
+    });
+
+    // Function to handle form submission
+    $('form').submit(function(event) {
+        // Prevent form submission if there are validation errors
+        if ($(this).find('.error').length > 0) {
+            event.preventDefault();
+            // Show travel fields if the selected category requires them
+            showHideTravelFields();
+        }
+    });
+});
 
     function calculateTax() {
       var amount = parseFloat($('#amount-field').val());

@@ -49,29 +49,37 @@
 
 <div class="container">
   <div class="row justify-content-center">
-    <div class="col-md-8"> <!-- Increased column width for better layout -->
-      <div class="card profile-box"> <!-- Added profile-box class -->
+    <div class="col-md-8"> 
+      <div class="card profile-box"> 
         <div class="card-body">
           <h1 class="mb-4"><center>Flow Information</center></h1>
           
           <div class="profile-field">
-            <p>First Name:</p>
-            <div class="editable-field" ><%= @flow.user_assigned_id%></div>
+            <p>User Assigned ID:</p>
+            <div class="editable-field">
+              <%= @flow.user_assigned_id %>
+            </div>
           </div>
           
           <div class="profile-field">
-            <p>Last Name:</p>
-            <div class="editable-field" ><%= @flow.assigned_user_id %></div>
+            <p>Assigned User ID:</p>
+            <div class="editable-field">
+            <%= select_tag 'assigned_user_id', options_for_select(@approvers), class: 'form-control' %>
+            </div>
           </div>
           
           <div class="profile-field">
-            <p>Company code:</p>
-            <div class="editable-field" ><%= @flow.start_date %></div>
+            <p>Start Date:</p>
+            <div class="editable-field">
+              <%= @flow.start_date %>
+            </div>
           </div>
 
           <div class="profile-field">
-            <p>Company Unique ID:</p>
-            <div class="editable-field" ><%= @flow.end_date %></div>
+            <p>End Date:</p>
+            <div class="editable-field">
+              <%= @flow.end_date %>
+            </div>
           </div>
         </div>
       </div>

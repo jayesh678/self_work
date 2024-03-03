@@ -39,10 +39,14 @@ def create
 end
 
 def edit
-  @user = User.find(params[:id])
+  @user = User.includes(:role).find(params[:id])
+
+  # @user = User.find(params[:id])
 end
 
 def update
+  @user = User.includes(:role).find(params[:id])
+
   if @user.update(user_params)
     @user.avatar.attach(params[:user][:avatar]) if params[:user][:avatar]
     redirect_to user_path, notice: 'User was successfully updated.'

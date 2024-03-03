@@ -3,6 +3,7 @@ class User < ApplicationRecord
   belongs_to :company
   belongs_to :role
   has_many :expenses, dependent: :destroy
+  has_and_belongs_to_many :assigned_flows, class_name: 'Flow'
   # has_many :initiated_flows, class_name: 'Flow', foreign_key: 'initiator_id'
   # has_many :approved_flows, class_name: 'Flow', foreign_key: 'approver_id'
   before_validation :generate_unique_code, on: :create
@@ -12,6 +13,7 @@ class User < ApplicationRecord
   validate :blank_space
   after_create :set_default_role
   attr_accessor :company_code
+  attr_accessor :company_name 
   validates :firstname, presence: true
   validates :lastname, presence: true
 

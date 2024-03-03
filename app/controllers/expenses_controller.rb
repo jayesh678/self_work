@@ -5,6 +5,7 @@ class ExpensesController < ApplicationController
     end
   load_and_authorize_resource
   # Main
+  # before_action :set_expense, only: [:index]
   before_action :find_user
   before_action :load_categories, only: [:new, :create, :update]
   before_action :set_subcategories, only: [:new, :create, :update]
@@ -13,42 +14,57 @@ class ExpensesController < ApplicationController
 
   def index
     if current_user.super_admin?
-      @expenses = Expense.includes(:user).all
+      @expenses = Expense.includes(:user).where(users: { company_id: current_user.company_id })
     elsif current_user.admin?
-      @expenses = Expense.includes(:user).where.not(user_id: User.where(role: Role.find_by(role_name: 'super_admin')).pluck(:id))
+      @expenses = Expense.includes(:user).where(user_id: current_user.company.users.where.not(role_id: Role.find_by(role_name: 'super_admin').id))
     else
-      @user = current_user
       @expenses = current_user.expenses
     end
-    @expenses = @expenses.paginate(page: params[:page], per_page: 2)
+    @expenses = @expenses.paginate(page: params[:page], per_page: 5)
+    
+    # @expense = Expense.find(params[:expense_id]) if params[:expense_id]
   end
-
+  
  
   def create
-  @subcategories = Subcategory.all
-  @expense = current_user.expenses.new(expense_params)
-  # flow_id = @expense.flow_id
-  # @flow = Flow.find_by(user_assigned_id: user_assigned_ids)
-  @expense.status = "initiated"
-  # @expense.user_assigned_id = current_user.id
+    @subcategories = Subcategory.all
+    @expense = current_user.expenses.new(expense_params)
+    @expense.status = "initiated"
+    
+    if @expense.save
+      approvers = User.joins(:role).where(roles: { role_name: ['admin', 'super_admin'] })
+      
+      # Create or find the flow associated with this expense
+      flow = Flow.includes(:assigned_users).find_or_create_by(expense_id: @expense.id, user_assigned_id: current_user.id)
   
-if @expense.save
+      # Set the assigned_user_ids for the flow
+      flow.assigned_user_ids = approvers.pluck(:id)
   
-      flow = Flow.find_or_create_by(user_assigned_id: current_user.id)
-  @expense.update(flow_id: flow.id)
-     if @expense.flow_id.present?
-  flow = Flow.find_by(id: @expense.flow_id)
-  if flow.present? && flow.assigned_user_id.present?
-    ExpenseMailer.notify_assigned_user(flow.id).deliver_now
-  end
-
+      # Save the flow
+      if flow.save
+        # Check for validation errors
+        if flow.errors.any?
+          puts flow.errors.full_messages
+        end
+        
+        # Optionally, you can check if flow is present and notify assigned user
+        if flow.present? && flow.assigned_user_ids.present?
+          ExpenseMailer.notify_assigned_user(flow.id).deliver_now
+        end
+        
+        # Verify association setup
+        puts flow.assigned_user_ids.inspect
+        
+        redirect_to user_expenses_path, notice: 'Expense was successfully created.'
+      else
+        render :new
+      end
+    else
+      render :new
     end
-    redirect_to user_expenses_path , notice: 'Expense was successfully created.'
-  else
-    #  flash.now[:error] = @expense.errors.full_messages.join(". ")
-    render :new
   end
-end
+  
+  
   def show
     @user = User.find(params[:user_id])
     @expense = @user.expenses.find(params[:id])
@@ -56,26 +72,34 @@ end
 
   def new
     @expense = Expense.new
-    @flow = Flow.find_by(user_assigned_id: user_assigned_id)
+    @expense.flows.build # Initialize a new flow associated with the expense
+    @flows = @expense.flows # Fetch the flows associated with the expense
   end
+  
+  
+  
 
   def edit
     @user = User.find(params[:user_id])
     @expense = @user.expenses.find(params[:id])
-    @flow = Flow.find_by(user_assigned_id: user_assigned_id)
+    
+    # Find the flow associated with the expense
+    @flows = @expense.flows
+    
     @categories = Category.all
     @regular_subcategories = Category.find_by(category_type: 'Regular')&.subcategories
     @travel_subcategories = Category.find_by(category_type: 'Travel')&.subcategories
     @business_partners = BusinessPartner.all
     @subcategories = Subcategory.all
   end
+  
 
   def update
-    
     @expense = Expense.find(params[:id])
     @flow = Flow.find_by(user_assigned_id: @expense.user_id)
+    approvers = @flow.assigned_user_ids
     
-    if current_user.id == @flow.assigned_user_id
+    if current_user.id.in?(approvers)
       if params[:approve_button]
         update_status_and_redirect(:approved, 'Expense was successfully approved.')
         ExpenseMailer.notify_super_admin(@expense).deliver_now
@@ -85,9 +109,10 @@ end
         update_expense('Expense was successfully updated')
       end
     else
-      update_expense('Expense was successfully updated')
+      update_expense('Expense was successfully updated')  
     end
   end
+  
   
 
 
@@ -160,23 +185,28 @@ end
   end
 
 
+  def update_expense(success_message = 'Expense was successfully updated')
+    if @expense.update(expense_params)
+      flash[:notice] = success_message
+      redirect_to user_expenses_path(current_user)
+    else
+      render :edit
+    end
+  end
+
 def update_status_and_redirect(status, notice_message)
   if @expense.update(status: status)
     redirect_to user_expenses_path(current_user), notice: notice_message
   else
+    flash.now[:alert] = "Failed to update expense."
     render :edit
   end
 end
 
-def update_expense(success_message = 'Expense was successfully updated')
-  if @expense.update(expense_params)
-    flash[:notice] = success_message
-    redirect_to user_expenses_path(current_user)
-  else
-    render :edit
-  end
-end
 
+def set_expense
+  @expense = Expense.find(params[:expense_id]) if params[:expense_id]
+end
 
   def expense_params
     params.require(:expense).permit(:number_of_people ,:application_name, :total_amount, :date_of_application, :subcategory_id, :expense_date, :category_id,:start_date, :end_date, :source, :destination, :business_partner_id, :amount, :tax_amount, :status, :receipt, :description, :application_number)

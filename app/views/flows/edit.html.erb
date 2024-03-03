@@ -15,8 +15,13 @@
       width: 400px;
       margin: 50px auto;
       padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .card-container {
       background: linear-gradient(135deg, #CDFFD8, #94B9FF);
       border-radius: 8px;
+      padding: 20px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     .form-input {
@@ -57,24 +62,28 @@
 </head>
 <body>
 
+<<div class="card-container">
 <div class="form-container">
-  <h1 class="text-center">Flow</h1>
+  <h1 class="text-center">Edit Flow</h1>
 
   <%= form_with(model: [@user, @expense, @flow], url: user_expense_flow_path(@user, @expense, @flow), method: :patch) do |form| %>
-    <% if @expense.errors.any? %>
-      <%= @expense.errors.full_messages.each do |msg| %>
+    <% if @flow.errors.any? %>
+      <%= @flow.errors.full_messages.each do |msg| %>
         <div class="error"><%= msg %></div>
       <% end %>
     <% end %>
-    <div class="form-group">
-    <%= form.label :Initiator %>
-    <%= form.text_field :user_assigned_id, value: @user_assigned_name, class: 'form-control' %>
-  </div>
 
-  <div class="form-group">
-    <%= form.label :Approver%>
-    <%= form.text_field :assigned_user_id, value: @assigned_user_name, class: 'form-control' %>
+    <div class="form-group">
+      <%= form.label :user_assigned_id, 'Initiator' %>
+      <%= form.text_field :user_assigned_id, readonly: true, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+    <%= form.label :assigned_user_ids, 'Approver' %>
+    <%= select_tag 'assigned_user_id', options_for_select(@approvers), class: 'form-control' %>
   </div>
+  
+
     <div class="form-group">
       <%= form.label :start_date %>
       <%= form.date_field :start_date, class: 'form-control' %>
@@ -84,13 +93,13 @@
       <%= form.label :end_date %>
       <%= form.date_field :end_date, class: 'form-control' %>
     </div>
-    
+
     <div class="actions">
-      <%= form.submit 'Publish Flow', class: 'button' %>
+      <%= form.submit 'Update Flow', class: 'button' %>
     </div>
   <% end %>
 </div>
-
+</div>
 <!-- Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
